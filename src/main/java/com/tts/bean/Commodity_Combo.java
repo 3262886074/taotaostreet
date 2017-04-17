@@ -3,14 +3,19 @@ package com.tts.bean;
 import java.io.Serializable;
 
 /**
+ * 商品套餐
  * Created by joe on 17/4/17.
  */
 public class Commodity_Combo implements Serializable {
 
-    private long ccid;
-    private String ccname;
-    private double price;
-    private Commodity commodity;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private long ccid;  
+    private String ccname;   //套餐名
+    private double price;	
+    private Commodity commodity;  //商品
 
     public Commodity_Combo() {
     }

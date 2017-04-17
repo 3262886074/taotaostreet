@@ -3,13 +3,18 @@ package com.tts.bean;
 import java.io.Serializable;
 
 /**
+ * 用户红包
  * Created by joe on 17/4/17.
  */
 public class User_Red_package implements Serializable {
 
-    private long urpId;
-    private double money;
-    private Users users;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private long urpId;
+    private double money;  //红包金额
+    private Users users;	//用户
 
     public User_Red_package() {
     }

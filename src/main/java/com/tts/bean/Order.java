@@ -3,17 +3,22 @@ package com.tts.bean;
 import java.io.Serializable;
 
 /**
+ * 订单
  * Created by joe on 17/4/17.
  */
 public class Order implements Serializable {
 
-    private long oid;
-    private Shopping_Cart shopping_cart;
-    private double money;
-    private Integer status;
-    private Discount_coupon discountCoupon;
-    private User_Red_package userRedPackage;
-    private User_address userAddress;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private long oid;	
+    private Shopping_Cart shopping_cart;  //购物车
+    private double money;	//总金额
+    private Integer status;	//订单状态
+    private Discount_coupon discountCoupon;		//优惠券
+    private User_Red_package userRedPackage;	//红包
+    private User_address userAddress;	//用户地址
 
     public Order() {
     }

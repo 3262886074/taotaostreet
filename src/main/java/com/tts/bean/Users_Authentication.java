@@ -3,16 +3,21 @@ package com.tts.bean;
 import java.io.Serializable;
 
 /**
+ * 用户实名认证
  * Created by joe on 17/4/17.
  */
 public class Users_Authentication implements Serializable {
 
-    private long uraId;
-    private Users users;
-    private String uraName;
-    private long idcard;
-    private String frontImage;
-    private String backImage;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private long uraId;
+    private Users users; 	//用户
+    private String uraName;	//真实姓名
+    private long idcard;	//身份证号
+    private String frontImage;	//正面图
+    private String backImage;	//背面图
 
     public Users_Authentication() {
     }
