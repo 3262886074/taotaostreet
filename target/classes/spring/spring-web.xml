@@ -9,20 +9,8 @@
 
     <!-- 配置SpringMVC -->
 
-    <!--
-        1.开启SpringMVC注解模式
-        简化配置：
-        (1)自动注册了两个handler。
-        (2)提供一系列功能：数据绑定，数字和日期的format， @NumberFormat,@DataTimeFormat,xml,json默认读写支持。
-     -->
     <mvc:annotation-driven/>
 
-    <!--
-        2.servlet-mapping 映射路径:
-        静态资源默认Servlet配置:
-        ①.加入对静态资源的处理:js,gif,png；
-        ②.允许使用"/" 做整体映射
-    -->
     <mvc:default-servlet-handler/>
 
     <!-- 3.配置jsp 显示view -->
@@ -33,7 +21,7 @@
     </bean>
 
     <!-- 4.扫描web相关的bean -->
-    <context:component-scan base-package="com.yls.controller"/>
+    <context:component-scan base-package="com.tts.controller"/>
 
 
 </beans>
