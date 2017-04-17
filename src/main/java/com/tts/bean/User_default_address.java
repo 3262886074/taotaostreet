@@ -3,13 +3,18 @@ package com.tts.bean;
 import java.io.Serializable;
 
 /**
+ * 用户默认地址
  * Created by joe on 17/4/17.
  */
 public class User_default_address implements Serializable {
 
-    private long udaId;
-    private Users users;
-    private User_address user_address;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private long udaId;
+    private Users users;  //用户
+    private User_address user_address;	//用户地址
 
     public User_default_address() {
     }
