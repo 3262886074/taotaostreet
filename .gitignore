@@ -1,5 +1,12 @@
 /target/
 
+<<<<<<< HEAD
+.idea/workspace.xml
+
+.idea/kotlinc.xml
+
+.idea/uiDesigner.xml
+=======
 .idea/kotlinc.xml
 
 .idea/uiDesigner.xml
@@ -7,3 +14,9 @@
 .idea/workspace.xml
 
 .idea/workspace.xml
+<<<<<<< HEAD
+
+.idea/workspace.xml
+=======
+>>>>>>> master
+>>>>>>> yls-stage01
