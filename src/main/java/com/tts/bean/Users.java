@@ -4,19 +4,24 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * 用户
  * Created by joe on 17/4/17.
  */
 public class Users implements Serializable {
 
-    private long uid;
-    private String nickName;
-    private String upwd;
-    private String uicon;
-    private Integer sex;
-    private Date birth;
-    private long utel;
-    private String email;
-    private Date createTime;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private long uid;
+    private String nickName;    //昵称
+    private String upwd;		//密码
+    private String uicon;		//头像
+    private Integer sex;		//性别
+    private Date birth;			//生日
+    private long utel;			//电话
+    private String email;		//邮箱
+    private Date createTime;	//创建日期
 
     public Users() {
     }

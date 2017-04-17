@@ -3,15 +3,16 @@ package com.tts.bean;
 import java.io.Serializable;
 
 /**
+ * 商品条目
  * Created by joe on 17/4/17.
  */
 public class Commodity_items implements Serializable {
 
-    private long ciId;
-    private Commodity commodity;
-    private Commodity_type commodityType;
-    private Commodity_Combo commodityCombo;
-    private Integer number;
+    private long ciId;  
+    private Commodity commodity;	//商品
+    private Commodity_type commodityType;	//商品样式
+    private Commodity_Combo commodityCombo;	//商品套餐
+    private Integer number;		//商品数量
 
     public Commodity_items() {
     }

@@ -3,15 +3,20 @@ package com.tts.bean;
 import java.io.Serializable;
 
 /**
+ * 用户账户
  * Created by joe on 17/4/17.
  */
 public class User_Account implements Serializable {
 
-    private long uaId;
-    private double uaMoney;
-    private User_Red_package userRedPackage;
-    private Discount_coupon discountCoupon;
-    private Users users;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private long uaId;	
+    private double uaMoney;		//账户余额
+    private User_Red_package userRedPackage;	//红包
+    private Discount_coupon discountCoupon;		//优惠券
+    private Users users;	//用户
 
     public User_Account() {
     }
