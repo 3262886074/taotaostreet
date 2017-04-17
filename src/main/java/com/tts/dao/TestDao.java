@@ -1,4 +1,4 @@
-package com.yls.dao;
+package com.tts.dao;
 
 /**
  * Created by joe on 17/4/14.
