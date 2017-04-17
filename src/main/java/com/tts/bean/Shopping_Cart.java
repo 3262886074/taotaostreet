@@ -3,13 +3,18 @@ package com.tts.bean;
 import java.io.Serializable;
 
 /**
+ * 购物车
  * Created by joe on 17/4/17.
  */
 public class Shopping_Cart implements Serializable {
 
-    private long scId;
-    private Commodity_items commodityItems;
-    private Users users;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private long scId;
+    private Commodity_items commodityItems;  //商品条目
+    private Users users;	//购买用户
 
     public Shopping_Cart() {
     }

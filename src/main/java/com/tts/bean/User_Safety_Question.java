@@ -3,16 +3,21 @@ package com.tts.bean;
 import java.io.Serializable;
 
 /**
+ * 用户安全问题
  * Created by joe on 17/4/17.
  */
 public class User_Safety_Question implements Serializable {
 
-    private long usqId;
-    private String questionOne;
-    private String answerOne;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private long usqId;
+    private String questionOne;  //问题1
+    private String answerOne;	 //答案1
     private String questionTwo;
     private String answerTwo;
-    private Users users;
+    private Users users;	//用户
 
     public User_Safety_Question() {
     }
