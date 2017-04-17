@@ -3,13 +3,18 @@ package com.tts.bean;
 import java.io.Serializable;
 
 /**
+ * 用户收藏
  * Created by joe on 17/4/17.
  */
 public class User_Collect implements Serializable {
 
-    private long ucId;
-    private Users users;
-    private Commodity commodity;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private long ucId;	
+    private Users users;	//用户
+    private Commodity commodity;	//商品
 
     public User_Collect() {
     }

@@ -8,13 +8,17 @@ import java.io.Serializable;
  */
 public class Commodity implements Serializable {
 
-    private long cid;
-    private String cname;
-    private String category;
-    private double price;
-    private Integer postage;
-    private double forSalePrice;
-    private Integer number;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private long cid;  
+    private String cname;	  //商品名
+    private String category;  //商品类别
+    private double price;	  //商品价格
+    private Integer postage;  //商品运费
+    private double forSalePrice;  //打折价
+    private Integer number;		//库存
 
     public Commodity() {
     }

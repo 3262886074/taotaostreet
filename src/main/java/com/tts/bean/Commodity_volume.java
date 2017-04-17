@@ -4,14 +4,19 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
+ * 商品销量
  * Created by joe on 17/4/17.
  */
 public class Commodity_volume implements Serializable {
 
-    private long cvId;
-    private Commodity commodity;
-    private Users users;
-    private Date createTime;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private long cvId;
+    private Commodity commodity; //商品
+    private Users users;	//购买用户
+    private Date createTime;	//创建时间
 
     public Commodity_volume() {
     }
