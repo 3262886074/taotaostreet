@@ -4,20 +4,31 @@ import java.io.Serializable;
 
 /**
  * 商品套餐
- * Created by joe on 17/4/17.
  */
 public class Commodity_Combo implements Serializable {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private long ccid;  
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    private long ccid;
     private String ccname;   //套餐名
-    private double price;	
-    private Commodity commodity;  //商品
+    private double price;
 
     public Commodity_Combo() {
+    }
+
+    @Override
+    public String toString() {
+        return "Commodity_Combo{" +
+                "ccid=" + ccid +
+                ", ccname='" + ccname + '\'' +
+                ", price=" + price +
+                '}';
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public long getCcid() {
@@ -42,23 +53,5 @@ public class Commodity_Combo implements Serializable {
 
     public void setPrice(double price) {
         this.price = price;
-    }
-
-    public Commodity getCommodity() {
-        return commodity;
-    }
-
-    public void setCommodity(Commodity commodity) {
-        this.commodity = commodity;
-    }
-
-    @Override
-    public String toString() {
-        return "Commodity_Combo{" +
-                "ccid=" + ccid +
-                ", ccname='" + ccname + '\'' +
-                ", price=" + price +
-                ", commodity=" + commodity +
-                '}';
     }
 }
