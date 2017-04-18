@@ -20,7 +20,44 @@ public class Commodity_volume implements Serializable {
     private Date createTime;
     //一对多 商品
     private List<Commodity> commodities = new ArrayList<>();
-    //购买用户
-    private Users users;
 
+    public Commodity_volume() {
+    }
+
+    @Override
+    public String toString() {
+        return "Commodity_volume{" +
+                "cvId=" + cvId +
+                ", createTime=" + createTime +
+                ", commodities=" + commodities +
+                '}';
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
+    }
+
+    public long getCvId() {
+        return cvId;
+    }
+
+    public void setCvId(long cvId) {
+        this.cvId = cvId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public List<Commodity> getCommodities() {
+        return commodities;
+    }
+
+    public void setCommodities(List<Commodity> commodities) {
+        this.commodities = commodities;
+    }
 }
