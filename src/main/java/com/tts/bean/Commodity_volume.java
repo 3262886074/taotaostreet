@@ -1,24 +1,40 @@
 package com.tts.bean;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
- * 商品销量
- * Created by joe on 17/4/17.
+ * 商品销量/购买记录
+ * TODO 重新设计
  */
 public class Commodity_volume implements Serializable {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private long cvId;
-    private Commodity commodity; //商品
-    private Users users;	//购买用户
-    private Date createTime;	//创建时间
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    private long cvId;
+    //创建时间
+    private Date createTime;
+    //一对多 商品
+    private List<Commodity> commodities = new ArrayList<>();
 
     public Commodity_volume() {
+    }
+
+    @Override
+    public String toString() {
+        return "Commodity_volume{" +
+                "cvId=" + cvId +
+                ", createTime=" + createTime +
+                ", commodities=" + commodities +
+                '}';
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public long getCvId() {
@@ -29,22 +45,6 @@ public class Commodity_volume implements Serializable {
         this.cvId = cvId;
     }
 
-    public Commodity getCommodity() {
-        return commodity;
-    }
-
-    public void setCommodity(Commodity commodity) {
-        this.commodity = commodity;
-    }
-
-    public Users getUsers() {
-        return users;
-    }
-
-    public void setUsers(Users users) {
-        this.users = users;
-    }
-
     public Date getCreateTime() {
         return createTime;
     }
@@ -53,13 +53,11 @@ public class Commodity_volume implements Serializable {
         this.createTime = createTime;
     }
 
-    @Override
-    public String toString() {
-        return "Commodity_volume{" +
-                "cvId=" + cvId +
-                ", commodity=" + commodity +
-                ", users=" + users +
-                ", createTime=" + createTime +
-                '}';
+    public List<Commodity> getCommodities() {
+        return commodities;
+    }
+
+    public void setCommodities(List<Commodity> commodities) {
+        this.commodities = commodities;
     }
 }
