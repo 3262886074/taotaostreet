@@ -1,3 +1,38 @@
 /target/
 
+<<<<<<< HEAD
 target/m2e-wtp/web-resources/META-INF/maven/com.newer.TaoTaoStreet/TaoTaoStreet/pom.properties
+=======
+<<<<<<< HEAD
+<<<<<<< HEAD
+>>>>>>> yls-stage01
+.idea/workspace.xml
+
+.idea/kotlinc.xml
+
+.idea/uiDesigner.xml
+<<<<<<< HEAD
+=======
+=======
+.idea/kotlinc.xml
+
+.idea/uiDesigner.xml
+
+.idea/workspace.xml
+
+.idea/workspace.xml
+<<<<<<< HEAD
+
+.idea/workspace.xml
+=======
+>>>>>>> master
+<<<<<<< HEAD
+
+.idea/workspace.xml
+=======
+>>>>>>> yls-stage01
+>>>>>>> master
+=======
+target/m2e-wtp/web-resources/META-INF/maven/com.newer.TaoTaoStreet/TaoTaoStreet/pom.properties
+>>>>>>> master
+>>>>>>> yls-stage01

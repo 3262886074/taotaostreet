@@ -5,38 +5,33 @@ import java.util.Date;
 
 /**
  * 商品评价
- * Created by joe on 17/4/17.
  */
 public class Commodity_Comment implements Serializable {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private long commentId;	
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    private long commentId;
     private String content;   //评价内容
-    private String type;	  //评价类别
-    private Users users;	  //用户
-    private Commodity commodity; //商品
+    private String type;      //评价类别
     private Date createDate; //创建时间
-    
-    public Commodity getCommodity() {
-		return commodity;
-	}
 
-	public void setCommodity(Commodity commodity) {
-		this.commodity = commodity;
-	}
+    public Commodity_Comment() {
+    }
 
-	public Date getCreateDate() {
-		return createDate;
-	}
+    @Override
+    public String toString() {
+        return "Commodity_Comment{" +
+                "commentId=" + commentId +
+                ", content='" + content + '\'' +
+                ", type='" + type + '\'' +
+                ", createDate=" + createDate +
+                '}';
+    }
 
-	public void setCreateDate(Date createDate) {
-		this.createDate = createDate;
-	}
-
-	public Commodity_Comment() {
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public long getCommentId() {
@@ -63,19 +58,11 @@ public class Commodity_Comment implements Serializable {
         this.type = type;
     }
 
-    public Users getUsers() {
-        return users;
+    public Date getCreateDate() {
+        return createDate;
     }
 
-    public void setUsers(Users users) {
-        this.users = users;
+    public void setCreateDate(Date createDate) {
+        this.createDate = createDate;
     }
-
-	@Override
-	public String toString() {
-		return "Commodity_Comment [commentId=" + commentId + ", content=" + content + ", type=" + type + ", users="
-				+ users + ", commodity=" + commodity + ", createDate=" + createDate + "]";
-	}
-
-
 }

@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 /**
  * 用户安全问题
- * Created by joe on 17/4/17.
  */
 public class User_Safety_Question implements Serializable {
 
@@ -17,9 +16,23 @@ public class User_Safety_Question implements Serializable {
     private String answerOne;	 //答案1
     private String questionTwo;
     private String answerTwo;
-    private Users users;	//用户
 
     public User_Safety_Question() {
+    }
+
+    @Override
+    public String toString() {
+        return "User_Safety_Question{" +
+                "usqId=" + usqId +
+                ", questionOne='" + questionOne + '\'' +
+                ", answerOne='" + answerOne + '\'' +
+                ", questionTwo='" + questionTwo + '\'' +
+                ", answerTwo='" + answerTwo + '\'' +
+                '}';
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public long getUsqId() {
@@ -60,25 +73,5 @@ public class User_Safety_Question implements Serializable {
 
     public void setAnswerTwo(String answerTwo) {
         this.answerTwo = answerTwo;
-    }
-
-    public Users getUsers() {
-        return users;
-    }
-
-    public void setUsers(Users users) {
-        this.users = users;
-    }
-
-    @Override
-    public String toString() {
-        return "User_Safety_Question{" +
-                "usqId=" + usqId +
-                ", questionOne='" + questionOne + '\'' +
-                ", answerOne='" + answerOne + '\'' +
-                ", questionTwo='" + questionTwo + '\'' +
-                ", answerTwo='" + answerTwo + '\'' +
-                ", users=" + users +
-                '}';
     }
 }

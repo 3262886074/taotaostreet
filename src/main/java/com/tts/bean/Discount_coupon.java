@@ -4,29 +4,37 @@ import java.io.Serializable;
 
 /**
  * 商品优惠券
- * Created by joe on 17/4/17.
  */
 public class Discount_coupon implements Serializable {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private long dcId;	
-    private Integer condition;		//优惠券条件
-    private Commodity commodity;	//商品
-    private double reduce;   		//减多少钱
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    private long dcId;
+    private Integer condition;        //优惠券条件
+    private double reduce;        //减多少钱
 
-    
-    public double getReduce() {
-		return reduce;
-	}
+    public Discount_coupon() {
+    }
 
-	public void setReduce(double reduce) {
-		this.reduce = reduce;
-	}
+    @Override
+    public String toString() {
+        return "Discount_coupon{" +
+                "dcId=" + dcId +
+                ", condition=" + condition +
+                ", reduce=" + reduce +
+                '}';
+    }
 
-	public Discount_coupon() {
+    public Discount_coupon(long dcId, Integer condition, double reduce) {
+        this.dcId = dcId;
+        this.condition = condition;
+        this.reduce = reduce;
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public long getDcId() {
@@ -45,19 +53,11 @@ public class Discount_coupon implements Serializable {
         this.condition = condition;
     }
 
-    public Commodity getCommodity() {
-        return commodity;
+    public double getReduce() {
+        return reduce;
     }
 
-    public void setCommodity(Commodity commodity) {
-        this.commodity = commodity;
+    public void setReduce(double reduce) {
+        this.reduce = reduce;
     }
-
-	@Override
-	public String toString() {
-		return "Discount_coupon [dcId=" + dcId + ", condition=" + condition + ", commodity=" + commodity + ", reduce="
-				+ reduce + "]";
-	}
-
-    
 }

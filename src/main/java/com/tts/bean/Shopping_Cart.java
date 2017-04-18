@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 /**
  * 购物车
- * Created by joe on 17/4/17.
  */
 public class Shopping_Cart implements Serializable {
 
@@ -13,42 +12,48 @@ public class Shopping_Cart implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private long scId;
-    private Commodity_items commodityItems;  //商品条目
-    private Users users;	//购买用户
+	//商品条目 一对一
+    private Commodity_items commodityItems;
+    //用户 多对一
+	private Users users;
 
-    public Shopping_Cart() {
-    }
+	public Shopping_Cart() {
+	}
 
-    public long getScId() {
-        return scId;
-    }
+	@Override
+	public String toString() {
+		return "Shopping_Cart{" +
+				"scId=" + scId +
+				", commodityItems=" + commodityItems +
+				", users=" + users +
+				'}';
+	}
 
-    public void setScId(long scId) {
-        this.scId = scId;
-    }
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
 
-    public Commodity_items getCommodityItems() {
-        return commodityItems;
-    }
+	public long getScId() {
+		return scId;
+	}
 
-    public void setCommodityItems(Commodity_items commodityItems) {
-        this.commodityItems = commodityItems;
-    }
+	public void setScId(long scId) {
+		this.scId = scId;
+	}
 
-    public Users getUsers() {
-        return users;
-    }
+	public Commodity_items getCommodityItems() {
+		return commodityItems;
+	}
 
-    public void setUsers(Users users) {
-        this.users = users;
-    }
+	public void setCommodityItems(Commodity_items commodityItems) {
+		this.commodityItems = commodityItems;
+	}
 
-    @Override
-    public String toString() {
-        return "Shopping_Cart{" +
-                "scId=" + scId +
-                ", commodityItems=" + commodityItems +
-                ", users=" + users +
-                '}';
-    }
+	public Users getUsers() {
+		return users;
+	}
+
+	public void setUsers(Users users) {
+		this.users = users;
+	}
 }
