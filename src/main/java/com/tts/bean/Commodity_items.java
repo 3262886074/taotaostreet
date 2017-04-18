@@ -1,20 +1,31 @@
 package com.tts.bean;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * 商品条目
- * Created by joe on 17/4/17.
  */
 public class Commodity_items implements Serializable {
 
-    private long ciId;  
-    private Commodity commodity;	//商品
-    private Commodity_type commodityType;	//商品样式
-    private Commodity_Combo commodityCombo;	//商品套餐
-    private Integer number;		//商品数量
+    private long ciId;
+    //一对多 商品 键--商品 值--数量
+    private Map<Commodity, Integer> commodities = new HashMap<>();
+    private Commodity_type commodityType;    //商品样式
+    private Commodity_Combo commodityCombo;    //商品套餐
 
     public Commodity_items() {
+    }
+
+    @Override
+    public String toString() {
+        return "Commodity_items{" +
+                "ciId=" + ciId +
+                ", commodities=" + commodities +
+                ", commodityType=" + commodityType +
+                ", commodityCombo=" + commodityCombo +
+                '}';
     }
 
     public long getCiId() {
@@ -25,12 +36,12 @@ public class Commodity_items implements Serializable {
         this.ciId = ciId;
     }
 
-    public Commodity getCommodity() {
-        return commodity;
+    public Map<Commodity, Integer> getCommodities() {
+        return commodities;
     }
 
-    public void setCommodity(Commodity commodity) {
-        this.commodity = commodity;
+    public void setCommodities(Map<Commodity, Integer> commodities) {
+        this.commodities = commodities;
     }
 
     public Commodity_type getCommodityType() {
@@ -47,24 +58,5 @@ public class Commodity_items implements Serializable {
 
     public void setCommodityCombo(Commodity_Combo commodityCombo) {
         this.commodityCombo = commodityCombo;
-    }
-
-    public Integer getNumber() {
-        return number;
-    }
-
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
-
-    @Override
-    public String toString() {
-        return "Commodity_items{" +
-                "ciId=" + ciId +
-                ", commodity=" + commodity +
-                ", commodityType=" + commodityType +
-                ", commodityCombo=" + commodityCombo +
-                ", number=" + number +
-                '}';
     }
 }

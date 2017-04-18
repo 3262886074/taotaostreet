@@ -4,7 +4,6 @@ import java.io.Serializable;
 
 /**
  * 订单
- * Created by joe on 17/4/17.
  */
 public class Order implements Serializable {
 
@@ -12,15 +11,37 @@ public class Order implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private long oid;	
+	private long oid;
+    //所有商品总金额
+    private double money;
+    //订单状态 -1为未付款 0为已付款未发货 1为已发货未到货 2为已到货未签收 3为已签收未评价 4为订单已完成
+    private Integer status;
     private Shopping_Cart shopping_cart;  //购物车
-    private double money;	//总金额
-    private Integer status;	//订单状态
-    private Discount_coupon discountCoupon;		//优惠券
-    private User_Red_package userRedPackage;	//红包
-    private User_address userAddress;	//用户地址
+    //优惠券 一对一
+    private Discount_coupon discountCoupon;
+    //红包 一对一
+    private User_Red_package userRedPackage;
+    //用户地址 一对一
+    private User_address userAddress;
 
     public Order() {
+    }
+
+    @Override
+    public String toString() {
+        return "Order{" +
+                "oid=" + oid +
+                ", money=" + money +
+                ", status=" + status +
+                ", shopping_cart=" + shopping_cart +
+                ", discountCoupon=" + discountCoupon +
+                ", userRedPackage=" + userRedPackage +
+                ", userAddress=" + userAddress +
+                '}';
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public long getOid() {
@@ -29,14 +50,6 @@ public class Order implements Serializable {
 
     public void setOid(long oid) {
         this.oid = oid;
-    }
-
-    public Shopping_Cart getShopping_cart() {
-        return shopping_cart;
-    }
-
-    public void setShopping_cart(Shopping_Cart shopping_cart) {
-        this.shopping_cart = shopping_cart;
     }
 
     public double getMoney() {
@@ -53,6 +66,14 @@ public class Order implements Serializable {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public Shopping_Cart getShopping_cart() {
+        return shopping_cart;
+    }
+
+    public void setShopping_cart(Shopping_Cart shopping_cart) {
+        this.shopping_cart = shopping_cart;
     }
 
     public Discount_coupon getDiscountCoupon() {
@@ -77,18 +98,5 @@ public class Order implements Serializable {
 
     public void setUserAddress(User_address userAddress) {
         this.userAddress = userAddress;
-    }
-
-    @Override
-    public String toString() {
-        return "Order{" +
-                "oid=" + oid +
-                ", shopping_cart=" + shopping_cart +
-                ", money=" + money +
-                ", status=" + status +
-                ", discountCoupon=" + discountCoupon +
-                ", userRedPackage=" + userRedPackage +
-                ", userAddress=" + userAddress +
-                '}';
     }
 }

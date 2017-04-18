@@ -1,10 +1,11 @@
 package com.tts.bean;
 
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 用户账户
- * Created by joe on 17/4/17.
  */
 public class User_Account implements Serializable {
 
@@ -12,13 +13,29 @@ public class User_Account implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private long uaId;	
-    private double uaMoney;		//账户余额
-    private User_Red_package userRedPackage;	//红包
-    private Discount_coupon discountCoupon;		//优惠券
-    private Users users;	//用户
+	private long uaId;
+    //账户余额
+    private double uaMoney;
+    //一对多 红包
+    private Set<User_Red_package> userRedPackages = new HashSet<>();
+    //一对多 优惠券
+    private Set<Discount_coupon> discountCoupons = new HashSet<>();
 
     public User_Account() {
+    }
+
+    @Override
+    public String toString() {
+        return "User_Account{" +
+                "uaId=" + uaId +
+                ", uaMoney=" + uaMoney +
+                ", userRedPackages=" + userRedPackages +
+                ", discountCoupons=" + discountCoupons +
+                '}';
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public long getUaId() {
@@ -37,38 +54,19 @@ public class User_Account implements Serializable {
         this.uaMoney = uaMoney;
     }
 
-    public User_Red_package getUserRedPackage() {
-        return userRedPackage;
+    public Set<User_Red_package> getUserRedPackages() {
+        return userRedPackages;
     }
 
-    public void setUserRedPackage(User_Red_package userRedPackage) {
-        this.userRedPackage = userRedPackage;
+    public void setUserRedPackages(Set<User_Red_package> userRedPackages) {
+        this.userRedPackages = userRedPackages;
     }
 
-    public Discount_coupon getDiscountCoupon() {
-        return discountCoupon;
+    public Set<Discount_coupon> getDiscountCoupons() {
+        return discountCoupons;
     }
 
-    public void setDiscountCoupon(Discount_coupon discountCoupon) {
-        this.discountCoupon = discountCoupon;
-    }
-
-    public Users getUsers() {
-        return users;
-    }
-
-    public void setUsers(Users users) {
-        this.users = users;
-    }
-
-    @Override
-    public String toString() {
-        return "User_Account{" +
-                "uaId=" + uaId +
-                ", uaMoney=" + uaMoney +
-                ", userRedPackage=" + userRedPackage +
-                ", discountCoupon=" + discountCoupon +
-                ", users=" + users +
-                '}';
+    public void setDiscountCoupons(Set<Discount_coupon> discountCoupons) {
+        this.discountCoupons = discountCoupons;
     }
 }
