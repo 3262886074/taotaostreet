@@ -14,6 +14,7 @@ public class Discount_coupon implements Serializable {
     private long dcId;
     private Integer condition;        //优惠券条件
     private double reduce;        //减多少钱
+    private Integer status; //优惠券状态 0为未使用 1为已使用
 
     public Discount_coupon() {
     }
@@ -24,6 +25,7 @@ public class Discount_coupon implements Serializable {
                 "dcId=" + dcId +
                 ", condition=" + condition +
                 ", reduce=" + reduce +
+                ", status=" + status +
                 '}';
     }
 
@@ -59,5 +61,13 @@ public class Discount_coupon implements Serializable {
 
     public void setReduce(double reduce) {
         this.reduce = reduce;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }
