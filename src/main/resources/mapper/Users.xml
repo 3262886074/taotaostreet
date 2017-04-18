@@ -47,7 +47,8 @@
         SELECT
         urp_id,
         money,
-        u_id
+        u_id,
+        status
         FROM
         User_Red_package
         <where>
@@ -61,7 +62,8 @@
         cdc.dc_id,
         cdc.condition,
         cdc.reduce,
-        cdc.u_id
+        cdc.u_id,
+        cdc.status
         FROM
         Commodity_Discount_coupon cdc
         <where>
