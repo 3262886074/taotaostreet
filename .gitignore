@@ -35,13 +35,4 @@ target/m2e-wtp/web-resources/META-INF/maven/com.newer.TaoTaoStreet/TaoTaoStreet/
 =======
 target/m2e-wtp/web-resources/META-INF/maven/com.newer.TaoTaoStreet/TaoTaoStreet/pom.properties
 >>>>>>> master
-<<<<<<< HEAD
-
-target/classes/jdbc.properties
-
-src/main/resources/jdbc.properties
-
-target/classes/jdbc.properties
-=======
 >>>>>>> yls-stage01
->>>>>>> master
