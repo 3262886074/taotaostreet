@@ -5,7 +5,6 @@ import java.io.Serializable;
 /**
  * 
  * 用户收货地址
- * Created by joe on 17/4/17.
  */
 public class User_address implements Serializable {
 
@@ -18,9 +17,23 @@ public class User_address implements Serializable {
     private long uatel;		//收货电话
     private String location;//所在地
     private String address; //详细地址
-    private Users users;	//用户
 
     public User_address() {
+    }
+
+    @Override
+    public String toString() {
+        return "User_address{" +
+                "uaId=" + uaId +
+                ", uaname='" + uaname + '\'' +
+                ", uatel=" + uatel +
+                ", location='" + location + '\'' +
+                ", address='" + address + '\'' +
+                '}';
+    }
+
+    public static long getSerialVersionUID() {
+        return serialVersionUID;
     }
 
     public long getUaId() {
@@ -61,25 +74,5 @@ public class User_address implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public Users getUsers() {
-        return users;
-    }
-
-    public void setUsers(Users users) {
-        this.users = users;
-    }
-
-    @Override
-    public String toString() {
-        return "User_address{" +
-                "uaId=" + uaId +
-                ", uaname='" + uaname + '\'' +
-                ", uatel=" + uatel +
-                ", location='" + location + '\'' +
-                ", address='" + address + '\'' +
-                ", users=" + users +
-                '}';
     }
 }
