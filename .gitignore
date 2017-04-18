@@ -29,3 +29,9 @@
 =======
 target/m2e-wtp/web-resources/META-INF/maven/com.newer.TaoTaoStreet/TaoTaoStreet/pom.properties
 >>>>>>> master
+
+target/classes/jdbc.properties
+
+src/main/resources/jdbc.properties
+
+target/classes/jdbc.properties
