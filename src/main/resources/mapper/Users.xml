@@ -16,7 +16,7 @@
         u.u_birth "birth",
         u.u_tel "utel",
         u.u_email "email",
-        u.create_time
+        u.create_time,
         FROM
         users u
         <where>
@@ -98,10 +98,52 @@
             <if test="nickName != null and nickName != '' ">
                 u_nickname = #{nickName},
             </if>
-            <if test="upwd"
+            <if test="sex != null">
+                u_sex = #{sex},
+            </if>
+            <if test="birth != null">
+                u_birth = #{birth},
+            </if>
+            <if test="utel != null">
+                u_tel = #{utel},
+            </if>
+            <if test="email != null and email != '' ">
+                u_email = #{email}
+            </if>
         </set>
+        <where>
+            u_id = #{uid}
+        </where>
     </update>
 
+    <!-- 修改登录密码 -->
+    <update id="updatePwd" parameterType="String">
+        UPDATE Users
+        <set>
+            <if test="pwd != null and pwd != '' ">
+                u_pwd = #{upwd}
+            </if>
+        </set>
+        <where>
+            u_id = #{uid}
+        </where>
+    </update>
 
-    
+    <!-- 实名认证 -->
+    <insert id="addAuthentication" parameterType="Users_Authentication">
+        INSERT INTO
+        User_RealAuthentication (u_id,ura_name,Id_card)
+        VALUES
+        #{uid},#{uname},#{idCard}
+    </insert>
+
+    <!-- 安全问题 -->
+    <insert id="addSafetyQuestion" parameterType="User_Safety_Question">
+        INSERT INTO
+        User_Safety_Question (question_one,answer_one,question_two,answer_two,u_id)
+        VALUES
+        (#{questionOne},#{answerOne},#{questionTwo},#{answerTwo})
+    </insert>
+
+
 </mapper>
