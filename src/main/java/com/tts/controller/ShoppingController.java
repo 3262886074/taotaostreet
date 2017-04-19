@@ -1,19 +1,15 @@
 package com.tts.controller;
 
-import java.util.List;
-
-import javax.annotation.Resource;
-
-import org.junit.runners.Parameterized.Parameter;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
-
 import com.tts.bean.Shopping_Cart;
 import com.tts.service.Shopping_CartService;
 import com.tts.service.impl.Shopping_CartServiceImpl;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.servlet.ModelAndView;
+
+import javax.annotation.Resource;
+import java.util.List;
 
 
 @Controller("ShoppingController")
