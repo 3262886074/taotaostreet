@@ -9,7 +9,11 @@ import java.util.Map;
  */
 public class Commodity_items implements Serializable {
 
-    private long ciId;
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private long ciId;
     //一对多 商品 键--商品 值--数量
     private Map<Commodity, Integer> commodities = new HashMap<>();
     private Commodity_type commodityType;    //商品样式

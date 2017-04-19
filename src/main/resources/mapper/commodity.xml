@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tts.dao.CommodityDao">
+    
+    <!-- 查询商品基本信息 -->
+	<select id="getById" parameterType="long" resultMap="commodityMap">
+		select * from commodity where c_id=#{cid}
+	</select>
+	
+	<!-- 查询商品的套餐信息 -->
+    <select id="getCombo" parameterType="long" resultMap="Commodity_Combo_Map">
+    	select * from commodity_combo where c_id=#{cid}
+    </select>
+    
+    <!-- 查询商品的样式信息 -->
+    <select id="getType" parameterType="long" resultMap="Commodity_type_Map">
+    	select * from commodity_type where c_id=#{cid}
+    </select>
+    
+    <!-- 查询商品的图片详情 -->
+    <select id="getPics" parameterType="long" resultMap="Commodity_pics_Map">
+    	select * from commodity_pics where c_id=#{cid}
+    </select>
+    
+    <!-- 查询商品的全部评价 -->
+    <select id="getMent" parameterType="long" resultMap="Commodity_Comment_Map">
+    	select * from commodity_comment where c_id = #{cid}
+    </select>
+    
+    <!-- 获得当月销售量 -->
+    <select id="getMonthSell" resultType="int" parameterType="long">
+    	SELECT COUNT(c_id) FROM commodity_volume WHERE
+        c_id = #{cid} AND create_time&lt;=DATE_FORMAT(NOW(),'%Y-%m-%d %T')
+        AND create_time>=DATE_FORMAT(NOW(),'%Y-%m-01')
+    </select>
+    <!-- 累计销量 -->
+    <select id="getAllSell" resultType="int" parameterType="long">
+    	SELECT COUNT(c_id) FROM commodity_volume where c_id = #{cid}
+    </select>
+    <!-- 累计评价 -->
+    <select id="getComment" resultType="int" parameterType="long">
+    	select count(c_id) from commodity_comment where c_id=#{cid}
+    </select>
+    
+    <!-- Map的配置 -->
+    <resultMap type="Commodity" id="commodityMap">
+    	<id property="cid" column="c_id"/>
+    	<result property="c_name" column="cname"/>
+    	<result property="category" column="category"/>
+    	<result property="price" column="price"/>
+    	<result property="postage" column="postage"/>
+    	<result property="forSalePrice" column="for_Sale_Price"/>
+    	<result property="number" column="number"/>
+    </resultMap>
+    <resultMap type="Commodity_Combo" id="Commodity_Combo_Map">
+    	<id property="ccid" column="cc_id"/>
+    	<result property="ccname" column="cc_name"/>
+    	<result property="price" column="price"/>
+    </resultMap>
+    <resultMap type="Commodity_type" id="Commodity_type_Map">
+    	<id property="ccid" column="cc_id"/>
+    	<result property="ccname" column="cc_name"/>
+    	<result property="price" column="price"/>
+    </resultMap>
+    <resultMap type="Commodity_pics" id="Commodity_pics_Map">
+    	<id property="cpId" column="cp_id"/>
+    	<result property="cp_image_one" column="cp_img_one"/>
+    	<result property="cp_image_two" column="cp_img_two"/>
+    	<result property="cp_image_three" column="cp_img_three"/>
+    	<result property="cpDetails" column="cp_details"/>
+    </resultMap>
+    <resultMap type="Commodity_Comment" id="Commodity_Comment_Map">
+    	<id property="commentId" column="comment_id"/>
+    	<result property="content" column="content"/>
+    	<result property="type" column="type"/>
+    	<result property="createDate" column="create_date" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
+    </resultMap>
+</mapper>
