@@ -1,5 +1,7 @@
 package com.tts.service.impl;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.tts.bean.Commodity;
@@ -32,6 +34,16 @@ public class CommodityServiceImpl implements CommodityService{
 		sell.setAllSell(cd.getAllSell(cid));
 		sell.setAllComm(cd.getComment(cid));
 		return sell;
+	}
+
+	@Override
+	public List<Commodity> findAllByType(String types) {
+		return cd.findAllByType(types);
+	}
+
+	@Override
+	public List<Commodity> findAll(long cid) {
+		return cd.findAll(cid);
 	}
 
 }

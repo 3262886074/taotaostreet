@@ -1,5 +1,6 @@
 package com.tts.dao;
 
+import java.util.List;
 import java.util.Set;
 import org.springframework.stereotype.Repository;
 import com.tts.bean.Commodity;
@@ -35,5 +36,11 @@ public interface CommodityDao {
 	//累计评价
 	public int getComment(long cid);
 	
-	
+	/*
+	 * 猜你喜欢，看了又看
+	 */
+	//猜你喜欢，查出当前类别的全部商品
+	public List<Commodity> findAllByType(String types);
+	//看了又看，查出除了当前商品之外的全部商品
+	public List<Commodity> findAll(long cid);
 }

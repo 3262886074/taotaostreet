@@ -45,6 +45,16 @@
     	select count(c_id) from commodity_comment where c_id=#{cid}
     </select>
     
+    <!-- 猜你喜欢，查出当前类别的全部商品 -->
+    <select id="findAllByType" parameterType="String" resultMap="commodityMap">
+    	SELECT * FROM commodity WHERE category=#{types}
+    </select>
+    <!-- 看了又看，查出除了当前商品之外的全部商品 -->
+    <select id="findAll" parameterType="long" resultMap="commodityMap">
+		SELECT * FROM commodity WHERE c_id NOT IN(#{cid})
+    </select>
+    
+    
     <!-- Map的配置 -->
     <resultMap type="Commodity" id="commodityMap">
     	<id property="cid" column="c_id"/>

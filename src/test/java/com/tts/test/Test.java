@@ -1,6 +1,8 @@
 package com.tts.test;
 
 
+import java.util.List;
+
 import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,12 +24,20 @@ public class Test {
 	
 	@org.junit.Test
 	public void test(){
-		Commodity commodity = cs.getCommodity(1);
-		logger.info("详情={}",commodity);
+//		Commodity commodity = cs.getCommodity(1);
+//		logger.info("详情={}",commodity);
+//		
+//		Commodity_Sell sell = cs.getSellCommentById(1);
+//		logger.info("销量={}",sell);
 		
-		Commodity_Sell sell = cs.getSellCommentById(1);
-		logger.info("销量={}",sell);
-		
+//		List<Commodity> list = cs.findAll(1);
+//		for (Commodity commodity : list) {
+//			logger.info("详情={}",commodity);
+//		}
+		List<Commodity> l = cs.findAllByType("食品");
+		for (Commodity commodity : l) {
+			logger.info("详情={}",commodity);
+		}
 	}
 
 }

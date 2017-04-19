@@ -1,5 +1,7 @@
 package com.tts.service;
 
+import java.util.List;
+
 import com.tts.bean.Commodity;
 import com.tts.bean.Commodity_Sell;
 
@@ -18,4 +20,18 @@ public interface CommodityService {
 	 * @return
 	 */
 	public Commodity_Sell getSellCommentById(long cid);
+	
+	/**
+	 * 查出当前类别的全部商品
+	 * @param types
+	 * @return
+	 */
+	public List<Commodity> findAllByType(String types);
+	
+	/**
+	 * 查出除了当前商品之外的全部商品
+	 * @param cid
+	 * @return
+	 */
+	public List<Commodity> findAll(long cid);
 }
