@@ -16,6 +16,8 @@ public class User_Safety_Question implements Serializable {
     private String answerOne;	 //答案1
     private String questionTwo;
     private String answerTwo;
+    //用户 双向一对一
+    private Users users;
 
     public User_Safety_Question() {
     }
@@ -28,6 +30,7 @@ public class User_Safety_Question implements Serializable {
                 ", answerOne='" + answerOne + '\'' +
                 ", questionTwo='" + questionTwo + '\'' +
                 ", answerTwo='" + answerTwo + '\'' +
+                ", users=" + users +
                 '}';
     }
 
@@ -73,5 +76,13 @@ public class User_Safety_Question implements Serializable {
 
     public void setAnswerTwo(String answerTwo) {
         this.answerTwo = answerTwo;
+    }
+
+    public Users getUsers() {
+        return users;
+    }
+
+    public void setUsers(Users users) {
+        this.users = users;
     }
 }
