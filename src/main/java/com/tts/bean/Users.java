@@ -11,29 +11,27 @@ import java.util.Set;
 public class Users implements Serializable {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private long uid;
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    private long uid;
     private String nickName;    //昵称
-    private String upwd;		//密码
-    private String uicon;		//头像
-    private Integer sex;		//性别
-    private Date birth;			//生日
-    private long utel;			//电话
-    private String email;		//邮箱
-    private Date createTime;	//创建日期
+    private String upwd;        //密码
+    private String uicon;        //头像
+    private Integer sex;        //性别
+    private Date birth;            //生日
+    private long utel;            //电话
+    private String email;        //邮箱
+    private Date createTime;    //创建日期
     //用户账户 一对一
     private User_Account userAccount;
     //用户地址 一对多
     private Set<User_address> userAddresses = new HashSet<>();
-    //默认地址 一对一
-    private User_default_address userDefaultAddress;
     //用户收藏 一对多
     private Set<User_Collect> userCollects = new HashSet<>();
     //红包 一对多
     private Set<User_Red_package> userRedPackages = new HashSet<>();
-    //账户安全问题 一对一
+    //账户安全问题 双向一对一
     private User_Safety_Question user_safety_question;
     //账户认证 双向一对一
     private Users_Authentication users_authentication;
@@ -59,7 +57,6 @@ public class Users implements Serializable {
                 ", createTime=" + createTime +
                 ", userAccount=" + userAccount +
                 ", userAddresses=" + userAddresses +
-                ", userDefaultAddress=" + userDefaultAddress +
                 ", userCollects=" + userCollects +
                 ", userRedPackages=" + userRedPackages +
                 ", user_safety_question=" + user_safety_question +
@@ -159,14 +156,6 @@ public class Users implements Serializable {
 
     public void setUserAddresses(Set<User_address> userAddresses) {
         this.userAddresses = userAddresses;
-    }
-
-    public User_default_address getUserDefaultAddress() {
-        return userDefaultAddress;
-    }
-
-    public void setUserDefaultAddress(User_default_address userDefaultAddress) {
-        this.userDefaultAddress = userDefaultAddress;
     }
 
     public Set<User_Collect> getUserCollects() {

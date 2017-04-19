@@ -13,6 +13,7 @@ public class User_Red_package implements Serializable {
 	private static final long serialVersionUID = 1L;
 	private long urpId;
     private double money;  //红包金额
+	private Integer status; //红包状态 0为未使用 1为已使用
 
 	public User_Red_package() {
 	}
@@ -22,6 +23,7 @@ public class User_Red_package implements Serializable {
 		return "User_Red_package{" +
 				"urpId=" + urpId +
 				", money=" + money +
+				", status=" + status +
 				'}';
 	}
 
@@ -43,5 +45,13 @@ public class User_Red_package implements Serializable {
 
 	public void setMoney(double money) {
 		this.money = money;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
 	}
 }

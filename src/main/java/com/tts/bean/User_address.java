@@ -17,6 +17,7 @@ public class User_address implements Serializable {
     private long uatel;		//收货电话
     private String location;//所在地
     private String address; //详细地址
+    private Integer status;
 
     public User_address() {
     }
@@ -29,6 +30,7 @@ public class User_address implements Serializable {
                 ", uatel=" + uatel +
                 ", location='" + location + '\'' +
                 ", address='" + address + '\'' +
+                ", status=" + status +
                 '}';
     }
 
@@ -74,5 +76,13 @@ public class User_address implements Serializable {
 
     public void setAddress(String address) {
         this.address = address;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tts.dao.UsersDao">
+
+    <!-- 根据用户id查找用户资料 -->
+    <select id="queryUserInfoByUid" parameterType="int" resultType="Users">
+        SELECT
+        u.u_id "uid",
+        u.u_nickname "nickName",
+        u.u_pwd "upwd",
+        u.u_icon "uicon",
+        u.u_sex "sex",
+        u.u_birth "birth",
+        u.u_tel "utel",
+        u.u_email "email",
+        u.create_time,
+        FROM
+        users u
+        <where>
+            u.u_id = #{uid}
+        </where>
+    </select>
+
+    <!-- 根据用户id查找用户所有订单 -->
+    <select id="queryOrdersByUid" parameterType="int" resultType="Order">
+        SELECT
+        o_id,
+        sc_id,
+        money,
+        status,
+        dc_id,
+        urp_id,
+        ua_id,
+        u_id
+        FROM
+        orders
+        <where>
+            u_id = #{uid}
+        </where>
+    </select>
+
+    <!-- 根据用户id查找用户所有红包 -->
+    <select id="queryRedPackageByUid" parameterType="int" resultType="User_Red_package">
+        SELECT
+        urp_id,
+        money,
+        u_id,
+        status
+        FROM
+        User_Red_package
+        <where>
+            u_id = #{uid}
+        </where>
+    </select>
+
+    <!-- 根据用户id查找用户所有优惠券 -->
+    <select id="queryDiscountCouponByUid" parameterType="int" resultType="Discount_coupon">
+        SELECT
+        cdc.dc_id,
+        cdc.condition,
+        cdc.reduce,
+        cdc.u_id,
+        cdc.status
+        FROM
+        Commodity_Discount_coupon cdc
+        <where>
+            cdc.u_id = #{uid}
+        </where>
+    </select>
+
+    <!-- 根据用户id查找用户收藏商品以及收藏商品的信息 -->
+    <select id="queryCollectsByUid" parameterType="int" resultType="User_Collect">
+        SELECT
+        uc.uc_id,
+        uc.u_id,
+        uc.c_id,
+        c.c_id "commodity.cid",
+        c.c_name "commodity.cname",
+        c.category "commodity.category",
+        c.price "commodity.price",
+        c.for_sale_price "commodity.forSalePrice"
+        FROM
+        User_Collect uc
+        INNER JOIN
+        Commodity c
+        ON
+        uc.c_id = c.c_id
+        <where>
+            u_id = #{uid}
+        </where>
+    </select>
+
+    <!-- 根据用户id修改用户信息 除了密码 -->
+    <update id="updateInfo" parameterType="Users">
+        UPDATE Users
+        <set>
+            <if test="nickName != null and nickName != '' ">
+                u_nickname = #{nickName},
+            </if>
+            <if test="sex != null">
+                u_sex = #{sex},
+            </if>
+            <if test="birth != null">
+                u_birth = #{birth},
+            </if>
+            <if test="utel != null">
+                u_tel = #{utel},
+            </if>
+            <if test="email != null and email != '' ">
+                u_email = #{email}
+            </if>
+        </set>
+        <where>
+            u_id = #{uid}
+        </where>
+    </update>
+
+    <!-- 根据用户id修改登录密码 有多个参数，使用@Param绑定 -->
+    <update id="updatePwd">
+        UPDATE Users
+        <set>
+            <if test="upwd != null and upwd != '' ">
+                u_pwd = #{upwd}
+            </if>
+        </set>
+        <where>
+            u_id = #{uid}
+        </where>
+    </update>
+
+    <!-- 添加实名认证 -->
+    <insert id="addAuthentication" parameterType="Users_Authentication">
+        INSERT INTO
+        User_RealAuthentication (u_id,ura_name,Id_card)
+        VALUES
+        (#{users.uid},#{uraName},#{idcard})
+    </insert>
+
+    <!-- 添加安全问题 -->
+    <insert id="addSafetyQuestion" parameterType="User_Safety_Question">
+        INSERT INTO
+        User_Safety_Question (question_one,answer_one,question_two,answer_two,u_id)
+        VALUES
+        (#{questionOne},#{answerOne},#{questionTwo},#{answerTwo},#{users.uid})
+    </insert>
+
+    <!-- 根据用户id查找所有收货地址 status为1则为默认地址 -->
+    <select id="getAddressesByUId" parameterType="int" resultType="User_address">
+        SELECT
+        ua_id "uaId",
+        ua_name "uaname",
+        ua_tel "uatel",
+        location "location",
+        address "address",
+        u_id,
+        status
+        FROM
+        User_address
+        <where>
+            u_id = #{uid}
+        </where>
+    </select>
+
+
+    <!-- 将用户的地址status为1的都改成0 -->
+    <update id="updateUnDefaultAddress" parameterType="int">
+        UPDATE User_address
+        <set>
+            status = 0
+        </set>
+        <where>
+            u_id = #{uid}
+            AND status = 1
+        </where>
+    </update>
+
+    <!-- 根据地址id修改默认地址 -->
+    <update id="updateDefaultAddress" parameterType="int">
+        UPDATE User_address
+        <set>
+            status = 1
+        </set>
+        <where>
+            ua_id = #{uaid}
+        </where>
+    </update>
+
+    <!-- 添加地址 多个参数,注意用@param绑定 -->
+    <insert id="addOneAddress" parameterType="User_address">
+        INSERT INTO User_address
+        (ua_name,ua_tel,location,address,u_id)
+        VALUES
+        (#{uaname},#{uatel},#{location},#{address},#{uid})
+    </insert>
+
+    <!-- 查询用户所有订单 -->
+
+
+
+</mapper>
