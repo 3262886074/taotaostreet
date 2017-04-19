@@ -16,12 +16,10 @@
         u.u_birth "birth",
         u.u_tel "utel",
         u.u_email "email",
-        u.create_time,
+        u.create_time
         FROM
-        users u
-        <where>
-            u.u_id = #{uid}
-        </where>
+        Users u
+        WHERE u.u_id = #{uid}
     </select>
 
     <!-- 根据用户id查找用户所有订单 -->
@@ -36,7 +34,7 @@
         ua_id,
         u_id
         FROM
-        orders
+        Orders
         <where>
             u_id = #{uid}
         </where>

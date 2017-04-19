@@ -30,6 +30,7 @@
      ci.number "commodities.number",
      ci.ct_id "commodityType.ct_id",
      ci.cc_id "commodityCombo.cc_id",
+     
      ct.type_name "commodityType.typeName",
      ct.price "commodityType.price",
      cc.cc_name "commodityCombo.ccname",
