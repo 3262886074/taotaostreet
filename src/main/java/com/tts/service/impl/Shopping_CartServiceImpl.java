@@ -9,15 +9,15 @@ import com.tts.bean.Shopping_Cart;
 import com.tts.dao.Shopping_CartDao;
 import com.tts.service.Shopping_CartService;
 
-@Service("shoping_CartService")
+@Service("shopping_CartService")
 public class Shopping_CartServiceImpl implements Shopping_CartService {
 
 	@Autowired
-	private Shopping_CartDao shoping_CartDao;
+	private Shopping_CartDao shopping_CartDao;
 
 	@Override
 	public List<Shopping_Cart> getAll() {
-		List<Shopping_Cart> list = shoping_CartDao.getAll();
+		List<Shopping_Cart> list = shopping_CartDao.getAll();
 		System.out.println(list.toString());
 		return list;
 	}
