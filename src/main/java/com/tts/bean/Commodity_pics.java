@@ -11,7 +11,7 @@ public class Commodity_pics implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private long coId;
+	private long cpId;
     private String cp_image_one;	//图片1
     private String cp_image_two;	//图片2
     private String cp_image_three;	//图片3
@@ -23,7 +23,7 @@ public class Commodity_pics implements Serializable {
     @Override
     public String toString() {
         return "Commodity_pics{" +
-                "coId=" + coId +
+                "coId=" + cpId +
                 ", cp_image_one='" + cp_image_one + '\'' +
                 ", cp_image_two='" + cp_image_two + '\'' +
                 ", cp_image_three='" + cp_image_three + '\'' +
@@ -35,12 +35,12 @@ public class Commodity_pics implements Serializable {
         return serialVersionUID;
     }
 
-    public long getCoId() {
-        return coId;
+    public long getCpId() {
+        return cpId;
     }
 
-    public void setCoId(long coId) {
-        this.coId = coId;
+    public void setCpId(long cpId) {
+        this.cpId = cpId;
     }
 
     public String getCp_image_one() {
