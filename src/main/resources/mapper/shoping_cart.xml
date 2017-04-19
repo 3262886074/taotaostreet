@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.tts.dao.Shopping_CartDao">
-  
+  	
   <select id="getAll" resultType="Shopping_Cart">
      select
      sc_id "scId",
@@ -16,10 +16,25 @@
     <!-- 通过购物车ID查询购物车信息、商品条目、用户信息 -->
       <select id="getShopping_cart"  resultType="Shopping_Cart">
      select
-     sc_id "scId",
-     ci_id "commodityItems.ciId",
-     u_id "users.uid"
-     from Shopping_cart where sc_Id= #{scId}
+     s.sc_id "scId",
+     s.ci_id "commodityItems.ciId",
+     s.u_id "users.uid"
+     from Shopping_cart   where sc_Id= #{scId}
+  </select>
+  
+   <!--通过商品条目ID查询商品条目  -->
+     <select id="getCommodity_items"  resultType="Commodity_items">
+     select
+     ci.ci_id "ciId",
+     ci.c_id "commodities.cId",
+     ci.number "commodities.number",
+     ci.ct_id "commodityType.ct_id",
+     ci.cc_id "commodityCombo.cc_id",
+     ct.type_name "commodityType.typeName",
+     ct.price "commodityType.price",
+     cc.cc_name "commodityCombo.ccname",
+     cc.price "commodityCombo.price"
+    from Commodity_items ci,commodity_Type ct,commodity_Combo cc  where cc.cc_id=ci.cc_id and ct.ct_id=ci.ct_id and ci_id= #{ciId}
   </select>
   
   <!--通过商品ID查询商品信息  -->

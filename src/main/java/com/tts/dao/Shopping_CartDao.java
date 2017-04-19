@@ -14,7 +14,16 @@ import com.tts.bean.Shopping_Cart;
 public interface Shopping_CartDao {
 	
 	List<Shopping_Cart> getAll();
+	
+//	通过购物车ID查询购物车信息、商品条目、用户信息
 	List<Shopping_Cart> getShopping_cart(int scId);
+	
+//	通过商品条目id查询 商品条目 
+	List<Commodity_items> getCommodity_items(int ciId);
+	
+//	  <!--通过商品ID查询商品信息  -->
 	List<Commodity> getCommodity(int cid);
+
+//通过类别查询类别
 	
 }

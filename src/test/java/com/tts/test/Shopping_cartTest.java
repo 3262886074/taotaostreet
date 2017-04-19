@@ -10,6 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.tts.bean.Commodity;
+import com.tts.bean.Commodity_items;
 import com.tts.bean.Shopping_Cart;
 import com.tts.dao.Shopping_CartDao;
 import com.tts.service.Shopping_CartService;
@@ -25,8 +26,8 @@ public class Shopping_cartTest {
 	private Shopping_CartDao shopping_CartDao;
 	@org.junit.Test
 	public void test(){
-//		List<Shopping_Cart> list= shopping_CartService.getAll();
-		List<Commodity> list= shopping_CartDao.getCommodity(1);
+//		List<Shopping_Cart> list= shopping_CartService.getCommodity_items(1);
+		List<Commodity_items> list= shopping_CartDao.getCommodity_items(1);
 		logger.info("test={}",list);
 	}
 
