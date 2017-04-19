@@ -3,9 +3,36 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.yls.dao.TestDao">
-    
-
-    
-    
+<mapper namespace="com.tts.dao.Shopping_CartDao">
+  
+  <select id="getAll" resultType="Shopping_Cart">
+     select
+     sc_id "scId",
+     ci_id "commodityItems.ciId",
+     u_id "users.uid"
+     from Shopping_cart
+  </select>
+  
+    <!-- 通过购物车ID查询购物车信息、商品条目、用户信息 -->
+      <select id="getShopping_cart"  resultType="Shopping_Cart">
+     select
+     sc_id "scId",
+     ci_id "commodityItems.ciId",
+     u_id "users.uid"
+     from Shopping_cart where sc_Id= #{scId}
+  </select>
+  
+  <!--通过商品ID查询商品信息  -->
+     <select id="getCommodity"  resultType="Commodity">
+     select
+     c_id "cid",
+	c_name "cname",
+	category "category",
+	price "price",
+	postage "postage",
+	for_sale_price "forSalePrice",
+	number "number"
+    from Commodity where c_id= #{cid}
+  </select>
+  
 </mapper>
