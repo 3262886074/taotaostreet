@@ -1,14 +1,10 @@
+<<<<<<< HEAD
 /target/
 
-.idea/kotlinc.xml
-
-.idea/uiDesigner.xml
-
-.idea/workspace.xml
+.idea
 
 target/m2e-wtp/web-resources/META-INF/maven/com.newer.TaoTaoStreet/TaoTaoStreet/pom.properties
 
 /out
-
 
 src/main/WebRoot/WEB-INF/lib/
