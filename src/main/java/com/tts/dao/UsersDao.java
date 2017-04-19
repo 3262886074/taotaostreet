@@ -2,7 +2,6 @@ package com.tts.dao;
 
 import com.tts.bean.*;
 import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Component;
 
 import java.util.Set;
 
