@@ -47,7 +47,8 @@
         SELECT
         urp_id,
         money,
-        u_id
+        u_id,
+        status
         FROM
         User_Red_package
         <where>
@@ -61,7 +62,8 @@
         cdc.dc_id,
         cdc.condition,
         cdc.reduce,
-        cdc.u_id
+        cdc.u_id,
+        cdc.status
         FROM
         Commodity_Discount_coupon cdc
         <where>
@@ -91,7 +93,7 @@
         </where>
     </select>
 
-    <!-- 修改用户信息 除了密码 -->
+    <!-- 根据用户id修改用户信息 除了密码 -->
     <update id="updateInfo" parameterType="Users">
         UPDATE Users
         <set>
@@ -116,11 +118,11 @@
         </where>
     </update>
 
-    <!-- 修改登录密码 -->
-    <update id="updatePwd" parameterType="String">
+    <!-- 根据用户id修改登录密码 有多个参数，使用@Param绑定 -->
+    <update id="updatePwd">
         UPDATE Users
         <set>
-            <if test="pwd != null and pwd != '' ">
+            <if test="upwd != null and upwd != '' ">
                 u_pwd = #{upwd}
             </if>
         </set>
@@ -129,21 +131,73 @@
         </where>
     </update>
 
-    <!-- 实名认证 -->
+    <!-- 添加实名认证 -->
     <insert id="addAuthentication" parameterType="Users_Authentication">
         INSERT INTO
         User_RealAuthentication (u_id,ura_name,Id_card)
         VALUES
-        #{uid},#{uname},#{idCard}
+        (#{users.uid},#{uraName},#{idcard})
     </insert>
 
-    <!-- 安全问题 -->
+    <!-- 添加安全问题 -->
     <insert id="addSafetyQuestion" parameterType="User_Safety_Question">
         INSERT INTO
         User_Safety_Question (question_one,answer_one,question_two,answer_two,u_id)
         VALUES
-        (#{questionOne},#{answerOne},#{questionTwo},#{answerTwo})
+        (#{questionOne},#{answerOne},#{questionTwo},#{answerTwo},#{users.uid})
     </insert>
+
+    <!-- 根据用户id查找所有收货地址 status为1则为默认地址 -->
+    <select id="getAddressesByUId" parameterType="int" resultType="User_address">
+        SELECT
+        ua_id "uaId",
+        ua_name "uaname",
+        ua_tel "uatel",
+        location "location",
+        address "address",
+        u_id,
+        status
+        FROM
+        User_address
+        <where>
+            u_id = #{uid}
+        </where>
+    </select>
+
+
+    <!-- 将用户的地址status为1的都改成0 -->
+    <update id="updateUnDefaultAddress" parameterType="int">
+        UPDATE User_address
+        <set>
+            status = 0
+        </set>
+        <where>
+            u_id = #{uid}
+            AND status = 1
+        </where>
+    </update>
+
+    <!-- 根据地址id修改默认地址 -->
+    <update id="updateDefaultAddress" parameterType="int">
+        UPDATE User_address
+        <set>
+            status = 1
+        </set>
+        <where>
+            ua_id = #{uaid}
+        </where>
+    </update>
+
+    <!-- 添加地址 多个参数,注意用@param绑定 -->
+    <insert id="addOneAddress" parameterType="User_address">
+        INSERT INTO User_address
+        (ua_name,ua_tel,location,address,u_id)
+        VALUES
+        (#{uaname},#{uatel},#{location},#{address},#{uid})
+    </insert>
+
+    <!-- 查询用户所有订单 -->
+
 
 
 </mapper>
