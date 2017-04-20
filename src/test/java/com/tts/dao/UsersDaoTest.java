@@ -147,5 +147,4 @@ public class UsersDaoTest {
                 user_address.getAddress(), 1);
         logger.info("i={}", i);
     }
-
 }

@@ -3,6 +3,8 @@ package com.tts.bean;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 /**
  * 商品评价
  */
