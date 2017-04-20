@@ -9,13 +9,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
 
-    <title>个人资料</title>
+    <title>安全问题</title>
 
     <link href="${ctx}/resources/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
     <link href="${ctx}/resources/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
 
     <link href="${ctx}/resources/css/personal.css" rel="stylesheet" type="text/css">
-    <link href="${ctx}/resources/css/infstyle.css" rel="stylesheet" type="text/css">
+    <link href="${ctx}/resources/css/stepstyle.css" rel="stylesheet" type="text/css">
+
     <script src="${ctx}/resources/AmazeUI-2.4.2/assets/js/jquery.min.js" type="text/javascript"></script>
     <script src="${ctx}/resources/AmazeUI-2.4.2/assets/js/amazeui.js" type="text/javascript"></script>
 
@@ -31,17 +32,22 @@
                 <ul class="message-l">
                     <div class="topMessage">
                         <div class="menu-hd">
-                            <a href="#" target="_top" class="h">亲，请登录</a>
-                            <a href="#" target="_top">免费注册</a>
+                            <c:if test="${empty users}">
+                                <a href="${ctx}/users/loginInput" target="_top" class="h">亲，请登录</a>
+                                <a href="${ctx}/users/registerInput" target="_top">免费注册</a>
+                            </c:if>
+                            <c:if test="${!empty users}">
+                                <a href="${ctx}/users/loginOut">注销</a>
+                            </c:if>
                         </div>
                     </div>
                 </ul>
                 <ul class="message-r">
                     <div class="topMessage home">
-                        <div class="menu-hd"><a href="${ctx}/index.jsp" target="_top" class="h">商城首页</a></div>
+                        <div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
                     </div>
                     <div class="topMessage my-shangcheng">
-                        <div class="menu-hd MyShangcheng"><a href="${ctx}/users/allInfo" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+                        <div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
                     </div>
                     <div class="topMessage mini-cart">
                         <div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
@@ -93,74 +99,82 @@
     <div class="col-main">
         <div class="main-wrap">
 
-            <div class="user-info">
-                <!--标题 -->
-                <div class="am-cf am-padding">
-                    <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">个人资料</strong> / <small>Personal&nbsp;information</small></div>
-                </div>
-                <hr/>
-
-                <!--头像 -->
-                <div class="user-infoPic">
-
-                    <div class="filePic">
-                        <input type="file" class="inputPic" allowexts="gif,jpeg,jpg,png,bmp" accept="image/*">
-                        <img class="am-circle am-img-thumbnail" src="${ctx}/resources/images/getAvatar.do.jpg" alt="" />
-                    </div>
-
-                    <p class="am-form-help">头像</p>
-
-                    <div class="info-m">
-                        <div><b>用户名：<i>${users.nickName}</i></b></div>
-                        <div class="u-level">
-									<span class="rank r2">
-							             <s class="vip1"></s><a class="classes" href="#">铜牌会员</a>
-						            </span>
-                        </div>
-                        <div class="u-safety">
-                            <a href="safety.html">
-                                账户安全
-                                <span class="u-profile"><i class="bc_ee0000" style="width: 60px;" width="0">60分</i></span>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!--个人信息 -->
-                <div class="info-main">
-                    <form:form action="${ctx}/users/updateInfo" method="post" modelAttribute="users" class="am-form am-form-horizontal">
-                        <input type="hidden" name="_method" value="PUT">
-                        <form:hidden path="uid"/>
-                        <div class="am-form-group">
-                            <label for="nickname" class="am-form-label">昵称</label>
-                            <div class="am-form-content">
-                                <form:input type="text" path="nickName" id="nickname" placeholder="${users.nickName}"/>
-
-                            </div>
-                        </div>
-
-                        <div class="am-form-group">
-                            <label for="user-phone" class="am-form-label">电话</label>
-                            <div class="am-form-content">
-                                <form:input id="user-phone" path="utel" placeholder="${users.utel}" type="tel"/>
-
-                            </div>
-                        </div>
-                        <div class="am-form-group">
-                            <label for="user-email" class="am-form-label">电子邮件</label>
-                            <div class="am-form-content">
-                                <form:input id="user-email" path="email" placeholder="${users.email}" type="email"/>
-
-                            </div>
-                        </div>
-                        <div class="info-btn">
-                             <input type="submit" value="保存修改">
-                        </div>
-
-                    </form:form>
-                </div>
-
+            <div class="am-cf am-padding">
+                <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">设置安全问题</strong> / <small>Set&nbsp;Safety&nbsp;Question</small></div>
             </div>
+            <hr/>
+            <!--进度条-->
+            <div class="m-progress">
+                <div class="m-progress-list">
+							<span class="step-1 step">
+                                <em class="u-progress-stage-bg"></em>
+                                <i class="u-stage-icon-inner">1<em class="bg"></em></i>
+                                <p class="stage-name">设置安全问题</p>
+                            </span>
+                    <span class="step-2 step">
+                                <em class="u-progress-stage-bg"></em>
+                                <i class="u-stage-icon-inner">2<em class="bg"></em></i>
+                                <p class="stage-name">完成</p>
+                            </span>
+                    <span class="u-progress-placeholder"></span>
+                </div>
+                <div class="u-progress-bar total-steps-2">
+                    <div class="u-progress-bar-inner"></div>
+                </div>
+            </div>
+            <form:form action="${ctx}/users/safetyQuestion"
+                       method="post"
+                       modelAttribute="user_safety_question"
+                       class="am-form am-form-horizontal">
+                <%-- TODO --%>
+                <input type="hidden" name="users.uid" value="${users.uid}">
+                <c:if test="${!empty users.user_safety_question}">
+                    <input type="hidden" name="_method" value="PUT">
+                    <input type="hidden" name="uid" value="${users.uid}">
+                </c:if>
+                <div class="am-form-group select">
+                    <label class="am-form-label">问题一</label>
+                    <div class="am-form-content">
+                        <select name="questionOne" data-am-selected>
+                            <option value="a" selected>请选择安全问题</option>
+                            <option value="您最喜欢的颜色是什么">您最喜欢的颜色是什么？</option>
+                            <option value="您的故乡在哪里">您的故乡在哪里？</option>
+                            <option value="您的初中老师叫什么名字">您的初中老师叫什么名字？</option>
+                            <option value="您的理想是">您的理想是？</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label for="user-answer1" class="am-form-label">答案</label>
+                    <div class="am-form-content">
+                        <form:input type="text" path="answerOne" id="user-answer1" placeholder="请输入安全问题答案"/>
+                    </div>
+                </div>
+                <div class="am-form-group select">
+                    <label class="am-form-label">问题二</label>
+                    <div class="am-form-content">
+                        <select name="questionTwo" data-am-selected>
+                            <option value="a" selected>请选择安全问题</option>
+                            <option value="您最喜欢的颜色是什么">您最喜欢的颜色是什么？</option>
+                            <option value="您的故乡在哪里">您的故乡在哪里？</option>
+                            <option value="您的初中老师叫什么名字">您的初中老师叫什么名字？</option>
+                            <option value="您的理想是">您的理想是？</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="am-form-group">
+                    <label for="user-answer2" class="am-form-label">答案</label>
+                    <div class="am-form-content">
+                        <form:input type="text" path="answerTwo" id="user-answer2" placeholder="请输入安全问题答案"/>
+                    </div>
+                </div>
+                <div class="info-btn">
+                    <div class="am-btn am-btn-danger">
+                        <input type="submit" value="保存修改">
+                    </div>
+                </div>
+
+            </form:form>
 
         </div>
         <!--底部-->
@@ -196,7 +210,7 @@
             <li class="person">
                 <a href="#">个人资料</a>
                 <ul>
-                    <li class="active"> <a href="information.html">个人信息</a></li>
+                    <li> <a href="information.html">个人信息</a></li>
                     <li> <a href="safety.html">安全设置</a></li>
                     <li> <a href="address.html">收货地址</a></li>
                 </ul>

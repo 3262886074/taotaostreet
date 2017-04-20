@@ -10,29 +10,37 @@ public interface UsersService {
 
     boolean userRegister(String nickname, String pwd);
 
-    Users queryUserInfoByUid(Integer uid);
+    Users queryUserInfoByUid(long uid);
 
-    Set<Order> queryOrdersByUid(Integer uid);
+    Set<Order> queryOrdersByUid(long uid);
 
-    Set<User_Red_package> queryRedPackageByUid(Integer uid);
+    Set<User_Red_package> queryRedPackageByUid(long uid);
 
-    Set<Discount_coupon> queryDiscountCouponByUid(Integer uid);
+    Set<Discount_coupon> queryDiscountCouponByUid(long uid);
 
-    Set<User_Collect> queryCollectsByUid(Integer uid);
+    Set<User_Collect> queryCollectsByUid(long uid);
 
     boolean updateInfo(Users users);
 
-    boolean updatePwd(String upwd, Integer uid);
+    boolean updatePwd(String upwd, long uid);
 
-    boolean addAuthentication(Users_Authentication users_authentication);
+    boolean addAuthentication(Long uid,String name,Long idcard);
 
     boolean addSafetyQuestion(User_Safety_Question user_safety_question);
 
-    Set<User_address> getAddressesByUId(Integer uid);
+    Users_Authentication queryAuthenticationByUid(Long uid);
 
-    boolean updateUnDefaultAddress(Integer uid);
+    User_Safety_Question querySafetyQuestionByUid(Long uid);
 
-    boolean updateDefaultAddress(Integer uaid);
+    boolean updateSafetyQuestion(User_Safety_Question user_safety_question);
 
-    boolean addOneAddress(String uaname, long uatel, String location, String address, Integer uid);
+    Set<User_address> getAddressesByUId(long uid);
+
+    boolean updateDefaultAddress(long uid,long uaid);
+
+    User_address queryAddressByUaId(Long uaid);
+
+    boolean deleteAddressByUaId(Long uaid);
+
+    boolean addOneAddress(String uaname, long uatel, String location, String address, long uid);
 }

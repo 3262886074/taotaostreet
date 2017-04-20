@@ -6,8 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * 商品销量/购买记录
- * TODO 重新设计
+ * 商品销量
  */
 public class Commodity_volume implements Serializable {
 

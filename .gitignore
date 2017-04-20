@@ -1,7 +1,8 @@
 /target/
 
-.idea
+.idea/
 
 /out
 
 src/main/WebRoot/WEB-INF/lib/
+src/main/webapp/

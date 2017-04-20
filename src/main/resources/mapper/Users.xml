@@ -34,7 +34,7 @@
     </insert>
 
     <!-- 根据用户id查找用户资料 -->
-    <select id="queryUserInfoByUid" parameterType="int" resultType="Users">
+    <select id="queryUserInfoByUid" parameterType="long" resultType="Users">
         SELECT
         u.u_id "uid",
         u.u_nickname "nickName",
@@ -51,7 +51,7 @@
     </select>
 
     <!-- 根据用户id查找用户所有订单 -->
-    <select id="queryOrdersByUid" parameterType="int" resultType="Order">
+    <select id="queryOrdersByUid" parameterType="long" resultType="Order">
         SELECT
         o_id,
         sc_id,
@@ -69,7 +69,7 @@
     </select>
 
     <!-- 根据用户id查找用户所有红包 -->
-    <select id="queryRedPackageByUid" parameterType="int" resultType="User_Red_package">
+    <select id="queryRedPackageByUid" parameterType="long" resultType="User_Red_package">
         SELECT
         urp_id,
         money,
@@ -83,7 +83,7 @@
     </select>
 
     <!-- 根据用户id查找用户所有优惠券 -->
-    <select id="queryDiscountCouponByUid" parameterType="int" resultType="Discount_coupon">
+    <select id="queryDiscountCouponByUid" parameterType="long" resultType="Discount_coupon">
         SELECT
         cdc.dc_id,
         cdc.condition,
@@ -98,7 +98,7 @@
     </select>
 
     <!-- 根据用户id查找用户收藏商品以及收藏商品的信息 -->
-    <select id="queryCollectsByUid" parameterType="int" resultType="User_Collect">
+    <select id="queryCollectsByUid" parameterType="long" resultType="User_Collect">
         SELECT
         uc.uc_id,
         uc.u_id,
@@ -152,12 +152,39 @@
     </update>
 
     <!-- 添加实名认证 -->
-    <insert id="addAuthentication" parameterType="Users_Authentication">
+    <insert id="addAuthentication">
         INSERT INTO
         User_RealAuthentication (u_id,ura_name,Id_card)
         VALUES
-        (#{users.uid},#{uraName},#{idcard})
+        (#{uid},#{uraName},#{idcard})
     </insert>
+
+    <!-- 根据用户id查找是否已经实名认证 -->
+    <select id="queryAuthenticationByUid" parameterType="long" resultType="Users_Authentication">
+        SELECT
+        ur.ura_id "uraId",
+        ur.u_id "users.uid",
+        ur.ura_name "uraName",
+        ur.Id_card "idcard"
+        FROM User_RealAuthentication ur
+        WHERE
+        ur.u_id = #{uid}
+    </select>
+
+    <!-- 根据用户id查找安全问题 -->
+    <select id="querySafetyQuestionByUid" parameterType="long" resultType="User_Safety_Question">
+        SELECT
+        usq.usq_id "usqId",
+        usq.question_one "questionOne",
+        usq.answer_one "answerOne",
+        usq.question_two "questionTwo",
+        usq.answer_two "answerTwo",
+        usq.u_id "users.uid"
+        FROM
+        User_Safety_Question usq
+        WHERE
+        usq.u_id = #{uid}
+    </select>
 
     <!-- 添加安全问题 -->
     <insert id="addSafetyQuestion" parameterType="User_Safety_Question">
@@ -167,8 +194,22 @@
         (#{questionOne},#{answerOne},#{questionTwo},#{answerTwo},#{users.uid})
     </insert>
 
+    <!-- 更新安全问题 -->
+    <update id="updateSafetyQuestion" parameterType="User_Safety_Question">
+        UPDATE User_Safety_Question
+        <set>
+            question_one = #{questionOne},
+            answer_one = #{answerOne},
+            question_two = #{questionTwo},
+            answer_two = #{answerTwo}
+        </set>
+        <where>
+            u_id = #{users.uid}
+        </where>
+    </update>
+
     <!-- 根据用户id查找所有收货地址 status为1则为默认地址 -->
-    <select id="getAddressesByUId" parameterType="int" resultType="User_address">
+    <select id="getAddressesByUId" parameterType="long" resultType="User_address">
         SELECT
         ua_id "uaId",
         ua_name "uaname",
@@ -186,7 +227,7 @@
 
 
     <!-- 将用户的地址status为1的都改成0 -->
-    <update id="updateUnDefaultAddress" parameterType="int">
+    <update id="updateUnDefaultAddress" parameterType="long">
         UPDATE User_address
         <set>
             status = 0
@@ -198,7 +239,7 @@
     </update>
 
     <!-- 根据地址id修改默认地址 -->
-    <update id="updateDefaultAddress" parameterType="int">
+    <update id="updateDefaultAddress" parameterType="long">
         UPDATE User_address
         <set>
             status = 1
@@ -208,6 +249,31 @@
         </where>
     </update>
 
+    <!-- 根据地址id查找地址 -->
+    <select id="queryAddressByUaId" parameterType="long" resultType="User_address">
+        SELECT
+        ua_id "uaId",
+        ua_name "uaname",
+        ua_tel "uatel",
+        location "location",
+        address "address",
+        u_id,
+        status
+        FROM
+        User_address
+        <where>
+            ua_id = #{uaid}
+        </where>
+    </select>
+
+    <!-- 根据地址id删除地址 -->
+    <delete id="deleteAddressByUaId" parameterType="long">
+        DELETE FROM User_address
+        <where>
+            ua_id = #{uaid}
+        </where>
+    </delete>
+
     <!-- 添加地址 多个参数,注意用@param绑定 -->
     <insert id="addOneAddress" parameterType="User_address">
         INSERT INTO User_address
@@ -216,7 +282,15 @@
         (#{uaname},#{uatel},#{location},#{address},#{uid})
     </insert>
 
-    <!-- 查询用户所有订单 -->
+    <!--
+        TODO 查询用户所有订单的信息
+        1.先查出订单中的购物车
+    -->
+
+    <!--
+        TODO 查询购物车中所有的商品条目
+        2.
+     -->
 
 
 

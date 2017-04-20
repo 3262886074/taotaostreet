@@ -1,24 +1,20 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 
 <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
 
-    <title>个人资料</title>
+    <title>安全设置</title>
 
     <link href="${ctx}/resources/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
     <link href="${ctx}/resources/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
 
     <link href="${ctx}/resources/css/personal.css" rel="stylesheet" type="text/css">
     <link href="${ctx}/resources/css/infstyle.css" rel="stylesheet" type="text/css">
-    <script src="${ctx}/resources/AmazeUI-2.4.2/assets/js/jquery.min.js" type="text/javascript"></script>
-    <script src="${ctx}/resources/AmazeUI-2.4.2/assets/js/amazeui.js" type="text/javascript"></script>
-
 </head>
 
 <body>
@@ -31,17 +27,22 @@
                 <ul class="message-l">
                     <div class="topMessage">
                         <div class="menu-hd">
-                            <a href="#" target="_top" class="h">亲，请登录</a>
-                            <a href="#" target="_top">免费注册</a>
+                            <c:if test="${empty users}">
+                                <a href="${ctx}/users/loginInput" target="_top" class="h">亲，请登录</a>
+                                <a href="${ctx}/users/registerInput" target="_top">免费注册</a>
+                            </c:if>
+                            <c:if test="${!empty users}">
+                                <a href="${ctx}/users/loginOut">注销</a>
+                            </c:if>
                         </div>
                     </div>
                 </ul>
                 <ul class="message-r">
                     <div class="topMessage home">
-                        <div class="menu-hd"><a href="${ctx}/index.jsp" target="_top" class="h">商城首页</a></div>
+                        <div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
                     </div>
                     <div class="topMessage my-shangcheng">
-                        <div class="menu-hd MyShangcheng"><a href="${ctx}/users/allInfo" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+                        <div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
                     </div>
                     <div class="topMessage mini-cart">
                         <div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
@@ -93,10 +94,10 @@
     <div class="col-main">
         <div class="main-wrap">
 
-            <div class="user-info">
-                <!--标题 -->
+            <!--标题 -->
+            <div class="user-safety">
                 <div class="am-cf am-padding">
-                    <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">个人资料</strong> / <small>Personal&nbsp;information</small></div>
+                    <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">账户安全</strong> / <small>Set&nbsp;up&nbsp;Safety</small></div>
                 </div>
                 <hr/>
 
@@ -104,7 +105,6 @@
                 <div class="user-infoPic">
 
                     <div class="filePic">
-                        <input type="file" class="inputPic" allowexts="gif,jpeg,jpg,png,bmp" accept="image/*">
                         <img class="am-circle am-img-thumbnail" src="${ctx}/resources/images/getAvatar.do.jpg" alt="" />
                     </div>
 
@@ -126,42 +126,48 @@
                     </div>
                 </div>
 
-                <!--个人信息 -->
-                <div class="info-main">
-                    <form:form action="${ctx}/users/updateInfo" method="post" modelAttribute="users" class="am-form am-form-horizontal">
-                        <input type="hidden" name="_method" value="PUT">
-                        <form:hidden path="uid"/>
-                        <div class="am-form-group">
-                            <label for="nickname" class="am-form-label">昵称</label>
-                            <div class="am-form-content">
-                                <form:input type="text" path="nickName" id="nickname" placeholder="${users.nickName}"/>
-
+                <div class="check">
+                    <ul>
+                        <li>
+                            <i class="i-safety-lock"></i>
+                            <div class="m-left">
+                                <div class="fore1">登录密码</div>
+                                <div class="fore2"><small>为保证您购物安全，建议您定期更改密码以保护账户安全。</small></div>
                             </div>
-                        </div>
-
-                        <div class="am-form-group">
-                            <label for="user-phone" class="am-form-label">电话</label>
-                            <div class="am-form-content">
-                                <form:input id="user-phone" path="utel" placeholder="${users.utel}" type="tel"/>
-
+                            <div class="fore3">
+                                <a href="${ctx}/users/pwdInput">
+                                    <div class="am-btn am-btn-secondary">修改</div>
+                                </a>
                             </div>
-                        </div>
-                        <div class="am-form-group">
-                            <label for="user-email" class="am-form-label">电子邮件</label>
-                            <div class="am-form-content">
-                                <form:input id="user-email" path="email" placeholder="${users.email}" type="email"/>
-
+                        </li>
+                        <li>
+                            <i class="i-safety-idcard"></i>
+                            <div class="m-left">
+                                <div class="fore1">实名认证</div>
+                                <div class="fore2"><small>用于提升账号的安全性和信任级别，认证后不能修改认证信息。</small></div>
                             </div>
-                        </div>
-                        <div class="info-btn">
-                             <input type="submit" value="保存修改">
-                        </div>
-
-                    </form:form>
+                            <div class="fore3">
+                                <a href="${ctx}/users/realAuthInput">
+                                    <div class="am-btn am-btn-secondary">认证</div>
+                                </a>
+                            </div>
+                        </li>
+                        <li>
+                            <i class="i-safety-security"></i>
+                            <div class="m-left">
+                                <div class="fore1">安全问题</div>
+                                <div class="fore2"><small>保护账户安全，验证您身份的工具之一。</small></div>
+                            </div>
+                            <div class="fore3">
+                                <a href="${ctx}/users/safetyQeustionInput">
+                                    <div class="am-btn am-btn-secondary">认证</div>
+                                </a>
+                            </div>
+                        </li>
+                    </ul>
                 </div>
 
             </div>
-
         </div>
         <!--底部-->
         <div class="footer">
@@ -196,8 +202,8 @@
             <li class="person">
                 <a href="#">个人资料</a>
                 <ul>
-                    <li class="active"> <a href="information.html">个人信息</a></li>
-                    <li> <a href="safety.html">安全设置</a></li>
+                    <li> <a href="information.html">个人信息</a></li>
+                    <li class="active"> <a href="safety.html">安全设置</a></li>
                     <li> <a href="address.html">收货地址</a></li>
                 </ul>
             </li>

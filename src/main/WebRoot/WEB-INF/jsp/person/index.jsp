@@ -31,6 +31,9 @@
                             <a href="${ctx}/users/loginInput" target="_top" class="h">亲，请登录</a>
                             <a href="${ctx}/users/registerInput" target="_top">免费注册</a>
                             </c:if>
+                            <c:if test="${!empty users}">
+                                <a href="${ctx}/users/loginOut">注销</a>
+                            </c:if>
                         </div>
                     </div>
                 </ul>
@@ -351,8 +354,8 @@
                 <a href="">个人资料</a>
                 <ul>
                     <li> <a href="${ctx}/users/userInfo">个人信息</a></li>
-                    <li> <a href="safety.html">安全设置</a></li>
-                    <li> <a href="address.html">收货地址</a></li>
+                    <li> <a href="${ctx}/users/safety">安全设置</a></li>
+                    <li> <a href="${ctx}/users/getAddress/${users.uid}">收货地址</a></li>
                 </ul>
             </li>
             <li class="person">
@@ -375,9 +378,7 @@
                 <a href="#">我的小窝</a>
                 <ul>
                     <li> <a href="collection.html">收藏</a></li>
-                    <li> <a href="foot.html">足迹</a></li>
                     <li> <a href="comment.html">评价</a></li>
-                    <li> <a href="news.html">消息</a></li>
                 </ul>
             </li>
 

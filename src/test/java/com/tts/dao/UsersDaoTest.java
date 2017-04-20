@@ -90,14 +90,14 @@ public class UsersDaoTest {
 
     @Test
     public void addAuthentication() throws Exception {
-        Users_Authentication users_authentication = new Users_Authentication();
-        users_authentication.setUraName("杨立帅");
-        users_authentication.setIdcard(430612367891273918l);
-        Users users = new Users();
-        users.setUid(1);
-        users_authentication.setUsers(users);
-        Integer i = usersDao.addAuthentication(users_authentication);
-        logger.info("i={}", i);
+//        Users_Authentication users_authentication = new Users_Authentication();
+//        users_authentication.setUraName("杨立帅");
+//        users_authentication.setIdcard(430612367891273918l);
+//        Users users = new Users();
+//        users.setUid(1);
+//        users_authentication.setUsers(users);
+//        Integer i = usersDao.addAuthentication(users_authentication);
+//        logger.info("i={}", i);
     }
 
     @Test

@@ -14,33 +14,43 @@ public interface UsersDao {
 
     Integer userRegister(@Param("nickname") String nickname, @Param("pwd") String pwd);
 
-    Users queryUserInfoByUid(Integer uid);
+    Users queryUserInfoByUid(long uid);
 
-    Set<Order> queryOrdersByUid(Integer uid);
+    Set<Order> queryOrdersByUid(long uid);
 
-    Set<User_Red_package> queryRedPackageByUid(Integer uid);
+    Set<User_Red_package> queryRedPackageByUid(long uid);
 
-    Set<Discount_coupon> queryDiscountCouponByUid(Integer uid);
+    Set<Discount_coupon> queryDiscountCouponByUid(long uid);
 
-    Set<User_Collect> queryCollectsByUid(Integer uid);
+    Set<User_Collect> queryCollectsByUid(long uid);
 
     Integer updateInfo(Users users);
 
-    Integer updatePwd(@Param("upwd") String upwd,@Param("uid") Integer uid);
+    Integer updatePwd(@Param("upwd") String upwd,@Param("uid") long uid);
 
-    Integer addAuthentication(Users_Authentication users_authentication);
+    Integer addAuthentication(@Param("uid") Long uid,@Param("uraName") String uname,@Param("idcard") Long idcard);
 
     Integer addSafetyQuestion(User_Safety_Question user_safety_question);
 
-    Set<User_address> getAddressesByUId(Integer uid);
+    Users_Authentication queryAuthenticationByUid(Long uid);
 
-    Integer updateUnDefaultAddress(Integer uid);
+    User_Safety_Question querySafetyQuestionByUid(Long uid);
 
-    Integer updateDefaultAddress(Integer uaid);
+    Integer updateSafetyQuestion(User_Safety_Question user_safety_question);
+
+    Set<User_address> getAddressesByUId(long uid);
+
+    Integer updateUnDefaultAddress(long uid);
+
+    Integer updateDefaultAddress(long uaid);
+
+    User_address queryAddressByUaId(Long uaid);
+
+    Integer deleteAddressByUaId(Long uaid);
 
     Integer addOneAddress(@Param("uaname") String uaname,
                           @Param("uatel") long uatel,
                           @Param("location") String location,
                           @Param("address") String address,
-                          @Param("uid") Integer uid);
+                          @Param("uid") long uid);
 }
