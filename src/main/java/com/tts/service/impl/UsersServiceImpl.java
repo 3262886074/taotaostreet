@@ -15,6 +15,25 @@ public class UsersServiceImpl implements UsersService {
     private UsersDao usersDao;
 
     @Override
+    public Users userLogin(String nickname, String pwd) {
+        if (nickname != null && !"".equals(nickname)) {
+            if (pwd != null && !"".equals(pwd)) {
+                Users users = usersDao.userLogin(nickname, pwd);
+                return users;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public boolean userRegister(String nickname, String pwd) {
+        if (usersDao.userRegister(nickname, pwd) > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    @Override
     public Users queryUserInfoByUid(Integer uid) {
         return usersDao.queryUserInfoByUid(uid);
     }
@@ -49,7 +68,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public boolean updatePwd(String upwd, Integer uid) {
-        if (usersDao.updatePwd(upwd,uid) > 0) {
+        if (usersDao.updatePwd(upwd, uid) > 0) {
             return true;
         }
         return false;
@@ -94,7 +113,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public boolean addOneAddress(String uaname, long uatel, String location, String address, Integer uid) {
-        if (usersDao.addOneAddress(uaname,uatel,location,address,uid) > 0) {
+        if (usersDao.addOneAddress(uaname, uatel, location, address, uid) > 0) {
             return true;
         }
         return false;

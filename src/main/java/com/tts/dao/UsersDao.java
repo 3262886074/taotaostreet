@@ -10,6 +10,10 @@ import java.util.Set;
  */
 public interface UsersDao {
 
+    Users userLogin(@Param("unickname") String nickname, @Param("upwd") String pwd);
+
+    Integer userRegister(@Param("nickname") String nickname, @Param("pwd") String pwd);
+
     Users queryUserInfoByUid(Integer uid);
 
     Set<Order> queryOrdersByUid(Integer uid);

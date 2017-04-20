@@ -18,11 +18,26 @@ import java.util.Set;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:spring/spring-dao.xml"})
 public class UsersDaoTest {
-
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UsersDao usersDao;
+
+    @Test
+    public void userLogin() throws Exception {
+        String nickname = "sdf";
+        String pwd = "adfa";
+        Users users = usersDao.userLogin(nickname, pwd);
+        logger.info("users={}",users);
+    }
+
+    @Test
+    public void userRegister() throws Exception {
+        String nickname = "sdf";
+        String pwd = "adfa";
+        Integer integer = usersDao.userRegister(nickname, pwd);
+        logger.info("register={}",integer);
+    }
 
     @Test
     public void queryUserInfoByUid() throws Exception {
@@ -128,8 +143,8 @@ public class UsersDaoTest {
         user_address.setUaname("杨立帅");
         user_address.setUatel(1231241l);
         Integer i = usersDao.addOneAddress(user_address.getUaname(),
-                user_address.getUatel(),user_address.getLocation(),
-                user_address.getAddress(),1);
+                user_address.getUatel(), user_address.getLocation(),
+                user_address.getAddress(), 1);
         logger.info("i={}", i);
     }
 

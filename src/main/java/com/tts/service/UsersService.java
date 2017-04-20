@@ -1,10 +1,15 @@
 package com.tts.service;
 
 import com.tts.bean.*;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.Set;
 
 public interface UsersService {
+
+    Users userLogin(String nickname, String pwd);
+
+    boolean userRegister(String nickname, String pwd);
 
     Users queryUserInfoByUid(Integer uid);
 
