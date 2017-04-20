@@ -1,5 +1,6 @@
 package com.tts.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -33,17 +34,33 @@ public class CommodityServiceImpl implements CommodityService{
 		sell.setMonthSell(cd.getMonthSell(cid));
 		sell.setAllSell(cd.getAllSell(cid));
 		sell.setAllComm(cd.getComment(cid));
+		sell.setGoodcomm(cd.getGoodComm(cid));
+		sell.setMidcomm(cd.getMidComm(cid));
+		sell.setBadcomm(cd.getBadComm(cid));
+		double f = (double)cd.getGoodComm(cid)/(double)cd.getComment(cid);
+		sell.setGoodlv((int) (f*100));
 		return sell;
-	}
-
-	@Override
-	public List<Commodity> findAllByType(String types) {
-		return cd.findAllByType(types);
 	}
 
 	@Override
 	public List<Commodity> findAll(long cid) {
 		return cd.findAll(cid);
+	}
+
+	@Override
+	public List<Commodity> findByType(String types) {
+		return cd.findByType(types);
+	}
+
+	@Override
+	public List<String> getDetails(long cid) {
+		
+		String[] args = cd.getById(cid).getDetails().split("，");
+		List<String> ds = new ArrayList<>();
+		for (int i = 0; i < args.length; i++) {
+			ds.add(args[i]);
+		}
+		return ds;
 	}
 
 }

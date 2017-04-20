@@ -2,6 +2,8 @@ package com.tts.dao;
 
 import java.util.List;
 import java.util.Set;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import com.tts.bean.Commodity;
 import com.tts.bean.Commodity_Combo;
@@ -27,7 +29,7 @@ public interface CommodityDao {
 	public Set<Commodity_Comment> getMent(long cid);
 	
 	/*
-	 * 通过商品id获得该商品的月销量，累计销量，累计评价
+	 * 通过商品id获得该商品的月销量，累计销量，累计评价，好评数量，中评数量，差评数量，好评率
 	 */
 	//当月销量
 	public int getMonthSell(long cid);
@@ -35,12 +37,20 @@ public interface CommodityDao {
 	public int getAllSell(long cid);
 	//累计评价
 	public int getComment(long cid);
+	//好评数量
+	public int getGoodComm(long cid);
+	//中评数量
+	public int getMidComm(long cid);
+	//差评数量
+	public int getBadComm(long cid);
+	
 	
 	/*
-	 * 猜你喜欢，看了又看
+	 * 看了又看、猜你喜欢
 	 */
-	//猜你喜欢，查出当前类别的全部商品
-	public List<Commodity> findAllByType(String types);
-	//看了又看，查出除了当前商品之外的全部商品
+	//看了又看，查询出除了当前商品的全部商品
 	public List<Commodity> findAll(long cid);
+	//猜你喜欢，根据当前浏览的类型进行查询
+	public List<Commodity> findByType(String types);
+
 }

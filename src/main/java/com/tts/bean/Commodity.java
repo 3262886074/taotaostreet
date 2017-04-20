@@ -20,6 +20,7 @@ public class Commodity implements Serializable {
     private Integer postage;  //商品运费
     private double forSalePrice;  //打折价
     private Integer number;        //库存
+    private String details;		//产品参数
     //一对多 套餐
     private Set<Commodity_Combo> combos = new HashSet<>();
     //一对多 类型
@@ -29,7 +30,16 @@ public class Commodity implements Serializable {
     //一对多 商品图
     private Set<Commodity_pics> commodityPics = new HashSet<>();
 
-    public Commodity() {
+    
+    public String getDetails() {
+		return details;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
+	}
+
+	public Commodity() {
     }
 
     public static long getSerialVersionUID() {
@@ -124,20 +134,12 @@ public class Commodity implements Serializable {
         this.commodityPics = commodityPics;
     }
 
-    @Override
-    public String toString() {
-        return "Commodity{" +
-                "cid=" + cid +
-                ", cname='" + cname + '\'' +
-                ", category='" + category + '\'' +
-                ", price=" + price +
-                ", postage=" + postage +
-                ", forSalePrice=" + forSalePrice +
-                ", number=" + number +
-                ", combos=" + combos +
-                ", commodityTypes=" + commodityTypes +
-                ", comments=" + comments +
-                ", commodityPics=" + commodityPics +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "Commodity [cid=" + cid + ", cname=" + cname + ", category=" + category + ", price=" + price
+				+ ", postage=" + postage + ", forSalePrice=" + forSalePrice + ", number=" + number + ", details="
+				+ details + ", combos=" + combos + ", commodityTypes=" + commodityTypes + ", comments=" + comments
+				+ ", commodityPics=" + commodityPics + "]";
+	}
+    
 }

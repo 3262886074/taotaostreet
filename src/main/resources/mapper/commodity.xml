@@ -44,16 +44,27 @@
     <select id="getComment" resultType="int" parameterType="long">
     	select count(c_id) from commodity_comment where c_id=#{cid}
     </select>
+    <!-- 好评数量 -->
+    <select id="getGoodComm" resultType="int">
+    	SELECT COUNT(c_id) FROM commodity_comment WHERE c_id=#{cid} AND ctype=1
+    </select>
+    <!-- 中评数量 -->
+    <select id="getMidComm" resultType="int">
+    	SELECT COUNT(c_id) FROM commodity_comment WHERE c_id=#{cid} AND ctype=2
+    </select>
+    <!-- 差评数量 -->
+    <select id="getBadComm" resultType="int">
+    	SELECT COUNT(c_id) FROM commodity_comment WHERE c_id=#{cid} AND ctype=0
+    </select>
     
-    <!-- 猜你喜欢，查出当前类别的全部商品 -->
-    <select id="findAllByType" parameterType="String" resultMap="commodityMap">
+    <!-- 看了又看，查询出除了当前商品的全部商品 -->
+    <select id="findAll" parameterType="long" resultMap="commodityMap">
+    	SELECT * FROM commodity WHERE c_id NOT IN(#{cid})
+    </select>
+    <!-- 猜你喜欢，根据当前浏览的类型进行查询 -->
+    <select id="findByType" parameterType="String" resultMap="commodityMap">
     	SELECT * FROM commodity WHERE category=#{types}
     </select>
-    <!-- 看了又看，查出除了当前商品之外的全部商品 -->
-    <select id="findAll" parameterType="long" resultMap="commodityMap">
-		SELECT * FROM commodity WHERE c_id NOT IN(#{cid})
-    </select>
-    
     
     <!-- Map的配置 -->
     <resultMap type="Commodity" id="commodityMap">
@@ -64,6 +75,7 @@
     	<result property="postage" column="postage"/>
     	<result property="forSalePrice" column="for_Sale_Price"/>
     	<result property="number" column="number"/>
+    	<result property="details" column="details"/>
     </resultMap>
     <resultMap type="Commodity_Combo" id="Commodity_Combo_Map">
     	<id property="ccid" column="cc_id"/>
@@ -80,7 +92,6 @@
     	<result property="cp_image_one" column="cp_img_one"/>
     	<result property="cp_image_two" column="cp_img_two"/>
     	<result property="cp_image_three" column="cp_img_three"/>
-    	<result property="cpDetails" column="cp_details"/>
     </resultMap>
     <resultMap type="Commodity_Comment" id="Commodity_Comment_Map">
     	<id property="commentId" column="comment_id"/>

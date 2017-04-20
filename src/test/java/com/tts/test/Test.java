@@ -11,6 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.tts.bean.Commodity;
 import com.tts.bean.Commodity_Sell;
+import com.tts.dao.CommodityDao;
 import com.tts.service.CommodityService;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -21,23 +22,25 @@ public class Test {
 
 	@Autowired
 	private CommodityService cs;
+	@Autowired
+	private CommodityDao cd;
 	
 	@org.junit.Test
 	public void test(){
 //		Commodity commodity = cs.getCommodity(1);
 //		logger.info("详情={}",commodity);
 //		
-//		Commodity_Sell sell = cs.getSellCommentById(1);
-//		logger.info("销量={}",sell);
+		Commodity_Sell sell = cs.getSellCommentById(1);
+		logger.info("销量={}",sell);
 		
-//		List<Commodity> list = cs.findAll(1);
-//		for (Commodity commodity : list) {
+//		List<Commodity> l = cs.findByType("食品");
+//		for (Commodity commodity : l) {
 //			logger.info("详情={}",commodity);
 //		}
-		List<Commodity> l = cs.findAllByType("食品");
-		for (Commodity commodity : l) {
-			logger.info("详情={}",commodity);
-		}
+//		List<String> l = cs.getDetails(1);
+//		for (String string : l) {
+//			logger.info("详情={}",string);
+//		}
 	}
 
 }
