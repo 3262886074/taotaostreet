@@ -22,14 +22,10 @@ public class CommodityServiceImpl implements CommodityService{
 		Commodity commodity = cd.getById(cid);
 		commodity.setCombos(cd.getCombo(cid));
 		commodity.setCommodityTypes(cd.getType(cid));
-		commodity.setCommodityPics(cd.getPics(cid));
 		commodity.setComments(cd.getMent(cid));
-		return commodity;
-	}
+		commodity.setCommodityPics(cd.getPics(cid));
+		commodity.setCommodityCategories(cd.getCategory(cid));
 
-	@Override
-	public Commodity_Sell getSellCommentById(long cid) {
-		
 		Commodity_Sell sell = new Commodity_Sell();
 		sell.setMonthSell(cd.getMonthSell(cid));
 		sell.setAllSell(cd.getAllSell(cid));
@@ -39,7 +35,9 @@ public class CommodityServiceImpl implements CommodityService{
 		sell.setBadcomm(cd.getBadComm(cid));
 		double f = (double)cd.getGoodComm(cid)/(double)cd.getComment(cid);
 		sell.setGoodlv((int) (f*100));
-		return sell;
+		
+		commodity.setCommoditySell(sell);
+		return commodity;
 	}
 
 	@Override
