@@ -87,7 +87,6 @@
         uc.c_id,
         c.c_id "commodity.cid",
         c.c_name "commodity.cname",
-        c.category "commodity.category",
         c.price "commodity.price",
         c.for_sale_price "commodity.forSalePrice"
         FROM
