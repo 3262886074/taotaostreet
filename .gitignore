@@ -1,8 +1,9 @@
 /target/
-
 .idea/
-
-/out
-
-src/main/WebRoot/WEB-INF/lib/
-src/main/webapp/
+TaoTaoStreet.iml
+/.settings/
+/.classpath
+/.project
+/export
+/out/
+out/
