@@ -24,6 +24,7 @@
 		<script type="text/javascript" src="${ctx}/resources/js/jquery.imagezoom.min.js"></script>
 		<script type="text/javascript" src="${ctx}/resources/js/jquery.flexslider.js"></script>
 		<script type="text/javascript" src="${ctx}/resources/js/list.js"></script>
+		<script type="text/javascript" src="${ctx}/resources/js/jsAddress.js"></script>
 
 	</head>
 
@@ -58,9 +59,9 @@
 			<!--悬浮搜索框-->
 
 			<div class="nav white">
-				<div class="logo"><img src="../images/logo.png" /></div>
+				<div class="logo"><img src="${ctx}/resources/images/logo.png" /></div>
 				<div class="logoBig">
-					<li><img src="../images/logobig.png" /></li>
+					<li><img src="${ctx}/resources/images/logobig.png" /></li>
 				</div>
 				<div class="search-bar pr">
 					<a name="index_none_header_sysc" href="#"></a>
@@ -178,16 +179,24 @@
 						<div class="tb-detail-list">
 							<!--价格-->
 							<div class="tb-detail-price">
+							<c:if test="${commodity.forSalePrice!=0 }">
 								<li class="price iteminfo_price">
-								<c:if test="${!empty commodity.forSalePrice }">
 									<dt>促销价</dt>
-									<dd><em>¥</em><b class="sys_item_price">${commodity.forSalePrice}</b>  </dd> 
-								</c:if>                                
+									<dd><em>¥</em><b class="sys_item_price">${commodity.forSalePrice}</b>
+									<input id="mon" type="hidden" value="${commodity.forSalePrice}" />  </dd> 
 								</li>
 								<li class="price iteminfo_mktprice">
 									<dt>原价</dt>
 									<dd><em>¥</em><b class="sys_item_mktprice">${commodity.price }</b></dd>									
 								</li>
+							</c:if>
+							<c:if test="${commodity.forSalePrice==0 }">
+								<li class="price iteminfo_price">
+									<dt>原价</dt>
+									<dd><em>¥</em><b class="sys_item_price">${commodity.price }</b>
+									<input id="mon" type="hidden" value="${commodity.forSalePrice}" /></dd>									
+								</li>
+							</c:if> 
 								<div class="clear"></div>
 							</div>
 
@@ -196,18 +205,12 @@
 								<dt>配送至</dt>
 								<div class="iteminfo_freprice">
 									<div class="am-form-content address">
-										<select data-am-selected>
-											<option value="a">浙江省</option>
-											<option value="b">湖北省</option>
-										</select>
-										<select data-am-selected>
-											<option value="a">温州市</option>
-											<option value="b">武汉市</option>
-										</select>
-										<select data-am-selected>
-											<option value="a">瑞安区</option>
-											<option value="b">洪山区</option>
-										</select>
+										<select id="cmbProvince" name="cmbProvince"></select>  
+                      			     	<select id="cmbCity" name="cmbCity"></select>  
+                      					<select id="cmbArea" name="cmbArea"></select>  
+              						 <script type="text/javascript">  
+                  						  addressInit('cmbProvince', 'cmbCity', 'cmbArea');  
+            					     </script>
 									</div>
 									<div class="pay-logis">
 										<c:if test="${commodity.postage!=0 }">
@@ -250,7 +253,6 @@
 											<form class="theme-signin" name="loginform" action="" method="post">
 
 												<div class="theme-signin-left">
-
 													<div class="theme-options">
 														<c:if test="${commodity.category=='食品' }">
 														<div class="cart-title">口味</div>
@@ -260,7 +262,8 @@
 														</c:if>
 														<ul>
 															<c:forEach items="${commodity.commodityTypes }" var="l">
-															<li class="sku-line">${l.typeName }<i></i></li>
+															<li class="sku-line ">${l.typeName }<i></i>
+															<input id="tprice" type="hidden" value="${l.price }"/></li>
 															</c:forEach>
 														</ul>
 													</div>
@@ -273,7 +276,8 @@
 														</c:if>
 														<ul>
 															<c:forEach items="${commodity.combos }" var="l">
-															<li class="sku-line">${l.ccname }<i></i></li>
+															<li class="sku-line ">${l.ccname }<i></i>
+															<input id="cprice" type="hidden" value="${l.price }"/></li>
 															</c:forEach>
 														</ul>
 													</div>
@@ -281,11 +285,12 @@
 														<div class="cart-title number">数量</div>
 														<dd>
 															<input id="min" class="am-btn am-btn-default" name="" type="button" value="-" />
-															<input id="text_box" name="" type="text" value="1" style="width:30px;" />
+															<input id="text_box" name="" type="text" value="1" style="width:30px;" 
+															onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
 															<input id="add" class="am-btn am-btn-default" name="" type="button" value="+" />
+															<input id="c_number" type="hidden" value="${commodity.number }"/>
 															<span id="Stock" class="tb-hidden">库存<span class="stock">${commodity.number }</span>件</span>
 														</dd>
-
 													</div>
 													<div class="clear"></div>
 

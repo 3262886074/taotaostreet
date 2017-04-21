@@ -9,32 +9,31 @@ import java.util.Set;
  */
 public class Commodity implements Serializable {
 
-    /**
-     *
-     */
-    private static final long serialVersionUID = 1L;
-    private long cid;
-    private String cname;      //商品名
-    private double price;      //商品原价格 不含套餐
-    private Integer postage;  //商品运费
-    private double forSalePrice;  //打折价
-    private Integer number;        //库存
-    private String details;		//产品参数
-    //一对多 套餐
-    private Set<Commodity_Combo> combos = new HashSet<>();
-    //一对多 类型
-    private Set<Commodity_type> commodityTypes = new HashSet<>();
-    //一对多 评论
-    private Set<Commodity_Comment> comments = new HashSet<>();
-    //一对多 商品图
-    private Set<Commodity_pics> commodityPics = new HashSet<>();
-    //商品类别 一对多
-    private Set<Commodity_Category> commodityCategories = new HashSet<>();
-    //商品销量 一对一
-    private Commodity_Sell commoditySell;
+	/**
+	 *
+	 */
+	private static final long serialVersionUID = 1L;
+	private long cid;
+	private String cname; // 商品名
+	private double price; // 商品原价格 不含套餐
+	private Integer postage; // 商品运费
+	private double forSalePrice; // 打折价
+	private Integer number; // 库存
+	private String details; // 产品参数
+	// 一对多 套餐
+	private Set<Commodity_Combo> combos = new HashSet<>();
+	// 一对多 类型
+	private Set<Commodity_type> commodityTypes = new HashSet<>();
+	// 一对多 评论
+	private Set<Commodity_Comment> comments = new HashSet<>();
+	// 一对多 商品图
+	private Commodity_pics commodityPics;
+	// 商品类别 一对多
+	private Set<Commodity_Category> commodityCategories = new HashSet<>();
+	// 商品销量 一对一
+	private Commodity_Sell commoditySell;
 
-    
-    public String getDetails() {
+	public String getDetails() {
 		return details;
 	}
 
@@ -43,125 +42,114 @@ public class Commodity implements Serializable {
 	}
 
 	public Commodity() {
-    }
+	}
 
-    public static long getSerialVersionUID() {
-        return serialVersionUID;
-    }
+	public static long getSerialVersionUID() {
+		return serialVersionUID;
+	}
 
-    public long getCid() {
-        return cid;
-    }
+	public long getCid() {
+		return cid;
+	}
 
-    public void setCid(long cid) {
-        this.cid = cid;
-    }
+	public void setCid(long cid) {
+		this.cid = cid;
+	}
 
-    public String getCname() {
-        return cname;
-    }
+	public String getCname() {
+		return cname;
+	}
 
-    public void setCname(String cname) {
-        this.cname = cname;
-    }
+	public void setCname(String cname) {
+		this.cname = cname;
+	}
 
+	public double getPrice() {
+		return price;
+	}
 
-    public double getPrice() {
-        return price;
-    }
+	public void setPrice(double price) {
+		this.price = price;
+	}
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
+	public Integer getPostage() {
+		return postage;
+	}
 
-    public Integer getPostage() {
-        return postage;
-    }
+	public void setPostage(Integer postage) {
+		this.postage = postage;
+	}
 
-    public void setPostage(Integer postage) {
-        this.postage = postage;
-    }
+	public double getForSalePrice() {
+		return forSalePrice;
+	}
 
-    public double getForSalePrice() {
-        return forSalePrice;
-    }
+	public void setForSalePrice(double forSalePrice) {
+		this.forSalePrice = forSalePrice;
+	}
 
-    public void setForSalePrice(double forSalePrice) {
-        this.forSalePrice = forSalePrice;
-    }
+	public Integer getNumber() {
+		return number;
+	}
 
-    public Integer getNumber() {
-        return number;
-    }
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
 
-    public void setNumber(Integer number) {
-        this.number = number;
-    }
+	public Set<Commodity_Combo> getCombos() {
+		return combos;
+	}
 
-    public Set<Commodity_Combo> getCombos() {
-        return combos;
-    }
+	public void setCombos(Set<Commodity_Combo> combos) {
+		this.combos = combos;
+	}
 
-    public void setCombos(Set<Commodity_Combo> combos) {
-        this.combos = combos;
-    }
+	public Set<Commodity_type> getCommodityTypes() {
+		return commodityTypes;
+	}
 
-    public Set<Commodity_type> getCommodityTypes() {
-        return commodityTypes;
-    }
+	public void setCommodityTypes(Set<Commodity_type> commodityTypes) {
+		this.commodityTypes = commodityTypes;
+	}
 
-    public void setCommodityTypes(Set<Commodity_type> commodityTypes) {
-        this.commodityTypes = commodityTypes;
-    }
+	public Set<Commodity_Comment> getComments() {
+		return comments;
+	}
 
-    public Set<Commodity_Comment> getComments() {
-        return comments;
-    }
+	public void setComments(Set<Commodity_Comment> comments) {
+		this.comments = comments;
+	}
 
-    public void setComments(Set<Commodity_Comment> comments) {
-        this.comments = comments;
-    }
+	public Commodity_pics getCommodityPics() {
+		return commodityPics;
+	}
 
-    public Set<Commodity_pics> getCommodityPics() {
-        return commodityPics;
-    }
+	public void setCommodityPics(Commodity_pics commodityPics) {
+		this.commodityPics = commodityPics;
+	}
 
-    public void setCommodityPics(Set<Commodity_pics> commodityPics) {
-        this.commodityPics = commodityPics;
-    }
+	public Set<Commodity_Category> getCommodityCategories() {
+		return commodityCategories;
+	}
 
-    public Set<Commodity_Category> getCommodityCategories() {
-        return commodityCategories;
-    }
+	public void setCommodityCategories(Set<Commodity_Category> commodityCategories) {
+		this.commodityCategories = commodityCategories;
+	}
 
-    public void setCommodityCategories(Set<Commodity_Category> commodityCategories) {
-        this.commodityCategories = commodityCategories;
-    }
+	public Commodity_Sell getCommoditySell() {
+		return commoditySell;
+	}
 
-    public Commodity_Sell getCommoditySell() {
-        return commoditySell;
-    }
+	public void setCommoditySell(Commodity_Sell commoditySell) {
+		this.commoditySell = commoditySell;
+	}
 
-    public void setCommoditySell(Commodity_Sell commoditySell) {
-        this.commoditySell = commoditySell;
-    }
-
-    @Override
-    public String toString() {
-        return "Commodity{" +
-                "cid=" + cid +
-                ", cname='" + cname + '\'' +
-                ", price=" + price +
-                ", postage=" + postage +
-                ", forSalePrice=" + forSalePrice +
-                ", number=" + number +
-                ", details='" + details + '\'' +
-                ", combos=" + combos +
-                ", commodityTypes=" + commodityTypes +
-                ", comments=" + comments +
-                ", commodityPics=" + commodityPics +
-                ", commodityCategories=" + commodityCategories +
-                ", commoditySell=" + commoditySell +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "Commodity [cid=" + cid + ", cname=" + cname + ", price=" + price + ", postage=" + postage
+				+ ", forSalePrice=" + forSalePrice + ", number=" + number + ", details=" + details + ", combos="
+				+ combos + ", commodityTypes=" + commodityTypes + ", comments=" + comments + ", commodityPics="
+				+ commodityPics + ", commodityCategories=" + commodityCategories + ", commoditySell=" + commoditySell
+				+ "]";
+	}
 }

@@ -2,20 +2,28 @@
 
 //商品规格选择
 $(function() {
+	
+	var money = 0.0*1;
+	var mon = 0.0*1;
 	$(".theme-options").each(function() {
 		var i = $(this);
 		var p = i.find("ul>li");
 		p.click(function() {
+			var tprice = $(this).find("input[type='hidden']").val()*1;
 			if (!!$(this).hasClass("selected")) {
 				$(this).removeClass("selected");
-
+				mon = money;
 			} else {
 				$(this).addClass("selected").siblings("li").removeClass("selected");
-
+				money = tprice+money;
+				mon = money;
+				money = money-tprice;
+				alert(mon);
 			}
-
 		})
 	})
+	
+	
 
 })
 
@@ -114,21 +122,54 @@ $(document).ready(function() {
 
 	//获得文本框对象
 	var t = $("#text_box");
+	//获得库存
+	var c_number = parseInt($("#c_number").val());
 	//初始化数量为1,并失效减
 	$('#min').attr('disabled', true);
+	//输入文本框数量
+	$("#text_box").keyup(function(){
+			if (t.val()=="") {
+				t.val(1);
+				$('#min').attr('disabled', true);
+				$('#add').attr('disabled', false);
+			}
+			if (parseInt(t.val())<=1) {
+				t.val(1);
+				$('#min').attr('disabled', true);
+				$('#add').attr('disabled', false);
+			}
+			if (parseInt(t.val())>c_number) {
+				t.val(1);
+				$('#min').attr('disabled', true);
+				$('#add').attr('disabled', false);
+			}
+			if (parseInt(t.val())<c_number&&parseInt(t.val())>1) {
+				$('#min').attr('disabled', false);
+				$('#add').attr('disabled', false);
+			}
+			if (parseInt(t.val())==c_number) {
+				$("#add").attr('disabled', true);
+			}
+	});
 	//数量增加操作
 	$("#add").click(function() {
 			t.val(parseInt(t.val()) + 1)
 			if (parseInt(t.val()) != 1) {
 				$('#min').attr('disabled', false);
 			}
+			if (parseInt(t.val()) == c_number) {
+				$("#add").attr('disabled', true);
+			}
 
 		})
 		//数量减少操作
 	$("#min").click(function() {
-		t.val(parseInt(t.val()) - 1);
+			t.val(parseInt(t.val()) - 1);
 		if (parseInt(t.val()) == 1) {
 			$('#min').attr('disabled', true);
+		}
+		if (parseInt(t.val()) != c_number) {
+			$("#add").attr('disabled', false);
 		}
 
 	})
