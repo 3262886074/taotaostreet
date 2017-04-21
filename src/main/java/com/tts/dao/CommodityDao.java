@@ -2,12 +2,11 @@ package com.tts.dao;
 
 import java.util.List;
 import java.util.Set;
-
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import com.tts.bean.Commodity;
 import com.tts.bean.Commodity_Combo;
 import com.tts.bean.Commodity_Comment;
+import com.tts.bean.Commodity_Category;
 import com.tts.bean.Commodity_pics;
 import com.tts.bean.Commodity_type;
 @Repository("commodityDao")
@@ -19,12 +18,14 @@ public interface CommodityDao {
 	 */
 	//详细信息
 	public Commodity getById(long cid);
+	//类别信息
+	public Set<Commodity_Category> getCategory(long cid);
 	//套餐信息
 	public Set<Commodity_Combo> getCombo(long cid);
 	//样式信息
 	public Set<Commodity_type> getType(long cid);
 	//图片详情
-	public Set<Commodity_pics> getPics(long cid);
+	public Commodity_pics getPics(long cid);
 	//商品全部评价
 	public Set<Commodity_Comment> getMent(long cid);
 	

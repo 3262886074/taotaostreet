@@ -10,14 +10,19 @@
 		select * from commodity where c_id=#{cid}
 	</select>
 	
+	<!-- 查询商品的类别信息 -->
+	<select id="getCategory" parameterType="long" resultMap="Commodity_category_Map">
+		select * from commodity_category where c_id=#{cid}
+	</select>
+	
 	<!-- 查询商品的套餐信息 -->
     <select id="getCombo" parameterType="long" resultMap="Commodity_Combo_Map">
-    	select * from commodity_combo where c_id=#{cid}
+    	select * from commodity_combo where c_id=#{cid} ORDER BY cc_id ASC
     </select>
     
     <!-- 查询商品的样式信息 -->
     <select id="getType" parameterType="long" resultMap="Commodity_type_Map">
-    	select * from commodity_type where c_id=#{cid}
+    	select * from commodity_type where c_id=#{cid} ORDER BY ct_id ASC
     </select>
     
     <!-- 查询商品的图片详情 -->
@@ -70,12 +75,15 @@
     <resultMap type="Commodity" id="commodityMap">
     	<id property="cid" column="c_id"/>
     	<result property="c_name" column="cname"/>
-    	<result property="category" column="category"/>
     	<result property="price" column="price"/>
     	<result property="postage" column="postage"/>
     	<result property="forSalePrice" column="for_Sale_Price"/>
     	<result property="number" column="number"/>
     	<result property="details" column="details"/>
+    </resultMap>
+    <resultMap type="Commodity_category" id="Commodity_category_Map">
+		<id property="ccid" column="cy_id"/>
+		<result property="cctype" column="cy_Type"/>
     </resultMap>
     <resultMap type="Commodity_Combo" id="Commodity_Combo_Map">
     	<id property="ccid" column="cc_id"/>
@@ -83,8 +91,8 @@
     	<result property="price" column="price"/>
     </resultMap>
     <resultMap type="Commodity_type" id="Commodity_type_Map">
-    	<id property="ccid" column="cc_id"/>
-    	<result property="ccname" column="cc_name"/>
+    	<id property="ct_id" column="ct_id"/>
+    	<result property="typeName" column="type_name"/>
     	<result property="price" column="price"/>
     </resultMap>
     <resultMap type="Commodity_pics" id="Commodity_pics_Map">
@@ -92,11 +100,12 @@
     	<result property="cp_image_one" column="cp_img_one"/>
     	<result property="cp_image_two" column="cp_img_two"/>
     	<result property="cp_image_three" column="cp_img_three"/>
+    	<result property="cp_img" column="cp_img"/>
     </resultMap>
     <resultMap type="Commodity_Comment" id="Commodity_Comment_Map">
     	<id property="commentId" column="comment_id"/>
     	<result property="content" column="content"/>
-    	<result property="type" column="type"/>
+    	<result property="type" column="ctype"/>
     	<result property="createDate" column="create_date" jdbcType="TIMESTAMP" javaType="java.sql.Timestamp"/>
     </resultMap>
 </mapper>
