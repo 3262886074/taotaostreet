@@ -114,9 +114,9 @@
                             </div>
                             <div class="m-right">
                                 <div class="m-address">
-                                    <a href="address.html" class="i-trigger">我的收货地址</a>
+                                    <a href="${ctx}/users/getAddress/{users.uid}" class="i-trigger">我的收货地址</a>
                                 </div>
-                            </div>
+                        </div>
                         </div>
 
                         <!--个人资产-->
