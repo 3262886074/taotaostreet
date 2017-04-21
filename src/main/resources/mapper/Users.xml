@@ -50,24 +50,6 @@
         WHERE u.u_id = #{uid}
     </select>
 
-    <!-- 根据用户id查找用户所有订单 -->
-    <select id="queryOrdersByUid" parameterType="long" resultType="Order">
-        SELECT
-        o_id,
-        sc_id,
-        money,
-        status,
-        dc_id,
-        urp_id,
-        ua_id,
-        u_id
-        FROM
-        Orders
-        <where>
-            u_id = #{uid}
-        </where>
-    </select>
-
     <!-- 根据用户id查找用户所有红包 -->
     <select id="queryRedPackageByUid" parameterType="long" resultType="User_Red_package">
         SELECT
@@ -282,14 +264,31 @@
         (#{uaname},#{uatel},#{location},#{address},#{uid})
     </insert>
 
+    <!-- 根据用户id查找用户所有订单 -->
+    <select id="queryOrdersByUid" parameterType="long" resultType="Order">
+        SELECT
+        o_id,
+        sc_id,
+        money,
+        status,
+        dc_id,
+        urp_id,
+        ua_id,
+        u_id
+        FROM
+        Orders
+        <where>
+            u_id = #{uid}
+        </where>
+    </select>
+
     <!--
-        TODO 查询用户所有订单的信息
-        1.先查出订单中的购物车
+        TODO
+        订单 -> 购物车 -> 商品条目 -> 商品+商品套餐+商品类型
     -->
 
     <!--
         TODO 查询购物车中所有的商品条目
-        2.
      -->
 
 
