@@ -15,7 +15,6 @@ public class Commodity implements Serializable {
     private static final long serialVersionUID = 1L;
     private long cid;
     private String cname;      //商品名
-    private String category;  //商品类别
     private double price;      //商品原价格 不含套餐
     private Integer postage;  //商品运费
     private double forSalePrice;  //打折价
@@ -29,6 +28,10 @@ public class Commodity implements Serializable {
     private Set<Commodity_Comment> comments = new HashSet<>();
     //一对多 商品图
     private Set<Commodity_pics> commodityPics = new HashSet<>();
+    //商品类别 一对多
+    private Set<Commodity_Category> commodityCategories = new HashSet<>();
+    //商品销量 一对一
+    private Commodity_Sell commoditySell;
 
     
     public String getDetails() {
@@ -62,13 +65,6 @@ public class Commodity implements Serializable {
         this.cname = cname;
     }
 
-    public String getCategory() {
-        return category;
-    }
-
-    public void setCategory(String category) {
-        this.category = category;
-    }
 
     public double getPrice() {
         return price;
@@ -134,12 +130,38 @@ public class Commodity implements Serializable {
         this.commodityPics = commodityPics;
     }
 
-	@Override
-	public String toString() {
-		return "Commodity [cid=" + cid + ", cname=" + cname + ", category=" + category + ", price=" + price
-				+ ", postage=" + postage + ", forSalePrice=" + forSalePrice + ", number=" + number + ", details="
-				+ details + ", combos=" + combos + ", commodityTypes=" + commodityTypes + ", comments=" + comments
-				+ ", commodityPics=" + commodityPics + "]";
-	}
-    
+    public Set<Commodity_Category> getCommodityCategories() {
+        return commodityCategories;
+    }
+
+    public void setCommodityCategories(Set<Commodity_Category> commodityCategories) {
+        this.commodityCategories = commodityCategories;
+    }
+
+    public Commodity_Sell getCommoditySell() {
+        return commoditySell;
+    }
+
+    public void setCommoditySell(Commodity_Sell commoditySell) {
+        this.commoditySell = commoditySell;
+    }
+
+    @Override
+    public String toString() {
+        return "Commodity{" +
+                "cid=" + cid +
+                ", cname='" + cname + '\'' +
+                ", price=" + price +
+                ", postage=" + postage +
+                ", forSalePrice=" + forSalePrice +
+                ", number=" + number +
+                ", details='" + details + '\'' +
+                ", combos=" + combos +
+                ", commodityTypes=" + commodityTypes +
+                ", comments=" + comments +
+                ", commodityPics=" + commodityPics +
+                ", commodityCategories=" + commodityCategories +
+                ", commoditySell=" + commoditySell +
+                '}';
+    }
 }
