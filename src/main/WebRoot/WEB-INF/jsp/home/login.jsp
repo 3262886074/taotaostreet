@@ -34,7 +34,7 @@
             <div class="clear"></div>
 
             <div class="login-form">
-                <form action="${ctx}/users/login" method="post" id="loginForm">
+                <form action="${ctx}/loginOrRegister/login" method="post" id="loginForm">
                     <div class="user-name">
                         <label for="uname"><i class="am-icon-user"></i></label>
                         <input type="text" required name="nickname" id="uname" placeholder="用户名">
@@ -49,7 +49,7 @@
             <div class="login-links">
                 <label for="remember-me"><input id="remember-me" type="checkbox">记住密码</label>
                 <a href="#" class="am-fr">忘记密码</a>
-                <a href="${ctx}/users/registerInput" class="zcnext am-fr am-btn-default">注册</a>
+                <a href="${ctx}/loginOrRegister/registerInput" class="zcnext am-fr am-btn-default">注册</a>
                 <br/>
             </div>
             <div class="am-cf">

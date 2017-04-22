@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
@@ -9,17 +8,16 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
 
-    <title>安全问题</title>
+    <title>我的红包</title>
 
     <link href="${ctx}/resources/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
     <link href="${ctx}/resources/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
 
     <link href="${ctx}/resources/css/personal.css" rel="stylesheet" type="text/css">
-    <link href="${ctx}/resources/css/stepstyle.css" rel="stylesheet" type="text/css">
+    <link href="${ctx}/resources/css/bostyle.css" rel="stylesheet" type="text/css">
 
-    <script src="${ctx}/resources/AmazeUI-2.4.2/assets/js/jquery.min.js" type="text/javascript"></script>
-    <script src="${ctx}/resources/AmazeUI-2.4.2/assets/js/amazeui.js" type="text/javascript"></script>
-
+    <script src="${ctx}/resources/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
+    <script src="${ctx}/resources/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
 </head>
 
 <body>
@@ -99,107 +97,134 @@
     <div class="col-main">
         <div class="main-wrap">
 
-            <div class="am-cf am-padding">
-                <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">设置安全问题</strong> / <small>Set&nbsp;Safety&nbsp;Question</small></div>
-            </div>
-            <hr/>
-            <!--进度条-->
-            <div class="m-progress">
-                <div class="m-progress-list">
-							<span class="step-1 step">
-                                <em class="u-progress-stage-bg"></em>
-                                <i class="u-stage-icon-inner">1<em class="bg"></em></i>
-                                <p class="stage-name">设置安全问题</p>
-                            </span>
-                    <span class="step-2 step">
-                                <em class="u-progress-stage-bg"></em>
-                                <i class="u-stage-icon-inner">2<em class="bg"></em></i>
-                                <p class="stage-name">完成</p>
-                            </span>
-                    <span class="u-progress-placeholder"></span>
+            <div class="user-bonus">
+                <!--标题 -->
+                <div class="am-cf am-padding">
+                    <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">红包</strong> / <small>Bonus</small></div>
                 </div>
-                <div class="u-progress-bar total-steps-2">
-                    <div class="u-progress-bar-inner"></div>
-                </div>
-            </div>
-            <form:form action="${ctx}/users/safetyQuestion"
-                       method="post"
-                       modelAttribute="user_safety_question"
-                       class="am-form am-form-horizontal">
-                <%-- TODO --%>
-                <input type="hidden" name="users.uid" value="${users.uid}">
-                <c:if test="${!empty users.user_safety_question}">
-                    <input type="hidden" name="_method" value="PUT">
-                    <input type="hidden" name="uid" value="${users.uid}">
-                </c:if>
-                <div class="am-form-group select">
-                    <label class="am-form-label">问题一</label>
-                    <div class="am-form-content">
-                        <select name="questionOne" data-am-selected>
-                            <option value="a" selected>请选择安全问题</option>
-                            <option value="您最喜欢的颜色是什么">您最喜欢的颜色是什么？</option>
-                            <option value="您的故乡在哪里">您的故乡在哪里？</option>
-                            <option value="您的初中老师叫什么名字">您的初中老师叫什么名字？</option>
-                            <option value="您的理想是">您的理想是？</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="am-form-group">
-                    <label for="user-answer1" class="am-form-label">答案</label>
-                    <div class="am-form-content">
-                        <form:input type="text" path="answerOne" id="user-answer1" placeholder="请输入安全问题答案"/>
-                    </div>
-                </div>
-                <div class="am-form-group select">
-                    <label class="am-form-label">问题二</label>
-                    <div class="am-form-content">
-                        <select name="questionTwo" data-am-selected>
-                            <option value="a" selected>请选择安全问题</option>
-                            <option value="您最喜欢的颜色是什么">您最喜欢的颜色是什么？</option>
-                            <option value="您的故乡在哪里">您的故乡在哪里？</option>
-                            <option value="您的初中老师叫什么名字">您的初中老师叫什么名字？</option>
-                            <option value="您的理想是">您的理想是？</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="am-form-group">
-                    <label for="user-answer2" class="am-form-label">答案</label>
-                    <div class="am-form-content">
-                        <form:input type="text" path="answerTwo" id="user-answer2" placeholder="请输入安全问题答案"/>
-                    </div>
-                </div>
-                <div class="info-btn">
-                    <div class="am-btn am-btn-danger">
-                        <input type="submit" value="保存修改">
-                    </div>
-                </div>
+                <hr/>
 
-            </form:form>
+                <div class="am-tabs-d2 am-tabs  am-margin" data-am-tabs>
 
+                    <ul class="am-avg-sm-2 am-tabs-nav am-nav am-nav-tabs">
+                        <li class="am-active"><a href="#tab1">可用红包</a></li>
+                        <li><a href="#tab2">已用红包</a></li>
+                    </ul>
+
+                    <div class="am-tabs-bd">
+
+
+                        <div class="am-tab-panel am-fade am-in am-active" id="tab1">
+                            <div class="cart-table-th">
+                                <div class="order-top">
+                                    <div class="th th-remainderprice">
+                                        金额
+                                    </div>
+                                    <div class="th th-usestatus">
+                                        使用状态
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                                <%-- 可用红包 --%>
+                                <c:forEach items="${canUse}" var="redPackage">
+                                    <div class="order-main">
+
+                                    <ul class="item-list">
+                                        <li class="td td-from">
+                                            <div class="item-img">
+                                                <img src="${ctx}/resources/images/566fda5cN4b8a1675.gif">
+                                            </div>
+
+                                            <div class="item-info">
+
+                                                <a href="#">
+                                                    <p class="info-little "><span>红包初始面额：</span>¥${redPackage.money}<span>元</span></p>
+                                                </a>
+
+                                            </div>
+                                        </li>
+                                        <li class="td td-usestatus ">
+                                            <div class="item-usestatus ">
+                                                <p>可使用</p><span><img src="${ctx}/resources/images/gift_stamp_1.png"/></span>
+                                            </div>
+                                        </li>
+                                    </ul>
+
+                                </div>
+                                </c:forEach>
+                            </div>
+                        </div>
+
+
+
+                        <div class="am-tab-panel am-fade" id="tab2">
+
+                            <div class="cart-table-th">
+                                <div class="order-top">
+                                    <div class="th th-remainderprice">
+                                        金额
+                                    </div>
+                                    <div class="th th-usestatus">
+                                        使用状态
+                                    </div>
+                                </div>
+                                <div class="clear"></div>
+                                <%-- 不可用红包 --%>
+                                <c:forEach items="${canNotUse}" var="redPackage">
+                                    <div class="order-main">
+
+                                    <ul class="item-list">
+                                        <li class="td td-from">
+                                            <div class="item-img">
+                                                <img src="${ctx}/resources/images/566fda5cN4b8a1675.gif">
+                                            </div>
+
+                                            <div class="item-info">
+
+                                                <a href="# ">
+                                                    <p class="info-little "><span>红包初始面额：</span>¥${redPackage.money}<span>元</span></p>
+                                                </a>
+
+                                            </div>
+                                        </li>
+                                        <li class="td td-usestatus ">
+                                            <div class="item-usestatus ">
+                                                <p>已用完</p><span><img src="${ctx}/resources/images/gift_stamp_2.png"/></span>
+                                            </div>
+                                        </li>
+                                    </ul>
+                                </div>
+                                </c:forEach>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         <!--底部-->
-        <div class="footer">
-            <div class="footer-hd">
+        <div class="footer ">
+            <div class="footer-hd ">
                 <p>
-                    <a href="#">恒望科技</a>
+                    <a href="# ">恒望科技</a>
                     <b>|</b>
-                    <a href="#">商城首页</a>
+                    <a href="# ">商城首页</a>
                     <b>|</b>
-                    <a href="#">支付宝</a>
+                    <a href="# ">支付宝</a>
                     <b>|</b>
-                    <a href="#">物流</a>
+                    <a href="# ">物流</a>
                 </p>
             </div>
-            <div class="footer-bd">
+            <div class="footer-bd ">
                 <p>
-                    <a href="#">关于恒望</a>
-                    <a href="#">合作伙伴</a>
-                    <a href="#">联系我们</a>
-                    <a href="#">网站地图</a>
+                    <a href="# ">关于恒望</a>
+                    <a href="# ">合作伙伴</a>
+                    <a href="# ">联系我们</a>
+                    <a href="# ">网站地图</a>
                     <em>© 2015-2025 Hengwang.com 版权所有. 更多模板 <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></em>
                 </p>
             </div>
         </div>
+
     </div>
 
     <aside class="menu">

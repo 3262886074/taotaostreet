@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
@@ -9,16 +8,13 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
 
-    <title>安全问题</title>
+    <title>我的收藏</title>
 
     <link href="${ctx}/resources/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
     <link href="${ctx}/resources/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
 
     <link href="${ctx}/resources/css/personal.css" rel="stylesheet" type="text/css">
-    <link href="${ctx}/resources/css/stepstyle.css" rel="stylesheet" type="text/css">
-
-    <script src="${ctx}/resources/AmazeUI-2.4.2/assets/js/jquery.min.js" type="text/javascript"></script>
-    <script src="${ctx}/resources/AmazeUI-2.4.2/assets/js/amazeui.js" type="text/javascript"></script>
+    <link href="${ctx}/resources/css/colstyle.css" rel="stylesheet" type="text/css">
 
 </head>
 
@@ -99,82 +95,49 @@
     <div class="col-main">
         <div class="main-wrap">
 
-            <div class="am-cf am-padding">
-                <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">设置安全问题</strong> / <small>Set&nbsp;Safety&nbsp;Question</small></div>
-            </div>
-            <hr/>
-            <!--进度条-->
-            <div class="m-progress">
-                <div class="m-progress-list">
-							<span class="step-1 step">
-                                <em class="u-progress-stage-bg"></em>
-                                <i class="u-stage-icon-inner">1<em class="bg"></em></i>
-                                <p class="stage-name">设置安全问题</p>
-                            </span>
-                    <span class="step-2 step">
-                                <em class="u-progress-stage-bg"></em>
-                                <i class="u-stage-icon-inner">2<em class="bg"></em></i>
-                                <p class="stage-name">完成</p>
-                            </span>
-                    <span class="u-progress-placeholder"></span>
+            <div class="user-collection">
+                <!--标题 -->
+                <div class="am-cf am-padding">
+                    <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">我的收藏</strong> / <small>My&nbsp;Collection</small></div>
                 </div>
-                <div class="u-progress-bar total-steps-2">
-                    <div class="u-progress-bar-inner"></div>
-                </div>
-            </div>
-            <form:form action="${ctx}/users/safetyQuestion"
-                       method="post"
-                       modelAttribute="user_safety_question"
-                       class="am-form am-form-horizontal">
-                <%-- TODO --%>
-                <input type="hidden" name="users.uid" value="${users.uid}">
-                <c:if test="${!empty users.user_safety_question}">
-                    <input type="hidden" name="_method" value="PUT">
-                    <input type="hidden" name="uid" value="${users.uid}">
-                </c:if>
-                <div class="am-form-group select">
-                    <label class="am-form-label">问题一</label>
-                    <div class="am-form-content">
-                        <select name="questionOne" data-am-selected>
-                            <option value="a" selected>请选择安全问题</option>
-                            <option value="您最喜欢的颜色是什么">您最喜欢的颜色是什么？</option>
-                            <option value="您的故乡在哪里">您的故乡在哪里？</option>
-                            <option value="您的初中老师叫什么名字">您的初中老师叫什么名字？</option>
-                            <option value="您的理想是">您的理想是？</option>
-                        </select>
+                <hr/>
+
+                <div class="you-like">
+                    <div class="s-bar">
+                        我的收藏
                     </div>
-                </div>
-                <div class="am-form-group">
-                    <label for="user-answer1" class="am-form-label">答案</label>
-                    <div class="am-form-content">
-                        <form:input type="text" path="answerOne" id="user-answer1" placeholder="请输入安全问题答案"/>
+                    <div class="s-content">
+
+                        <c:forEach items="${userCollects}" var="collect">
+                        <div class="s-item-wrap">
+                            <div class="s-item">
+
+                                <div class="s-pic">
+                                    <a href="#" class="s-pic-link">
+                                        <img src="${ctx}/resources/images/0-item_pic.jpg_220x220.jpg" alt="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰" title="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰" class="s-pic-img s-guess-item-img">
+                                    </a>
+                                </div>
+                                <div class="s-info">
+                                    <div class="s-title"><a href="#" title="包邮s925纯银项链女吊坠短款锁骨链颈链日韩猫咪银饰简约夏配饰">${collect.commodity.cname}</a></div>
+                                    <div class="s-price-box">
+                                        <span class="s-price"><em class="s-price-sign">¥</em><em class="s-value">${collect.commodity.price}</em></span>
+                                        <span class="s-history-price"><em class="s-price-sign">¥</em><em class="s-value">${collect.commodity.forSalePrice}</em></span>
+                                    </div>
+                                </div>
+                                <div class="s-tp">
+                                    <i class="am-icon-shopping-cart"></i>
+                                    <p>
+                                        <a href="javascript:;" class="c-nodo J_delFav_btn">取消收藏</a>
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        </c:forEach>
                     </div>
-                </div>
-                <div class="am-form-group select">
-                    <label class="am-form-label">问题二</label>
-                    <div class="am-form-content">
-                        <select name="questionTwo" data-am-selected>
-                            <option value="a" selected>请选择安全问题</option>
-                            <option value="您最喜欢的颜色是什么">您最喜欢的颜色是什么？</option>
-                            <option value="您的故乡在哪里">您的故乡在哪里？</option>
-                            <option value="您的初中老师叫什么名字">您的初中老师叫什么名字？</option>
-                            <option value="您的理想是">您的理想是？</option>
-                        </select>
-                    </div>
-                </div>
-                <div class="am-form-group">
-                    <label for="user-answer2" class="am-form-label">答案</label>
-                    <div class="am-form-content">
-                        <form:input type="text" path="answerTwo" id="user-answer2" placeholder="请输入安全问题答案"/>
-                    </div>
-                </div>
-                <div class="info-btn">
-                    <div class="am-btn am-btn-danger">
-                        <input type="submit" value="保存修改">
-                    </div>
+
                 </div>
 
-            </form:form>
+            </div>
 
         </div>
         <!--底部-->
