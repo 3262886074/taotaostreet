@@ -4,10 +4,12 @@ import com.tts.bean.*;
 import com.tts.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashSet;
 import java.util.Set;
 
 /**
@@ -15,7 +17,6 @@ import java.util.Set;
  */
 @Controller
 @RequestMapping(value = "/users")
-@SessionAttributes(types = Users.class, value = "users")
 public class UsersController {
 
     @Autowired
@@ -30,68 +31,13 @@ public class UsersController {
     }
 
     /**
-     * 获取登录页面
-     */
-    @RequestMapping(value = "/loginInput", method = RequestMethod.GET)
-    public String loginInput() {
-        return "home/login";
-    }
-
-    /**
-     * 用户登录操作
-     */
-    @RequestMapping(value = "/login", method = RequestMethod.POST)
-    public String login(@RequestParam("nickname") String nickname,
-                        @RequestParam("pwd") String pwd,
-                        ModelMap map) {
-        Users users = usersService.userLogin(nickname, pwd);
-        if (users != null) {
-            Set<Order> orders = usersService.queryOrdersByUid(users.getUid());
-            Set<User_Collect> userCollects = usersService.queryCollectsByUid(users.getUid());
-            Set<Discount_coupon> discountCoupons = usersService.queryDiscountCouponByUid(users.getUid());
-            Set<User_Red_package> userRedPackages = usersService.queryRedPackageByUid(users.getUid());
-            Users_Authentication users_authentication = usersService.queryAuthenticationByUid(users.getUid());
-            User_Safety_Question user_safety_question = usersService.querySafetyQuestionByUid(users.getUid());
-            users.setOrders(orders);
-            users.setUserCollects(userCollects);
-            users.setUserRedPackages(userRedPackages);
-            users.setDiscountCoupons(discountCoupons);
-            users.setUsers_authentication(users_authentication);
-            users.setUser_safety_question(user_safety_question);
-            map.put("users", users);
-            return "person/index";
-        } else {
-            return "redirect:loginInput";
-        }
-    }
-
-    /**
-     * 获取注册页面
-     */
-    @RequestMapping(value = "/registerInput", method = RequestMethod.GET)
-    public String registerInput() {
-        return "home/register";
-    }
-
-    /**
-     * 用户注册操作
-     */
-    @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String register(@RequestParam("nickname") String nickname,
-                           @RequestParam("pwd") String pwd) {
-        boolean b = usersService.userRegister(nickname, pwd);
-        if (b) {
-            return "home/login";
-        } else {
-            return "redirect:registerInput";
-        }
-    }
-
-    /**
      * 用户信息页面
      */
-    @RequestMapping(value = "/userInfo", method = RequestMethod.GET)
-    public String info() {
+    @RequestMapping(value = "/userInfo/{uid}", method = RequestMethod.GET)
+    public String info(@PathVariable("uid") Long uid,
+                       ModelMap map) {
+        Users users = usersService.queryUserInfoByUid(uid);
+        map.put("users",users);
         return "person/information";
     }
 
@@ -118,16 +64,6 @@ public class UsersController {
         } else {
             return "person/information";
         }
-    }
-
-    /**
-     * 注销
-     */
-    @RequestMapping(value = "/loginOut", method = RequestMethod.GET)
-    public String loginOut(HttpSession session) {
-        session.removeAttribute("users");
-        session.invalidate();
-        return "redirect:loginInput";
     }
 
     /**
@@ -235,10 +171,10 @@ public class UsersController {
     /**
      * 用户地址页面
      */
-    @RequestMapping(value = "/getAddress/{uid}", method = RequestMethod.GET)
-    public String getAddress(@PathVariable("uid") Long uid,
-                             ModelMap map) {
-        Set<User_address> userAddresses = usersService.getAddressesByUId(uid);
+    @RequestMapping(value = "/getAddress", method = RequestMethod.GET)
+    public String getAddress(ModelMap map,HttpSession session) {
+        Users users = (Users) session.getAttribute("users");
+        Set<User_address> userAddresses = usersService.getAddressesByUId(users.getUid());
         map.put("userAddresses", userAddresses);
         return "person/address";
     }
@@ -251,7 +187,7 @@ public class UsersController {
                                     @RequestParam("uaid") Long uaid) {
         boolean b = usersService.updateDefaultAddress(uid, uaid);
         if (b) {
-            return "redirect:getAddress/" + uid;
+            return "redirect:getAddress";
         }
         return null;
     }
@@ -259,46 +195,114 @@ public class UsersController {
     /**
      * 删除地址
      */
-    @RequestMapping(value = "/deleteAddress",method = RequestMethod.DELETE)
-    public String deleteAddress(@RequestParam("uaid") Long uaid,HttpSession session){
+    @RequestMapping(value = "/deleteAddress", method = RequestMethod.DELETE)
+    public String deleteAddress(@RequestParam("uaid") Long uaid, HttpSession session) {
         boolean b = usersService.deleteAddressByUaId(uaid);
         Users users = (Users) session.getAttribute("users");
         Long uid = users.getUid();
-        if (b){
-            return "redirect:getAddress/" + uid;
+        if (b) {
+            return "redirect:getAddress";
         } else {
-            return "redirect:getAddress/" + uid;
+            return "redirect:getAddress";
         }
     }
 
     /**
      * 添加地址
      */
-    @RequestMapping(value = "/addAddress",method = RequestMethod.POST)
-    public String addAddredd(@RequestParam("uaname")String uaname,
+    @RequestMapping(value = "/addAddress", method = RequestMethod.POST)
+    public String addAddredd(@RequestParam("uaname") String uaname,
                              @RequestParam("uatel") Long uatel,
                              @RequestParam("location") String location,
                              @RequestParam("address") String address,
-                             @RequestParam("uid") Long uid){
+                             @RequestParam("uid") Long uid) {
         boolean b = usersService.addOneAddress(uaname, uatel, location, address, uid);
-        if (b){
-            return "redirect:getAddress/" + uid;
+        if (b) {
+            return "redirect:getAddress";
         } else {
-            return "redirect:getAddress/" + uid;
+            return "redirect:getAddress";
         }
+    }
+
+
+    /**
+     * 显示订单页面
+     */
+    @RequestMapping(value = "/orders",method = RequestMethod.GET)
+    public String getOrders() {
+        return "person/order";
     }
 
     /**
      * 订单管理页面
-     * TODO 判断订单的状态 分开传给jsp页面
+     * TODO 判断订单的状态 分开传给jsp页面 暂时不做订单相关
      */
-    @RequestMapping(value = "/getAllOrders/{uid}",method = RequestMethod.GET)
+    @RequestMapping(value = "/getAllOrders/{uid}", method = RequestMethod.GET)
     public String getAllOrders(@PathVariable("uid") Long uid,
-                               ModelMap map){
+                               ModelMap map) {
         Set<Order> orders = usersService.queryOrdersByUid(uid);
-        map.put("orders",orders);
+        map.put("orders", orders);
         return "person/order";
     }
+
+    /**
+     * 我的优惠券页面
+     */
+    @RequestMapping(value = "/allCoupons",method = RequestMethod.GET)
+    public String allCoupons(ModelMap map,HttpSession session){
+        Users users = (Users) session.getAttribute("users");
+        Set<Discount_coupon> discountCoupons = usersService.queryDiscountCouponByUid(users.getUid());
+        //可用优惠券
+        Set<Discount_coupon> canUse = new HashSet<>();
+        //已用优惠券
+        Set<Discount_coupon> canNotUse = new HashSet<>();
+        for (Discount_coupon discountCoupon : discountCoupons) {
+            if (discountCoupon.getStatus() == 0) {
+                canUse.add(discountCoupon);
+            } else if (discountCoupon.getStatus() == 1){
+                canNotUse.add(discountCoupon);
+            }
+        }
+        map.put("canUse",canUse);
+        map.put("canNotUse",canNotUse);
+        return "person/coupon";
+    }
+
+    /**
+     * 我的红包页面
+     */
+    @RequestMapping(value = "/allRedPackage",method = RequestMethod.GET)
+    public String allRedPackage(ModelMap map,HttpSession session){
+        Users users = (Users) session.getAttribute("users");
+        Set<User_Red_package> userRedPackages = usersService.queryRedPackageByUid(users.getUid());
+        //可用红包
+        Set<User_Red_package> canUse = new HashSet<>();
+        //已使用红包
+        Set<User_Red_package> canNotUse = new HashSet<>();
+        for (User_Red_package userRedPackage : userRedPackages) {
+            if (userRedPackage.getStatus() == 0){
+                canUse.add(userRedPackage);
+            } else if (userRedPackage.getStatus() == 1){
+                canNotUse.add(userRedPackage);
+            }
+        }
+        map.put("canUse",canUse);
+        map.put("canNotUse",canNotUse);
+        return "person/bonus";
+    }
+
+    /**
+     * 我的收藏
+     */
+    @RequestMapping(value = "/allCollects",method = RequestMethod.GET)
+    public String allCollects(ModelMap map,HttpSession session){
+        Users users = (Users) session.getAttribute("users");
+        Set<User_Collect> userCollects = usersService.queryCollectsByUid(users.getUid());
+        map.put("userCollects",userCollects);
+        return "person/collection";
+    }
+
+
 
 
 }

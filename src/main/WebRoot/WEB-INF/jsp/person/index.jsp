@@ -28,27 +28,27 @@
                     <div class="topMessage">
                         <div class="menu-hd">
                             <c:if test="${empty users}">
-                            <a href="${ctx}/users/loginInput" target="_top" class="h">亲，请登录</a>
-                            <a href="${ctx}/users/registerInput" target="_top">免费注册</a>
+                                <a href="${ctx}/loginOrRegister/loginInput" target="_top" class="h">亲，请登录</a>
+                                <a href="${ctx}/loginOrRegister/registerInput" target="_top">免费注册</a>
                             </c:if>
                             <c:if test="${!empty users}">
-                                <a href="${ctx}/users/loginOut">注销</a>
+                                <a href="${ctx}/loginOrRegister/loginOut">注销</a>
                             </c:if>
                         </div>
                     </div>
                 </ul>
                 <ul class="message-r">
                     <div class="topMessage home">
-                        <div class="menu-hd"><a href="${ctx}/index.jsp" target="_top" class="h">商城首页</a></div>
+                        <div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
                     </div>
                     <div class="topMessage my-shangcheng">
-                        <div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+                        <div class="menu-hd MyShangcheng"><a href="${ctx}/users/allInfo" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
                     </div>
                     <div class="topMessage mini-cart">
                         <div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
                     </div>
                     <div class="topMessage favorite">
-                        <div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+                        <div class="menu-hd"><a href="${ctx}/users/allCollects" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
                 </ul>
             </div>
 
@@ -114,7 +114,7 @@
                             </div>
                             <div class="m-right">
                                 <div class="m-address">
-                                    <a href="${ctx}/users/getAddress/{users.uid}" class="i-trigger">我的收货地址</a>
+                                    <a href="${ctx}/users/getAddress" class="i-trigger">我的收货地址</a>
                                 </div>
                         </div>
                         </div>
@@ -125,21 +125,21 @@
                                 <i class="s-icon"></i>个人资产
                             </div>
                             <p class="m-bonus">
-                                <a href="bonus.html">
+                                <a href="${ctx}/users/allRedPackage">
                                     <i><img src="${ctx}/resources/images/bonus.png"/></i>
                                     <span class="m-title">红包</span>
                                     <em class="m-num"><c:out value="${users.userRedPackages.size()}"/></em>
                                 </a>
                             </p>
                             <p class="m-coupon">
-                                <a href="coupon.html">
+                                <a href="${ctx}/users/allCoupons">
                                     <i><img src="${ctx}/resources/images/coupon.png"/></i>
                                     <span class="m-title">优惠券</span>
                                     <em class="m-num"><c:out value="${users.discountCoupons.size()}"/></em>
                                 </a>
                             </p>
                             <p class="m-big">
-                                <a href="#">
+                                <a href="">
                                     <i><img src="${ctx}/resources/images/72h.png"/></i>
                                     <span class="m-title">72小时发货</span>
                                 </a>
@@ -152,7 +152,7 @@
                     <div class="m-order">
                         <div class="s-bar">
                             <i class="s-icon"></i>我的订单
-                            <a class="i-load-more-item-shadow" href="order.html">全部订单</a>
+                            <a class="i-load-more-item-shadow" href="${ctx}/users/orders">全部订单</a>
                         </div>
                         <ul>
                             <li><a href="order.html"><i><img src="${ctx}/resources/images/pay.png"/></i>
@@ -338,7 +338,6 @@
                     <a href="#">合作伙伴</a>
                     <a href="#">联系我们</a>
                     <a href="#">网站地图</a>
-                    <em>© 2015-2025 Hengwang.com 版权所有. 更多模板 <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></em>
                 </p>
             </div>
         </div>
@@ -348,37 +347,35 @@
     <aside class="menu">
         <ul>
             <li class="person active">
-                <a href="">个人中心</a>
+                <a href="${ctx}/users/allInfo">个人中心</a>
             </li>
             <li class="person">
                 <a href="">个人资料</a>
                 <ul>
-                    <li> <a href="${ctx}/users/userInfo">个人信息</a></li>
+                    <li> <a href="${ctx}/users/userInfo/${users.uid}">个人信息</a></li>
                     <li> <a href="${ctx}/users/safety">安全设置</a></li>
-                    <li> <a href="${ctx}/users/getAddress/${users.uid}">收货地址</a></li>
+                    <li> <a href="${ctx}/users/getAddress">收货地址</a></li>
                 </ul>
             </li>
             <li class="person">
                 <a href="#">我的交易</a>
                 <ul>
-                    <li><a href="order.html">订单管理</a></li>
+                    <li><a href="${ctx}/users/orders">订单管理</a></li>
                     <li> <a href="change.html">退款售后</a></li>
                 </ul>
             </li>
             <li class="person">
                 <a href="#">我的资产</a>
                 <ul>
-                    <li> <a href="coupon.html">优惠券 </a></li>
-                    <li> <a href="bonus.html">红包</a></li>
-                    <li> <a href="bill.html">账单明细</a></li>
+                    <li> <a href="${ctx}/users/allCoupons">优惠券 </a></li>
+                    <li> <a href="${ctx}/users/allRedPackage">红包</a></li>
                 </ul>
             </li>
 
             <li class="person">
                 <a href="#">我的小窝</a>
                 <ul>
-                    <li> <a href="collection.html">收藏</a></li>
-                    <li> <a href="comment.html">评价</a></li>
+                    <li> <a href="${ctx}/users/allCollects">收藏</a></li>
                 </ul>
             </li>
 

@@ -1,6 +1,7 @@
 package com.tts.bean;
 
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * 订单
@@ -16,13 +17,15 @@ public class Order implements Serializable {
     private double money;
     //订单状态 -1为未付款 0为已付款未发货 1为已发货未到货 2为已到货未签收 3为已签收未评价 4为订单已完成
     private Integer status;
-    private Shopping_Cart shopping_cart;  //购物车
+    private Shopping_Cart shopping_cart;  //购物车 TODO 改名字否则查不出来
     //优惠券 一对一
     private Discount_coupon discountCoupon;
     //红包 一对一
     private User_Red_package userRedPackage;
     //用户地址 一对一
     private User_address userAddress;
+    //创建时间
+    private Date createTime;
 
     public Order() {
     }
@@ -37,6 +40,7 @@ public class Order implements Serializable {
                 ", discountCoupon=" + discountCoupon +
                 ", userRedPackage=" + userRedPackage +
                 ", userAddress=" + userAddress +
+                ", createTime=" + createTime +
                 '}';
     }
 
@@ -98,5 +102,13 @@ public class Order implements Serializable {
 
     public void setUserAddress(User_address userAddress) {
         this.userAddress = userAddress;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
     }
 }
