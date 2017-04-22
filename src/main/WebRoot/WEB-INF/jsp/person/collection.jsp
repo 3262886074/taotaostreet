@@ -126,7 +126,6 @@
                                 </div>
                                 <div class="s-tp">
                                     <i class="am-icon-shopping-cart"></i>
-                                    <span class="ui-btn-loading-before buy">加入购物车</span>
                                     <p>
                                         <a href="javascript:;" class="c-nodo J_delFav_btn">取消收藏</a>
                                     </p>
@@ -183,7 +182,6 @@
                 <a href="#">我的交易</a>
                 <ul>
                     <li><a href="${ctx}/users/orders">订单管理</a></li>
-                    <li> <a href="change.html">退款售后</a></li>
                 </ul>
             </li>
             <li class="person">

@@ -9,7 +9,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Map;
 import java.util.Set;
 
 /**
@@ -26,7 +28,29 @@ public class UsersController {
      * 用户所有信息
      */
     @RequestMapping(value = "/allInfo", method = RequestMethod.GET)
-    public String getAllInfo() {
+    public String getAllInfo(ModelMap map,
+                             HttpSession session) {
+        Users users = (Users) session.getAttribute("users");
+        Set<Order> orders = usersService.queryOrdersByUid(users.getUid());
+        Set<Order> status0 = new HashSet<>();
+        Set<Order> status1 = new HashSet<>();
+        Set<Order> status2 = new HashSet<>();
+        Set<Order> status3 = new HashSet<>();
+        for (Order order : orders) {
+            if (order.getStatus() == -1){
+                status0.add(order);
+            } else if (order.getStatus() == 0){
+                status1.add(order);
+            } else if (order.getStatus() == 1){
+                status2.add(order);
+            } else if (order.getStatus() == 2){
+                status3.add(order);
+            }
+        }
+        map.put("status0",status0.size());
+        map.put("status1",status1.size());
+        map.put("status2",status2.size());
+        map.put("status3",status3.size());
         return "person/index";
     }
 
@@ -37,7 +61,7 @@ public class UsersController {
     public String info(@PathVariable("uid") Long uid,
                        ModelMap map) {
         Users users = usersService.queryUserInfoByUid(uid);
-        map.put("users",users);
+        map.put("users", users);
         return "person/information";
     }
 
@@ -172,7 +196,7 @@ public class UsersController {
      * 用户地址页面
      */
     @RequestMapping(value = "/getAddress", method = RequestMethod.GET)
-    public String getAddress(ModelMap map,HttpSession session) {
+    public String getAddress(ModelMap map, HttpSession session) {
         Users users = (Users) session.getAttribute("users");
         Set<User_address> userAddresses = usersService.getAddressesByUId(users.getUid());
         map.put("userAddresses", userAddresses);
@@ -226,30 +250,48 @@ public class UsersController {
 
 
     /**
-     * 显示订单页面
+     * 订单页面
      */
-    @RequestMapping(value = "/orders",method = RequestMethod.GET)
-    public String getOrders() {
+    @RequestMapping(value = "/orders", method = RequestMethod.GET)
+    public String getOrders(HttpSession session,
+                            ModelMap map) {
+        Users users = (Users) session.getAttribute("users");
+        Set<Order> orders = usersService.queryOrdersByUid(users.getUid());
+        //map.put("orders", orders);
+        Map<Order,Set<Commodity_items>> commodities = new HashMap<>();
+        for (Order order : orders) {
+            Set<Commodity_items> commodityItems = usersService.queryItemsByScid(order.getShoppingCart().getScId());
+            commodities.put(order,commodityItems);
+        }
+        map.put("orders",commodities);
         return "person/order";
     }
 
     /**
-     * 订单管理页面
-     * TODO 判断订单的状态 分开传给jsp页面 暂时不做订单相关
+     * 退货/退款页面
      */
-    @RequestMapping(value = "/getAllOrders/{uid}", method = RequestMethod.GET)
-    public String getAllOrders(@PathVariable("uid") Long uid,
-                               ModelMap map) {
-        Set<Order> orders = usersService.queryOrdersByUid(uid);
-        map.put("orders", orders);
-        return "person/order";
+    @RequestMapping(value = "/change", method = RequestMethod.GET)
+    public String getChange(HttpSession session,
+                            ModelMap map){
+        Users users = (Users) session.getAttribute("users");
+        Set<Order> orders = usersService.queryOrdersByUid(users.getUid());
+        //map.put("orders", orders);
+        Map<Order,Set<Commodity_items>> commodities = new HashMap<>();
+        for (Order order : orders) {
+            if (order.getStatus() == 3 || order.getStatus() == 4 || order.getStatus() == 5) {
+                Set<Commodity_items> commodityItems = usersService.queryItemsByScid(order.getShoppingCart().getScId());
+                commodities.put(order, commodityItems);
+            }
+        }
+        map.put("orders",commodities);
+        return "person/change";
     }
 
     /**
      * 我的优惠券页面
      */
-    @RequestMapping(value = "/allCoupons",method = RequestMethod.GET)
-    public String allCoupons(ModelMap map,HttpSession session){
+    @RequestMapping(value = "/allCoupons", method = RequestMethod.GET)
+    public String allCoupons(ModelMap map, HttpSession session) {
         Users users = (Users) session.getAttribute("users");
         Set<Discount_coupon> discountCoupons = usersService.queryDiscountCouponByUid(users.getUid());
         //可用优惠券
@@ -259,20 +301,20 @@ public class UsersController {
         for (Discount_coupon discountCoupon : discountCoupons) {
             if (discountCoupon.getStatus() == 0) {
                 canUse.add(discountCoupon);
-            } else if (discountCoupon.getStatus() == 1){
+            } else if (discountCoupon.getStatus() == 1) {
                 canNotUse.add(discountCoupon);
             }
         }
-        map.put("canUse",canUse);
-        map.put("canNotUse",canNotUse);
+        map.put("canUse", canUse);
+        map.put("canNotUse", canNotUse);
         return "person/coupon";
     }
 
     /**
      * 我的红包页面
      */
-    @RequestMapping(value = "/allRedPackage",method = RequestMethod.GET)
-    public String allRedPackage(ModelMap map,HttpSession session){
+    @RequestMapping(value = "/allRedPackage", method = RequestMethod.GET)
+    public String allRedPackage(ModelMap map, HttpSession session) {
         Users users = (Users) session.getAttribute("users");
         Set<User_Red_package> userRedPackages = usersService.queryRedPackageByUid(users.getUid());
         //可用红包
@@ -280,29 +322,27 @@ public class UsersController {
         //已使用红包
         Set<User_Red_package> canNotUse = new HashSet<>();
         for (User_Red_package userRedPackage : userRedPackages) {
-            if (userRedPackage.getStatus() == 0){
+            if (userRedPackage.getStatus() == 0) {
                 canUse.add(userRedPackage);
-            } else if (userRedPackage.getStatus() == 1){
+            } else if (userRedPackage.getStatus() == 1) {
                 canNotUse.add(userRedPackage);
             }
         }
-        map.put("canUse",canUse);
-        map.put("canNotUse",canNotUse);
+        map.put("canUse", canUse);
+        map.put("canNotUse", canNotUse);
         return "person/bonus";
     }
 
     /**
      * 我的收藏
      */
-    @RequestMapping(value = "/allCollects",method = RequestMethod.GET)
-    public String allCollects(ModelMap map,HttpSession session){
+    @RequestMapping(value = "/allCollects", method = RequestMethod.GET)
+    public String allCollects(ModelMap map, HttpSession session) {
         Users users = (Users) session.getAttribute("users");
         Set<User_Collect> userCollects = usersService.queryCollectsByUid(users.getUid());
-        map.put("userCollects",userCollects);
+        map.put("userCollects", userCollects);
         return "person/collection";
     }
-
-
 
 
 }

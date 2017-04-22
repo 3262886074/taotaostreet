@@ -14,8 +14,10 @@ public class Commodity_items implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private long ciId;
-    //一对多 商品 键--商品 值--数量
-    private Map<Commodity, Integer> commodities = new HashMap<>();
+    //商品
+    private Commodity commodity;
+    //数量
+    private Integer number;
     private Commodity_type commodityType;    //商品样式
     private Commodity_Combo commodityCombo;    //商品套餐
 
@@ -26,7 +28,8 @@ public class Commodity_items implements Serializable {
     public String toString() {
         return "Commodity_items{" +
                 "ciId=" + ciId +
-                ", commodities=" + commodities +
+                ", commodity=" + commodity +
+                ", number=" + number +
                 ", commodityType=" + commodityType +
                 ", commodityCombo=" + commodityCombo +
                 '}';
@@ -38,14 +41,6 @@ public class Commodity_items implements Serializable {
 
     public void setCiId(long ciId) {
         this.ciId = ciId;
-    }
-
-    public Map<Commodity, Integer> getCommodities() {
-        return commodities;
-    }
-
-    public void setCommodities(Map<Commodity, Integer> commodities) {
-        this.commodities = commodities;
     }
 
     public Commodity_type getCommodityType() {
@@ -62,5 +57,21 @@ public class Commodity_items implements Serializable {
 
     public void setCommodityCombo(Commodity_Combo commodityCombo) {
         this.commodityCombo = commodityCombo;
+    }
+
+    public Commodity getCommodity() {
+        return commodity;
+    }
+
+    public void setCommodity(Commodity commodity) {
+        this.commodity = commodity;
+    }
+
+    public Integer getNumber() {
+        return number;
+    }
+
+    public void setNumber(Integer number) {
+        this.number = number;
     }
 }

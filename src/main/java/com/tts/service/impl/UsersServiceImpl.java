@@ -45,6 +45,11 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    public Set<Commodity_items> queryItemsByScid(long scid) {
+        return usersDao.queryItemsByScid(scid);
+    }
+
+    @Override
     public Set<User_Red_package> queryRedPackageByUid(long uid) {
         return usersDao.queryRedPackageByUid(uid);
     }
@@ -76,7 +81,7 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
-    public boolean addAuthentication(Long uid,String name,Long idcard) {
+    public boolean addAuthentication(Long uid, String name, Long idcard) {
         if (usersDao.addAuthentication(uid, name, idcard) > 0) {
             return true;
         }
@@ -103,7 +108,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public boolean updateSafetyQuestion(User_Safety_Question user_safety_question) {
-        if (usersDao.updateSafetyQuestion(user_safety_question) > 0){
+        if (usersDao.updateSafetyQuestion(user_safety_question) > 0) {
             return true;
         }
         return false;
@@ -127,7 +132,7 @@ public class UsersServiceImpl implements UsersService {
     @Override
     public User_address queryAddressByUaId(Long uaid) {
         User_address userAddress = usersDao.queryAddressByUaId(uaid);
-        if (userAddress != null){
+        if (userAddress != null) {
             return userAddress;
         } else {
             return null;
@@ -136,7 +141,7 @@ public class UsersServiceImpl implements UsersService {
 
     @Override
     public boolean deleteAddressByUaId(Long uaid) {
-        if (usersDao.deleteAddressByUaId(uaid) > 0){
+        if (usersDao.deleteAddressByUaId(uaid) > 0) {
             return true;
         } else {
             return false;
@@ -146,10 +151,9 @@ public class UsersServiceImpl implements UsersService {
     @Transactional
     @Override
     public boolean updateDefaultAddress(long uid, long uaid) {
-        if (usersDao.updateUnDefaultAddress(uid) > 0){
-            if (usersDao.updateDefaultAddress(uaid) > 0){
-                return true;
-            }
+        usersDao.updateUnDefaultAddress(uid);
+        if (usersDao.updateDefaultAddress(uaid) > 0) {
+            return true;
         }
         return false;
     }

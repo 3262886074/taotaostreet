@@ -9,15 +9,15 @@ import java.util.Date;
 public class Order implements Serializable {
 
     /**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
-	private long oid;
+     *
+     */
+    private static final long serialVersionUID = 1L;
+    private long oid;
     //所有商品总金额
     private double money;
-    //订单状态 -1为未付款 0为已付款未发货 1为已发货未到货 2为已到货未签收 3为已签收未评价 4为订单已完成
+    //订单状态 -1为未付款 0为已付款未发货 1为已发货未到货 2为已签收未评价
     private Integer status;
-    private Shopping_Cart shopping_cart;  //购物车 TODO 改名字否则查不出来
+    private Shopping_Cart shoppingCart;  //购物车
     //优惠券 一对一
     private Discount_coupon discountCoupon;
     //红包 一对一
@@ -36,7 +36,7 @@ public class Order implements Serializable {
                 "oid=" + oid +
                 ", money=" + money +
                 ", status=" + status +
-                ", shopping_cart=" + shopping_cart +
+                ", shopping_cart=" + shoppingCart +
                 ", discountCoupon=" + discountCoupon +
                 ", userRedPackage=" + userRedPackage +
                 ", userAddress=" + userAddress +
@@ -72,12 +72,12 @@ public class Order implements Serializable {
         this.status = status;
     }
 
-    public Shopping_Cart getShopping_cart() {
-        return shopping_cart;
+    public Shopping_Cart getShoppingCart() {
+        return shoppingCart;
     }
 
-    public void setShopping_cart(Shopping_Cart shopping_cart) {
-        this.shopping_cart = shopping_cart;
+    public void setShoppingCart(Shopping_Cart shoppingCart) {
+        this.shoppingCart = shoppingCart;
     }
 
     public Discount_coupon getDiscountCoupon() {
