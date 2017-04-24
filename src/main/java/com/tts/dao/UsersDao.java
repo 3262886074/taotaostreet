@@ -16,8 +16,6 @@ public interface UsersDao {
 
     Users queryUserInfoByUid(long uid);
 
-    Set<Order> queryOrdersByUid(long uid);
-
     Set<User_Red_package> queryRedPackageByUid(long uid);
 
     Set<Discount_coupon> queryDiscountCouponByUid(long uid);
@@ -32,9 +30,9 @@ public interface UsersDao {
 
     Integer addSafetyQuestion(User_Safety_Question user_safety_question);
 
-    Users_Authentication queryAuthenticationByUid(Long uid);
+    Users_Authentication queryAuthenticationByUid(long uid);
 
-    User_Safety_Question querySafetyQuestionByUid(Long uid);
+    User_Safety_Question querySafetyQuestionByUid(long uid);
 
     Integer updateSafetyQuestion(User_Safety_Question user_safety_question);
 
@@ -44,13 +42,17 @@ public interface UsersDao {
 
     Integer updateDefaultAddress(long uaid);
 
-    User_address queryAddressByUaId(Long uaid);
+    User_address queryAddressByUaId(long uaid);
 
-    Integer deleteAddressByUaId(Long uaid);
+    Integer deleteAddressByUaId(long uaid);
 
     Integer addOneAddress(@Param("uaname") String uaname,
                           @Param("uatel") long uatel,
                           @Param("location") String location,
                           @Param("address") String address,
                           @Param("uid") long uid);
+
+    Set<Order> queryOrdersByUid(long uid);
+
+    Set<Commodity_items> queryItemsByScid(long scid);
 }

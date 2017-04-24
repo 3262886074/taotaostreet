@@ -39,7 +39,7 @@
                 </ul>
 
                 <div class="am-tabs-bd">
-                    <form action="${ctx}/users/register" method="post" id="registerForm">
+                    <form action="${ctx}/loginOrRegister/register" method="post" id="registerForm">
 
                         <div class="user-email">
                             <label for="uname"><i class="am-icon-envelope-o"></i></label>
@@ -61,7 +61,7 @@
                             <label for="reader-me">
                                 <input id="reader-me" type="checkbox"> 点击表示您同意商城《服务协议》
                             </label>
-                            <a href="${ctx}/users/loginInput" class="zcnext am-fr am-btn-default">登录</a>
+                            <a href="${ctx}/loginOrRegister/loginInput" class="zcnext am-fr am-btn-default">登录</a>
                         </div>
                         <div class="am-cf">
                             <input type="submit" id="registerBtn" value="注册"

@@ -12,6 +12,13 @@
     <mvc:annotation-driven/>
 
     <mvc:default-servlet-handler/>
+    
+    <mvc:interceptors>
+        <mvc:interceptor>
+            <mvc:mapping path="/users/*"/>
+            <bean class="com.tts.interceptor.LoginInterceptor"/>
+        </mvc:interceptor>
+    </mvc:interceptors>
 
     <!-- 3.配置jsp 显示view -->
     <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
