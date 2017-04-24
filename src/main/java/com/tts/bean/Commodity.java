@@ -26,7 +26,7 @@ public class Commodity implements Serializable {
 	private Set<Commodity_type> commodityTypes = new HashSet<>();
 	// 一对多 评论
 	private Set<Commodity_Comment> comments = new HashSet<>();
-	// 一对多 商品图
+	// 一对一商品图
 	private Commodity_pics commodityPics;
 	// 商品类别 一对多
 	private Set<Commodity_Category> commodityCategories = new HashSet<>();

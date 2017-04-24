@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tts.dao.IHomeDao">
+	<!-- 按类型查询商品 -->
+	<resultMap type="Commodity" id="commodityMap">
+		<id property="cid" column="c_id" />
+		<result property="cname" column="c_name" />
+		<result property="forSalePrice" column="for_sale_price" />
+		<association property="commodityPics" javaType="Commodity_pics">
+			<id property="cpId" column="cp_id" />
+			<result property="cpImg" column="cp_img" />
+		</association>
+		<association property="commoditySell" column="c_id"
+			select="getCommoditySell">
+			<result property="allSell" column="allSell" />
+		</association>
+	</resultMap>
+	<select id="queryCname" parameterType="String" resultMap="commodityMap">
+		select
+		* from
+		commodity c
+		inner join
+		commodity_pics cp on c.c_id=cp.c_id
+		where
+		c.c_three_id in (select
+		c_three_id from classify_three where
+		c_three_name
+		like
+		concat(concat('%',#{cctype}),'%'))
+	</select>
+	<select id="getCommoditySell" parameterType="long" resultType="Commodity_Sell">
+		select count(*) allSell from commodity_volume where c_id=#{cid} group
+		by c_id;
+	</select>
+
+	<!-- 商品分类 -->
+	<resultMap type="Classify_one" id="Classify_oneMap">
+		<id property="cOneId" column="c_one_id" />
+		<result property="cOneName" column="c_one_name" />
+		<collection property="classifyTwo" ofType="Classify_two"
+			column="c_two_id">
+			<id property="cTwoId" column="c_two_id" />
+			<result property="cTwoName" column="c_two_name" />
+			<collection property="classifyThree" ofType="Classify_three"
+				column="c_three_id">
+				<id property="cThreeId" column="c_three_id" />
+				<result property="cThreeName" column="c_three_name" />
+			</collection>
+		</collection>
+	</resultMap>
+	<select id="queryClassify" resultMap="Classify_oneMap">
+		select*from classify_one
+		c_one left join classify_two c_two on c_one.c_one_id=c_two.c_one_id
+		left join classify_three c_three on c_two.c_two_id=c_three.c_two_id
+	</select>
+
+	<!-- 商城头条 -->
+	<select id="queryTop" resultType="Commodity">
+		select c_id,
+		c_name,(price-for_sale_price) pr from commodity order by pr desc limit
+		5;
+	</select>
+
+	<!-- 二级导航类别 -->
+	<resultMap type="Classify_Two" id="queryCTwoIdMap">
+		<id property="cTwoId" column="c_two_id" />
+		<result property="cTwoName" column="c_two_name" />
+		<collection property="classifyThree" ofType="Classify_three"
+			column="c_three_id">
+			<id property="cThreeId" column="c_three_id" />
+			<result property="cThreeName" column="c_three_name" />
+			<collection property="commodity" ofType="Commodity"
+				column="c_three_id">
+				<id property="cid" column="c_id" />
+				<result property="cname" column="c_name" />
+				<result property="forSalePrice" column="for_sale_price" />
+				<association property="commodityPics" column="c_id"
+					javaType="Commodity_pics">
+					<id property="cpId" column="cp_id" />
+					<result property="cpImg" column="cp_img" />
+				</association>
+			</collection>
+		</collection>
+	</resultMap>
+	<select id="queryCTwoId" resultMap="queryCTwoIdMap">
+		select * from
+		classify_two
+		c_two left outer join
+		classify_three c_three on
+		c_two.c_two_id=c_three.c_two_id left outer join
+		commodity c on
+		c_three.c_three_id=c.c_three_id
+		left outer join
+		commodity_pics cp on
+		c.c_id=cp.c_id
+		where c_two.c_two_id in (5,15,16);
+	</select>
+</mapper>
