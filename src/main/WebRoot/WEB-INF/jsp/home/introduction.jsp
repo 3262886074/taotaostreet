@@ -182,8 +182,8 @@
 							<c:if test="${commodity.forSalePrice!=0 }">
 								<li class="price iteminfo_price">
 									<dt>促销价</dt>
-									<dd><em>¥</em><b class="sys_item_price">${commodity.forSalePrice}</b>
-									<input id="mon" type="hidden" value="${commodity.forSalePrice}" />  </dd> 
+									<dd><em>¥</em><b class="sys_item_price" id="ppp">${commodity.forSalePrice}</b>
+									<input id="showMoney" type="hidden" value="${commodity.forSalePrice}" />  </dd> 
 								</li>
 								<li class="price iteminfo_mktprice">
 									<dt>原价</dt>
@@ -193,8 +193,8 @@
 							<c:if test="${commodity.forSalePrice==0 }">
 								<li class="price iteminfo_price">
 									<dt>原价</dt>
-									<dd><em>¥</em><b class="sys_item_price">${commodity.price }</b>
-									<input id="mon" type="hidden" value="${commodity.forSalePrice}" /></dd>									
+									<dd><em>¥</em><b class="sys_item_price" id="ppp">${commodity.price }</b>
+									<input id="showMoney" type="hidden" value="${commodity.price}" /></dd>									
 								</li>
 							</c:if> 
 								<div class="clear"></div>
@@ -225,13 +225,13 @@
 							<!--销量-->
 							<ul class="tm-ind-panel">
 								<li class="tm-ind-item tm-ind-sellCount canClick">
-									<div class="tm-indcon"><span class="tm-label">月销量</span><span class="tm-count">${sell.monthSell }</span></div>
+									<div class="tm-indcon"><span class="tm-label">月销量</span><span class="tm-count">${commodity.commoditySell.monthSell }</span></div>
 								</li>
 								<li class="tm-ind-item tm-ind-sumCount canClick">
-									<div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">${sell.allSell }</span></div>
+									<div class="tm-indcon"><span class="tm-label">累计销量</span><span class="tm-count">${commodity.commoditySell.allSell }</span></div>
 								</li>
 								<li class="tm-ind-item tm-ind-reviewCount canClick tm-line3">
-									<div class="tm-indcon"><span class="tm-label">累计评价</span><span class="tm-count">${sell.allComm }</span></div>
+									<div class="tm-indcon"><span class="tm-label">累计评价</span><span class="tm-count">${commodity.commoditySell.allComm }</span></div>
 								</li>
 							</ul>
 							<div class="clear"></div>
@@ -254,30 +254,26 @@
 
 												<div class="theme-signin-left">
 													<div class="theme-options">
-														<c:if test="${commodity.category=='食品' }">
 														<div class="cart-title">口味</div>
-														</c:if>
-														<c:if test="${commodity.category=='服饰' }">
-														<div class="cart-title">尺码</div>
-														</c:if>
 														<ul>
 															<c:forEach items="${commodity.commodityTypes }" var="l">
 															<li class="sku-line ">${l.typeName }<i></i>
-															<input id="tprice" type="hidden" value="${l.price }"/></li>
+															<input id="tprice" type="hidden" value="${l.price }"/>
+															<input id="ct_id" type="hidden" value="${l.ct_id }"/>
+															</li>
 															</c:forEach>
+															<div id="show1" class="stock" style="display: none;color: red;font-size: 14px;margin-top: 10px;">请选择你需要的口味和包装</div>
 														</ul>
+														
 													</div>
 													<div class="theme-options">
-														<c:if test="${commodity.category=='食品' }">
 														<div class="cart-title">包装</div>
-														</c:if>
-														<c:if test="${commodity.category=='服饰' }">
-														<div class="cart-title">颜色</div>
-														</c:if>
 														<ul>
 															<c:forEach items="${commodity.combos }" var="l">
 															<li class="sku-line ">${l.ccname }<i></i>
-															<input id="cprice" type="hidden" value="${l.price }"/></li>
+															<input id="cprice" type="hidden" value="${l.price }"/>
+															<input id="ccid" type="hidden" value="${l.ccid }"/>
+															</li>
 															</c:forEach>
 														</ul>
 													</div>
@@ -299,37 +295,13 @@
 														<div class="btn close am-btn am-btn-warning">取消</div>
 													</div>
 												</div>
-								
-
 											</form>
 										</div>
 									</div>
-
 								</dd>
 							</dl>
 							<div class="clear"></div>
-							<!--活动	-->
-							<div class="shopPromotion gold">
-								<div class="hot">
-									<dt class="tb-metatit">店铺优惠</dt>
-									<div class="gold-list">
-									<p>用户免费领券<span>点击领券<i class="am-icon-sort-down"></i></span></p>
-									</div>
-								</div>
-								<div class="clear"></div>
-								<div class="coupon">
-									<dt class="tb-metatit">优惠券</dt>
-									<div class="gold-list">
-										<ul>
-											<li>125减5</li>
-											<li>198减10</li>
-											<li>298减20</li>
-										</ul>
-									</div>
-								</div>
-							</div>
 						</div>
-
 						<div class="pay">
 							<div class="pay-opt">
 							<a href="home.html"><span class="am-icon-home am-icon-fw">首页</span></a>
@@ -338,13 +310,41 @@
 							</div>
 							<li>
 								<div class="clearfix tb-btn tb-btn-buy theme-login">
-									<a id="LikBuy" title="点此按钮到下一步确认购买信息" href="#">立即购买</a>
+									<a id="LikBuy" title="点此按钮到下一步确认购买信息" href="javascript:void(0)" onclick="show()">立即购买</a>
+									<script type="text/javascript">
+										function show(){
+											if(mon + m2 <=0){
+												$("#show1").show();
+											}else if(sel1 && sel2 && flag && flag2){
+												var oneMoney = mon+m2;
+												var allMoney = oneMoney*tt
+												alert("正在下订单。。cid:"+${commodity.cid}+" 口味id："+selctid+" 包装id："+selccid+" 数量为："+tt)
+												alert("单个金额为："+oneMoney+" 总金额为："+allMoney)
+											}else{
+												$("#show1").show();
+											}
+										}
+									</script>
 								</div>
 							</li>
 							<li>
 								<div class="clearfix tb-btn tb-btn-basket theme-login">
-									<a id="LikBasket" title="加入购物车" href="#"><i></i>加入购物车</a>
+									<a id="LikBasket" title="加入购物车" href="javascript:void(0)" onclick="show2()" ><i></i>加入购物车</a>
 								</div>
+								<script type="text/javascript">
+										function show2(){
+											if(mon + m2 <=0){
+												$("#show1").show();
+											}else if(sel1 && sel2 && flag && flag2){
+												var oneMoney = mon+m2;
+												var allMoney = oneMoney*tt
+												alert("正在下订单。。cid:"+${commodity.cid}+" 口味id："+selctid+" 包装id："+selccid+" 数量为："+tt)
+												alert("单个金额为："+oneMoney+" 总金额为："+allMoney)
+											}else{
+												$("#show1").show();
+											}
+										}
+								</script>
 							</li>
 						</div>
 
@@ -369,9 +369,9 @@
 						     	<c:forEach items="${seeList }" var="l">
 							      <li class="first">
 							      	<div class="p-img">                    
-							      		<a  href="#"> <img class="" src="${ctx}/resources/images/browse1.jpg"> </a>               
+							      		<a href="toShowOne?cid=${l.cid }"> <img class="" src="${ctx}/resources/${l.commodityPics.cp_img}"> </a>               
 							      	</div>
-							      	<div class="p-name"><a href="#">
+							      	<div class="p-name"><a href="toShowOne?cid=${l.cid }">
 							      		${l.cname }
 							      	</a>
 							      	</div>
@@ -442,7 +442,7 @@
 								<div class="am-tab-panel am-fade">
 								<div class="actor-new">
                                     	<div class="rate">                
-                                    		<strong>${sell.goodlv }<span>%</span></strong><br> <span>好评度</span>            
+                                    		<strong>${commodity.commoditySell.goodlv }<span>%</span></strong><br> <span>好评度</span>            
                                     	</div>
                                     </div>
                                     <div class="clear"></div>
@@ -451,28 +451,28 @@
 											<li class="tb-taglist-li tb-taglist-li-current">
 												<div class="comment-info">
 													<span>全部评价</span>
-													<span class="tb-tbcr-num">(${sell.allComm })</span>
+													<span class="tb-tbcr-num">(${commodity.commoditySell.allComm })</span>
 												</div>
 											</li>
 
 											<li class="tb-taglist-li tb-taglist-li-1">
 												<div class="comment-info">
 													<span>好评</span>
-													<span class="tb-tbcr-num">(${sell.goodcomm })</span>
+													<span class="tb-tbcr-num">(${commodity.commoditySell.goodcomm })</span>
 												</div>
 											</li>
 
 											<li class="tb-taglist-li tb-taglist-li-0">
 												<div class="comment-info">
 													<span>中评</span>
-													<span class="tb-tbcr-num">(${sell.midcomm })</span>
+													<span class="tb-tbcr-num">(${commodity.commoditySell.midcomm })</span>
 												</div>
 											</li>
 
 											<li class="tb-taglist-li tb-taglist-li--1">
 												<div class="comment-info">
 													<span>差评</span>
-													<span class="tb-tbcr-num">(${sell.badcomm })</span>
+													<span class="tb-tbcr-num">(${commodity.commoditySell.badcomm })</span>
 												</div>
 											</li>
 										</ul>
@@ -505,16 +505,6 @@
 														<div class="J_TbcRate_ReviewContent tb-tbcr-content ">
 														${cc.content }
 														</div>
-														<div class="tb-r-act-bar">
-															<c:if test="${commodity.category=='食品' }">
-															口味：原味&nbsp;&nbsp;包装：手袋单人份
-															</c:if>
-														</div>
-														<div class="tb-r-act-bar">
-															<c:if test="${commodity.category=='服饰' }">
-															颜色：柠檬黄&nbsp;&nbsp;尺码：S
-															</c:if>
-														</div>
 													</div>
 
 												</div>
@@ -524,19 +514,7 @@
 										</c:forEach>
 									</ul>
 									<div class="clear"></div>
-
-									<!--分页 -->
-									<ul class="am-pagination am-pagination-right">
-										<li class="am-disabled"><a href="#">&laquo;</a></li>
-										<li class="am-active"><a href="#">1</a></li>
-										<li><a href="#">2</a></li>
-										<li><a href="#">3</a></li>
-										<li><a href="#">4</a></li>
-										<li><a href="#">5</a></li>
-										<li><a href="#">&raquo;</a></li>
-									</ul>
 									<div class="clear"></div>
-
 									<div class="tb-reviewsft">
 										<div class="tb-rate-alert type-attention">购买前请查看该商品的 <a href="#" target="_blank">购物保障</a>，明确您的售后保障权益。</div>
 									</div>
@@ -549,8 +527,8 @@
 											<c:forEach items="${likeList }" var="li">
 											<li>
 												<div class="i-pic limit">
-													<img src="${ctx}/resources/images/imgsearch1.jpg" />
-													<p>${li.cname }</p>
+													<a href="toShowOne?cid=${li.cid }"><img src="${ctx}/resources/${li.commodityPics.cp_img}" /></a>
+													<p><a href="toShowOne?cid=${li.cid }">${li.cname }</a></p>
 													<p class="price fl">
 														<b>¥</b>
 														<strong>${li.price}</strong>
@@ -560,18 +538,6 @@
 											</c:forEach>
 										</ul>
 									</div>
-									<div class="clear"></div>
-
-									<!--分页 -->
-									<ul class="am-pagination am-pagination-right">
-										<li class="am-disabled"><a href="#">&laquo;</a></li>
-										<li class="am-active"><a href="#">1</a></li>
-										<li><a href="#">2</a></li>
-										<li><a href="#">3</a></li>
-										<li><a href="#">4</a></li>
-										<li><a href="#">5</a></li>
-										<li><a href="#">&raquo;</a></li>
-									</ul>
 									<div class="clear"></div>
 
 								</div>

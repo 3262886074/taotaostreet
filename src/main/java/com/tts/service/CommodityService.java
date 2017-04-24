@@ -1,8 +1,10 @@
 package com.tts.service;
 
 import java.util.List;
+import java.util.Set;
 
 import com.tts.bean.Commodity;
+import com.tts.bean.Commodity_Category;
 
 public interface CommodityService {
 
@@ -26,7 +28,7 @@ public interface CommodityService {
 	 * @param types
 	 * @return
 	 */
-	public List<Commodity> findByType(String types);
+	public List<Commodity> findByCate(long cid);
 	
 	/**
 	 * 截取产品参数

@@ -24,11 +24,8 @@ public class Commodity_Category {
         this.cctype = cctype;
     }
 
-    @Override
-    public String toString() {
-        return "Commodity_Category{" +
-                "ccid=" + ccid +
-                ", cctype='" + cctype + '\'' +
-                '}';
-    }
+	@Override
+	public String toString() {
+		return "Commodity_Category [ccid=" + ccid + ", cctype=" + cctype + "]";
+	}
 }

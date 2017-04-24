@@ -49,9 +49,9 @@ public interface CommodityDao {
 	/*
 	 * 看了又看、猜你喜欢
 	 */
-	//看了又看，查询出除了当前商品的全部商品
+	//看了又看，随机查询出除了当前商品的全部商品中的6条数据
 	public List<Commodity> findAll(long cid);
-	//猜你喜欢，根据当前浏览的类型进行查询
-	public List<Commodity> findByType(String types);
+	//猜你喜欢，根据当前浏览的类型进行随机查询20条数据
+	public List<Long> findByCategory(List<Commodity_Category> category);
 
 }

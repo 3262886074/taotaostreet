@@ -1,29 +1,67 @@
 // JavaScript Document
+var money = 0.0*1;
+var mon = 0.0*1;
 
+var m1 = 0.0*1;
+var m2 = 0.0*1;
+var sel1 = true;
+var sel2 = true;
+var flag = false;
+var flag2 = false;
+var selctid;
+var selccid;
 //商品规格选择
 $(function() {
-	
-	var money = 0.0*1;
-	var mon = 0.0*1;
-	$(".theme-options").each(function() {
+	$("div[class=theme-options]:eq(0)").each(function() {
 		var i = $(this);
 		var p = i.find("ul>li");
 		p.click(function() {
-			var tprice = $(this).find("input[type='hidden']").val()*1;
+			flag = true;
+			$("#show1").hide();
+			var tprice = $(this).find("input[type='hidden']:eq(0)").val()*1;
+			selctid = $(this).find("input[type='hidden']:eq(1)").val();
 			if (!!$(this).hasClass("selected")) {
 				$(this).removeClass("selected");
 				mon = money;
+				sel1 =false
+				$("#ppp").html($("#showMoney").val());
 			} else {
 				$(this).addClass("selected").siblings("li").removeClass("selected");
 				money = tprice+money;
 				mon = money;
 				money = money-tprice;
-				alert(mon);
+				sel1 = true;
+			}
+			if (sel1 && sel2 && flag && flag2) {
+				$("b[class=sys_item_price]").html(mon+m2);
 			}
 		})
 	})
-	
-	
+	$("div[class=theme-options]:eq(1)").each(function() {
+		var i = $(this);
+		var p = i.find("ul>li");
+		p.click(function() {
+			flag2 = true;
+			$("#show1").hide();
+			var tprice = $(this).find("input[type='hidden']:eq(0)").val()*1;
+			selccid = $(this).find("input[type='hidden']:eq(1)").val();
+			if (!!$(this).hasClass("selected")) {
+				$(this).removeClass("selected");
+				m2 = m1;
+				sel2 = false;
+				$("#ppp").html($("#showMoney").val());
+			} else {
+				$(this).addClass("selected").siblings("li").removeClass("selected");
+				m1 = tprice+m1;
+				m2 = m1;
+				m1 = m1-tprice;
+				sel2 = true;
+			}
+			if (sel1 && sel2 && flag && flag2) {
+				$("b[class=sys_item_price]").html(mon+m2);
+			}
+		})
+	})
 
 })
 
@@ -109,16 +147,13 @@ $(document).ready(function() {
 	}
 });
 
-
+var tt = 1;
 
 $(document).ready(function() {
 	//优惠券
 	$(".hot span").click(function() {
 		$(".shopPromotion.gold .coupon").toggle();
 	})
-
-
-
 
 	//获得文本框对象
 	var t = $("#text_box");
@@ -130,16 +165,19 @@ $(document).ready(function() {
 	$("#text_box").keyup(function(){
 			if (t.val()=="") {
 				t.val(1);
+				tt=1;
 				$('#min').attr('disabled', true);
 				$('#add').attr('disabled', false);
 			}
 			if (parseInt(t.val())<=1) {
 				t.val(1);
+				tt=1;
 				$('#min').attr('disabled', true);
 				$('#add').attr('disabled', false);
 			}
 			if (parseInt(t.val())>c_number) {
 				t.val(1);
+				tt=1;
 				$('#min').attr('disabled', true);
 				$('#add').attr('disabled', false);
 			}
@@ -150,10 +188,12 @@ $(document).ready(function() {
 			if (parseInt(t.val())==c_number) {
 				$("#add").attr('disabled', true);
 			}
+			tt = parseInt(t.val())
 	});
 	//数量增加操作
 	$("#add").click(function() {
 			t.val(parseInt(t.val()) + 1)
+			tt++
 			if (parseInt(t.val()) != 1) {
 				$('#min').attr('disabled', false);
 			}
@@ -165,6 +205,7 @@ $(document).ready(function() {
 		//数量减少操作
 	$("#min").click(function() {
 			t.val(parseInt(t.val()) - 1);
+			tt--
 		if (parseInt(t.val()) == 1) {
 			$('#min').attr('disabled', true);
 		}

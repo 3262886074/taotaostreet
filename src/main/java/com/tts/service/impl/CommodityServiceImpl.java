@@ -2,10 +2,12 @@ package com.tts.service.impl;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 import com.tts.bean.Commodity;
+import com.tts.bean.Commodity_Category;
 import com.tts.bean.Commodity_Sell;
 import com.tts.dao.CommodityDao;
 import com.tts.service.CommodityService;
@@ -25,7 +27,6 @@ public class CommodityServiceImpl implements CommodityService{
 		commodity.setComments(cd.getMent(cid));
 		commodity.setCommodityPics(cd.getPics(cid));
 		commodity.setCommodityCategories(cd.getCategory(cid));
-
 		Commodity_Sell sell = new Commodity_Sell();
 		sell.setMonthSell(cd.getMonthSell(cid));
 		sell.setAllSell(cd.getAllSell(cid));
@@ -42,12 +43,13 @@ public class CommodityServiceImpl implements CommodityService{
 
 	@Override
 	public List<Commodity> findAll(long cid) {
-		return cd.findAll(cid);
-	}
-
-	@Override
-	public List<Commodity> findByType(String types) {
-		return cd.findByType(types);
+		
+		List<Commodity> coms = new ArrayList<>();
+		List<Commodity> list= cd.findAll(cid);
+		for (Commodity commodity : list) {
+		     coms.add(getCommodity(commodity.getCid()));
+		}
+		return coms;
 	}
 
 	@Override
@@ -59,6 +61,23 @@ public class CommodityServiceImpl implements CommodityService{
 			ds.add(args[i]);
 		}
 		return ds;
+	}
+
+	@Override
+	public List<Commodity> findByCate(long cid) {
+		
+		Set<Commodity_Category> cates = cd.getCategory(cid);
+		List<Commodity_Category> list = new ArrayList<>();
+		for (Commodity_Category commodity_Category : cates) {
+			list.add(commodity_Category);
+		}
+		List<Commodity> coms = new ArrayList<>();
+		List<Long> l = cd.findByCategory(list);
+		for (Long id : l) {
+			Commodity commodity = getCommodity(id);
+			coms.add(commodity);
+		}
+		return coms;
 	}
 
 }

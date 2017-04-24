@@ -62,13 +62,17 @@
     	SELECT COUNT(c_id) FROM commodity_comment WHERE c_id=#{cid} AND ctype=0
     </select>
     
-    <!-- 看了又看，查询出除了当前商品的全部商品 -->
+    <!-- 看了又看，随机查询出除了当前商品的全部商品中的6条数据 -->
     <select id="findAll" parameterType="long" resultMap="commodityMap">
-    	SELECT * FROM commodity WHERE c_id NOT IN(#{cid})
+    	SELECT * FROM commodity WHERE c_id NOT IN(#{cid}) ORDER BY RAND() limit 0,8
     </select>
-    <!-- 猜你喜欢，根据当前浏览的类型进行查询 -->
-    <select id="findByType" parameterType="String" resultMap="commodityMap">
-    	SELECT * FROM commodity WHERE category=#{types}
+    <!-- 猜你喜欢，根据当前浏览的类型进行随机查询20条数据 -->
+    <select id="findByCategory" parameterType="Commodity_Category" resultType="Long">
+    	SELECT DISTINCT c_id FROM commodity_category WHERE
+    	<foreach collection="list" index="i" item="item" separator="or">
+    		cy_type = #{item.cctype}
+    	</foreach>
+    	ORDER BY RAND() LIMIT 0,20
     </select>
     
     <!-- Map的配置 -->
