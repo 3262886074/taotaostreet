@@ -406,7 +406,7 @@
 											<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 										</div>
 										<a href="# "><img
-											src="${ctx}${commodity.commodityPics.cp_img}" /></a>
+											src="${ctx}${commodity.commodityPics.cpImg}" /></a>
 									</div>
 								</c:if>
 								<c:if test="${stacom.index+1==2}">
@@ -417,7 +417,7 @@
 											<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 										</div>
 										<a href="# "><img
-											src="${ctx}${commodity.commodityPics.cp_img}" /></a>
+											src="${ctx}${commodity.commodityPics.cpImg}" /></a>
 									</div>
 								</c:if>
 								<c:if test="${stacom.index+1==3}">
@@ -428,7 +428,7 @@
 											<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 										</div>
 										<a href="# "><img
-											src="${ctx}${commodity.commodityPics.cp_img}" /></a>
+											src="${ctx}${commodity.commodityPics.cpImg}" /></a>
 									</div>
 								</c:if>
 								<c:if test="${stacom.index+1==4}">
@@ -439,7 +439,7 @@
 											<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 										</div>
 										<a href="# "><img
-											src="${ctx}${commodity.commodityPics.cp_img}" /></a>
+											src="${ctx}${commodity.commodityPics.cpImg}" /></a>
 									</div>
 								</c:if>
 								<c:if test="${stacom.index+1==5}">
@@ -450,7 +450,7 @@
 											<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 										</div>
 										<a href="# "><img
-											src="${ctx}${commodity.commodityPics.cp_img}" /></a>
+											src="${ctx}${commodity.commodityPics.cpImg}" /></a>
 									</div>
 								</c:if>
 								<c:if test="${stacom.index+1==6}">
@@ -461,7 +461,7 @@
 											<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 										</div>
 										<a href="# "><img
-											src="${ctx}${commodity.commodityPics.cp_img}" /></a>
+											src="${ctx}${commodity.commodityPics.cpImg}" /></a>
 									</div>
 								</c:if>
 							</c:forEach>
