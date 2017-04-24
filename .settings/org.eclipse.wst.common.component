@@ -2,8 +2,8 @@
     <wb-module deploy-name="TaoTaoStreet-0.0.1-SNAPSHOT">
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
-        <wb-resource deploy-path="/" source-path="/src/main/WebRoot" tag="defaultRootSource"/>
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/test/java"/>
+        <wb-resource deploy-path="/" source-path="/src/main/WebRoot" tag="defaultRootSource"/>
         <property name="context-root" value="TaoTaoStreet"/>
         <property name="java-output-path" value="/TaoTaoStreet/target/classes"/>
     </wb-module>
