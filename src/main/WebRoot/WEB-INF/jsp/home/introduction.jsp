@@ -318,7 +318,7 @@
 											}else if(sel1 && sel2 && flag && flag2){
 												var oneMoney = mon+m2;
 												var allMoney = oneMoney*tt
-												alert("正在下订单。。cid:"+${commodity.cid}+" 口味id："+selctid+" 包装id："+selccid+" 数量为："+tt)
+												alert("正在下订单。。cid:"+${commodity.cid }+" 口味id："+selctid+" 包装id："+selccid+" 数量为："+tt)
 												alert("单个金额为："+oneMoney+" 总金额为："+allMoney)
 											}else{
 												$("#show1").show();
@@ -338,8 +338,8 @@
 											}else if(sel1 && sel2 && flag && flag2){
 												var oneMoney = mon+m2;
 												var allMoney = oneMoney*tt
-												alert("正在下订单。。cid:"+${commodity.cid}+" 口味id："+selctid+" 包装id："+selccid+" 数量为："+tt)
-												alert("单个金额为："+oneMoney+" 总金额为："+allMoney)
+												alert("正在下订单。。cid:"+${commodity.cid }+" 口味id："+selctid+" 包装id："+selccid+" 数量为："+tt)
+												alert("单个金额为："+oneMoney+" 总金额为："+allMoney )
 											}else{
 												$("#show1").show();
 											}
@@ -369,7 +369,7 @@
 						     	<c:forEach items="${seeList }" var="l">
 							      <li class="first">
 							      	<div class="p-img">                    
-							      		<a href="toShowOne?cid=${l.cid }"> <img class="" src="${ctx}/resources/${l.commodityPics.cp_img}"> </a>               
+							      		<a href="toShowOne?cid=${l.cid }"> <img class="" src="${ctx}${l.commodityPics.cp_img}"> </a>               
 							      	</div>
 							      	<div class="p-name"><a href="toShowOne?cid=${l.cid }">
 							      		${l.cname }
@@ -527,7 +527,7 @@
 											<c:forEach items="${likeList }" var="li">
 											<li>
 												<div class="i-pic limit">
-													<a href="toShowOne?cid=${li.cid }"><img src="${ctx}/resources/${li.commodityPics.cp_img}" /></a>
+													<a href="toShowOne?cid=${li.cid }"><img src="${ctx}${li.commodityPics.cp_img}" /></a>
 													<p><a href="toShowOne?cid=${li.cid }">${li.cname }</a></p>
 													<p class="price fl">
 														<b>¥</b>
