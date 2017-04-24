@@ -54,7 +54,7 @@ public class LoginAndRegisterController {
             users.setUsers_authentication(users_authentication);
             users.setUser_safety_question(user_safety_question);
             map.put("users", users);
-            return "person/index";
+            return "redirect:/";
         } else {
             return "redirect:loginInput";
         }

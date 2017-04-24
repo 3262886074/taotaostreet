@@ -46,6 +46,12 @@
             form.submit();
             return false;
         });
+//        //添加地址
+//        $("#save").click(function () {
+//            var form = $("#addressForm");
+//            form.submit();
+//            return false;
+//        });
     })
 </script>
 <body>
@@ -185,7 +191,7 @@
                         <hr/>
 
                         <div class="am-u-md-12 am-u-lg-8" style="margin-top: 20px;">
-                            <form action="${ctx}/users/addAddress" method="post" class="am-form am-form-horizontal">
+                            <form id="addressForm" action="${ctx}/users/addAddress" method="post" class="am-form am-form-horizontal">
 
                                 <div class="am-form-group">
                                     <label for="user-name" class="am-form-label">收货人</label>
@@ -197,7 +203,7 @@
                                 <div class="am-form-group">
                                     <label for="user-phone" class="am-form-label">手机号码</label>
                                     <div class="am-form-content">
-                                        <input id="user-phone" required name="uatel" placeholder="手机号必填" type="telephone">
+                                        <input id="user-phone" required name="uatel" placeholder="手机号必填" type="tel">
                                     </div>
                                 </div>
                                 <div class="am-form-group">
@@ -218,12 +224,8 @@
 
                                 <div class="am-form-group">
                                     <div class="am-u-sm-9 am-u-sm-push-3">
-                                        <a class="am-btn am-btn-danger">
-                                            保存<input type="submit">
-                                        </a>
-                                        <a href="javascript: void(0)" class="am-close am-btn am-btn-danger" data-am-modal-close>
-                                            取消<input type="reset">
-                                        </a>
+                                       <input class="am-btn am-btn-danger" type="submit" value="提交">
+                                       <input class="am-btn am-btn-danger" type="reset" value="重置">
                                     </div>
                                 </div>
                             </form>

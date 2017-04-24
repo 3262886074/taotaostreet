@@ -157,7 +157,7 @@
                             </div>
                         </div>
                         <div class="info-btn">
-                             <input type="submit" value="保存修改">
+                             <input class="info-btn" type="submit" value="保存修改">
                         </div>
 
                     </form:form>
