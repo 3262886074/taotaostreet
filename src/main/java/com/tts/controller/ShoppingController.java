@@ -1,38 +1,18 @@
 package com.tts.controller;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
-import javax.annotation.Resource;
-
-import org.junit.runners.Parameterized.Parameter;
+import com.tts.bean.*;
+import com.tts.service.Shopping_CartService;
+import com.tts.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
-import com.tts.bean.Commodity;
-import com.tts.bean.Commodity_Combo;
-import com.tts.bean.Commodity_items;
-import com.tts.bean.Commodity_pics;
-import com.tts.bean.Commodity_type;
-import com.tts.bean.Discount_coupon;
-import com.tts.bean.Order;
-import com.tts.bean.Shopping_Cart;
-import com.tts.bean.User_Red_package;
-import com.tts.bean.User_address;
-import com.tts.bean.Users;
-import com.tts.service.Shopping_CartService;
-import com.tts.service.UsersService;
-import com.tts.service.impl.Shopping_CartServiceImpl;
+import javax.annotation.Resource;
+import java.util.Set;
 
 @Controller("ShoppingController")
 @SessionAttributes(value = { "shopping_Carts", "shopping_Cart" }, types = String.class)
