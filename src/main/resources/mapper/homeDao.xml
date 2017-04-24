@@ -11,7 +11,7 @@
 		<result property="forSalePrice" column="for_sale_price" />
 		<association property="commodityPics" javaType="Commodity_pics">
 			<id property="cpId" column="cp_id" />
-			<result property="cp_img" column="cp_img" />
+			<result property="cpImg" column="cp_img" />
 		</association>
 		<association property="commoditySell" column="c_id"
 			select="getCommoditySell">
@@ -80,7 +80,7 @@
 				<association property="commodityPics" column="c_id"
 					javaType="Commodity_pics">
 					<id property="cpId" column="cp_id" />
-					<result property="cp_img" column="cp_img" />
+					<result property="cpImg" column="cp_img" />
 				</association>
 			</collection>
 		</collection>
