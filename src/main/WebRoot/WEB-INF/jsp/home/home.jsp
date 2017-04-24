@@ -30,11 +30,11 @@
 				<div class="topMessage">
 					<div class="menu-hd">
 						<c:if test="${empty users}">
-							<a href="${ctx}/users/registerInput" target="_top">免费注册</a>
-							<a href="${ctx}/users/loginInput" target="_top" class="h">亲，请登录</a>
+							<a href="${ctx}/loginOrRegister/registerInput" target="_top">免费注册</a>
+							<a href="${ctx}/loginOrRegister/loginInput" target="_top" class="h">亲，请登录</a>
 						</c:if>
 						<c:if test="${!empty users}">
-							<a href="${ctx}/users/loginOut">注销</a>
+							<a href="${ctx}/loginOrRegister/loginOut">注销</a>
 						</c:if>
 					</div>
 				</div>
@@ -67,20 +67,20 @@
 				<c:if test="${empty users}">
 					<div class="topMessage my-shangcheng">
 						<div class="menu-hd MyShangcheng">
-							<a href="${ctx}/users/loginInput" target="_top"><i
+							<a href="${ctx}/loginOrRegister/loginInput" target="_top"><i
 								class="am-icon-user am-icon-fw"></i>个人中心</a>
 						</div>
 					</div>
 					<div class="topMessage mini-cart">
 						<div class="menu-hd">
-							<a id="mc-menu-hd" href="${ctx}/users/loginInput" target="_top"><i
+							<a id="mc-menu-hd" href="${ctx}/loginOrRegister/loginInput" target="_top"><i
 								class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong
 								id="J_MiniCartNum" class="h">0</strong></a>
 						</div>
 					</div>
 					<div class="topMessage favorite">
 						<div class="menu-hd">
-							<a href="${ctx}/users/loginInput" target="_top"><i
+							<a href="${ctx}/loginOrRegister/loginInput" target="_top"><i
 								class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a>
 						</div>
 				</c:if>
@@ -266,9 +266,9 @@
 												</em>
 											</div>
 											<div class="member-logout">
-												<a class="am-btn-warning btn" href="${ctx}/users/loginInput">登录</a>
+												<a class="am-btn-warning btn" href="${ctx}/loginOrRegister/loginInput">登录</a>
 												<a class="am-btn-warning btn"
-													href="${ctx}/users/registerInput">注册</a>
+													href="${ctx}/loginOrRegister/registerInput">注册</a>
 											</div>
 										</c:when>
 										<c:otherwise>
@@ -282,9 +282,9 @@
 												</em>
 											</div>
 											<div class="member-logout">
-												<a class="am-btn-warning btn" href="${ctx}/users/loginInput">我的订单</a>
+												<a class="am-btn-warning btn" href="${ctx}/loginOrRegister/loginInput">我的订单</a>
 												<a class="am-btn-warning btn"
-													href="${ctx}/users/registerInput">我的足迹</a>
+													href="${ctx}/loginOrRegister/registerInput">我的足迹</a>
 											</div>
 										</c:otherwise>
 									</c:choose>

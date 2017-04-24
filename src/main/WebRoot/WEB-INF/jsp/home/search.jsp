@@ -210,7 +210,7 @@
 									<li>
 										<div class="i-pic limit">
 
-											<img src="${ctx}${commodity.commodityPics.cp_img}" />
+											<img src="${ctx}${commodity.commodityPics.cpImg}" />
 											<p class="title fl">${commodity.cname}</p>
 											<p class="price fl">
 												<b>¥</b> <strong>${commodity.forSalePrice}</strong>
