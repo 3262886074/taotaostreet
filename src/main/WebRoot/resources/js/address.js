@@ -5,22 +5,116 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 
 
  $(document).ready(function(){
+	 $(document).ready(function(){
+		 
+		 
+		    $(function(){
+		    	var zj=0;
+		        $(".add").click(function(){
+		         var t=$(this).parent().find('input[class*=text_box]');
+		        t.val(parseInt(t.val())+1);
+		        
+		      })
+		     $(".min").click(function(){
+		      var t=$(this).parent().find('input[class*=text_box]');
+		     
+		        t.val(parseInt(t.val())-1)
+		        if(parseInt(t.val())<0){
+		         t.val(0);
+		         }
+		        
+		      })
+		      $(".td").mouseover(function(){
+		   	   
+		       	 var t=$(this).parent().find('input[class*=text_box]');
+		       	 var pc=$(this).parent().find('input[class*=pc]');
+		           var wt=$(this).parent().find('input[class*=wt]');
+		           var s=0;
+		           s=  parseInt(t.val())*parseFloat(pc.val());
+		           wt.val(s.toFixed(2));
+		           
+		            zj=0;
+		           var w=$(".wt");
+		           $(w).each(function(index,item){
+		          	 zj+=parseInt($(this).val())
+		          	   	 val = $("#tt")[0].value; 
+		          	 $("#tt").val(zj.toFixed(2));
+		         	
+		           })       
+		        })
+		        $(".td").click(function(){
+		       	 var t=$(this).parent().find('input[class*=text_box]');
+		       	 var pc=$(this).parent().find('input[class*=pc]');
+		           var wt=$(this).parent().find('input[class*=wt]');
+		           var s=0;
+		           s=  parseInt(t.val())*parseFloat(pc.val());
+		           wt.val(s.toFixed(2));
+		           var zj=0;
+		           var w=$(".wt");
+		           $(w).each(function(index,item){
+		          	 zj+=parseInt($(this).val())
+		     	 $("#tt").val(zj.toFixed(2));
+		          
+		           })
+		           
+		           
+		           
+		        	  
+		          
+		        
+		        })
+		        	var xz=$("#yhj");
+		        	var xzh=$("#hb");
+		        	zj=$("#J_ActualFee").val();
+		        	
 
-     $(function(){
-         $(".add").click(function(){
-          var t=$(this).parent().find('input[class*=text_box]');
-         t.val(parseInt(t.val())+1)
-        })
-      $(".min").click(function(){
-       var t=$(this).parent().find('input[class*=text_box]');
-         t.val(parseInt(t.val())-1)
-         if(parseInt(t.val())<0){
-          t.val(0);
-          }
-       })
-    }) 
+		        	
+		        	$(".td").mouseover(function(){
+		        		var sf=zj-xz.val()-xzh.val();
+		        		if(sf<1){
 
-	
+			        		sf=1;
+			        	}
+			       
+		        	$("#J_ActualFee").val(sf.toFixed(2));
+		        	})
+		        	$(".td").click(function(){
+		        		var sf=zj-xz.val()-xzh.val();
+		        		if(sf<1){
+
+			        		sf=1;
+			        	}
+			       
+		        	$("#J_ActualFee").val(sf.toFixed(2));
+		        	})
+		        	
+		        $("#yhxz").change(function(){
+		        	
+		        	 xz= $(this).find("option:selected");
+		        	var sf=zj-xz.val()-xzh.val();
+		        	if(sf<1){
+		        		alert("亲！实付款不可小于1.00！！！");
+		        		sf=1;
+		        	}
+		        	$("#J_ActualFee").val(sf.toFixed(2));
+		        })
+		        $("#hbxz").change(function(){
+		        	
+		        	 xzh= $(this).find("option:selected");
+		        	var sf=zj-xzh.val()-xz.val();
+		        	
+		        	if(sf<1){
+		        		alert("亲！实付款不可小于1.00！！！");
+		        		sf=1;
+		        	}
+		        	
+		        	$("#J_ActualFee").val(sf.toFixed(2));
+		        })
+		    }) 
+		   }) 
+		   
+	 		
+	   }) 
 	<!--兼容IE浏览器 -->
 	    if (!document.getElementsByClassName) {
         document.getElementsByClassName = function (cls) {
@@ -37,7 +131,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
     }
  
  
-//地址选择
+// 地址选择
 				$(function() {
 					$(".user-addresslist").click(function() {
 						$(this).addClass("defaultAddr").siblings().removeClass("defaultAddr");
@@ -58,7 +152,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
  
  
  
-})
+
  
 // 弹出地址选择
  
@@ -67,7 +161,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 				var $ww = $(window).width();
 	
 				$('.theme-login').click(function() {
-//					禁止遮罩层下面的内容滚动
+// 禁止遮罩层下面的内容滚动
 					$(document.body).css("overflow","hidden");
 				
 					$(this).addClass("selected");
@@ -90,7 +184,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 				})
 
 				
-			}); 
+			})
  
  
  

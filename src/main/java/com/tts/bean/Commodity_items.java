@@ -9,58 +9,74 @@ import java.util.Map;
  */
 public class Commodity_items implements Serializable {
 
-    /**
+	/**
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
 	private long ciId;
-    //一对多 商品 键--商品 值--数量
-    private Map<Commodity, Integer> commodities = new HashMap<>();
-    private Commodity_type commodityType;    //商品样式
-    private Commodity_Combo commodityCombo;    //商品套餐
+	private long scId;
+	public long getScId() {
+		return scId;
+	}
 
-    public Commodity_items() {
-    }
+	public void setScId(long scId) {
+		this.scId = scId;
+	}
 
-    @Override
-    public String toString() {
-        return "Commodity_items{" +
-                "ciId=" + ciId +
-                ", commodities=" + commodities +
-                ", commodityType=" + commodityType +
-                ", commodityCombo=" + commodityCombo +
-                '}';
-    }
+	private Integer number;
+	// 一对多 商品 键--商品 值--数量
+	private Commodity commodities;
+	private Commodity_type commodityType; // 商品样式
+	private Commodity_Combo commodityCombo; // 商品套餐
 
-    public long getCiId() {
-        return ciId;
-    }
+	public Commodity_items() {
+	}
 
-    public void setCiId(long ciId) {
-        this.ciId = ciId;
-    }
+	@Override
+	public String toString() {
+		return "Commodity_items{" + "ciId=" + ciId +
+				"Commodity_items{" + "scId=" + scId +
+				",number=" + number + ", commodities=" + commodities + ", commodityType=" + commodityType
+				+ ", commodityCombo=" + commodityCombo + '}';
+	}
 
-    public Map<Commodity, Integer> getCommodities() {
-        return commodities;
-    }
+	public Integer getNumber() {
+		return number;
+	}
 
-    public void setCommodities(Map<Commodity, Integer> commodities) {
-        this.commodities = commodities;
-    }
+	public void setNumber(Integer number) {
+		this.number = number;
+	}
 
-    public Commodity_type getCommodityType() {
-        return commodityType;
-    }
+	public long getCiId() {
+		return ciId;
+	}
 
-    public void setCommodityType(Commodity_type commodityType) {
-        this.commodityType = commodityType;
-    }
+	public void setCiId(long ciId) {
+		this.ciId = ciId;
+	}
 
-    public Commodity_Combo getCommodityCombo() {
-        return commodityCombo;
-    }
+	public Commodity getCommodities() {
+		return commodities;
+	}
 
-    public void setCommodityCombo(Commodity_Combo commodityCombo) {
-        this.commodityCombo = commodityCombo;
-    }
+	public void setCommodities(Commodity commodities) {
+		this.commodities = commodities;
+	}
+
+	public Commodity_type getCommodityType() {
+		return commodityType;
+	}
+
+	public void setCommodityType(Commodity_type commodityType) {
+		this.commodityType = commodityType;
+	}
+
+	public Commodity_Combo getCommodityCombo() {
+		return commodityCombo;
+	}
+
+	public void setCommodityCombo(Commodity_Combo commodityCombo) {
+		this.commodityCombo = commodityCombo;
+	}
 }
