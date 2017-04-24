@@ -10,13 +10,13 @@
 		select
 		ci.ci_id
 		"ciId",
-			ci.c_id "commodities.cId",
+			ci.c_id "commodity.cId",
 		ci.number "number",
 		ci.ct_id "commodityType.ct_id",
 		ci.cc_id "commodityCombo.cc_id",
-		c.price "commodities.price",
-		c.for_sale_price "commodities.forSalePrice",
-		c.number "commodities.number",
+		c.price "commodity.price",
+		c.for_sale_price "commodity.forSalePrice",
+		c.number "commodity.number",
 		ct.type_name "commodityType.typeName",
 		ct.price "commodityType.price",
 		cc.cc_name "commodityCombo.ccname",

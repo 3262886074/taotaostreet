@@ -36,11 +36,11 @@ public class Shopping_cartTest {
 	
 	@org.junit.Test
 	public void test(){
-		Shopping_Cart list= shopping_cartService.getShopping_Cart(1);
+//		Shopping_Cart list= shopping_cartService.getShopping_Cart(1);
 //		List<Commodity> list=shopping_CartDao.getCommodity(1);
 //		Order list=shopping_CartDao.getOrder(1);
-//		Shopping_Cart list=shopping_cartService.addShopping_Cart(5);
-//		HashSet<Commodity_items> list=shopping_CartDao.getCommodity_items(1);
+//		Shopping_Cart list=shopping_cartSersvice.addShopping_Cart(5);
+		HashSet<Commodity_items> list=shopping_CartDao.getCommodity_items(1);
 //		Integer list=shopping_CartDao.addCommodity_items(1,2,3,1,5);
 		Order order=new Order();
 		 Shopping_Cart shoppingcart=new Shopping_Cart();
@@ -54,9 +54,8 @@ public class Shopping_cartTest {
 		 userAddress.setUaId(2);
 		 User_Red_package  userRedPackage=new User_Red_package();
 		 userRedPackage.setUrpId(2);
-		 
-		 
-		order.setShoppingcart(shoppingcart);
+
+		order.setShoppingCart(shoppingcart);
 		order.setDiscountCoupon(discountCoupon);
 		order.setUserAddress(userAddress);
 		order.setUserRedPackage(userRedPackage);

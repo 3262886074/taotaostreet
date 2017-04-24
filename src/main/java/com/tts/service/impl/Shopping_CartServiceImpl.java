@@ -66,11 +66,11 @@ public class Shopping_CartServiceImpl implements Shopping_CartService {
 	public Order getOders(long oid) {
 		Order order = shopping_CartDao.getOrder(oid);
 
-		long scId = order.getShoppingcart().getScId();
+		long scId = order.getShoppingCart().getScId();
 
 		Shopping_Cart shoppingCart = shopping_CartDao.getShopping_Cart(scId);
 
-		order.setShoppingcart(shoppingCart);
+		order.setShoppingCart(shoppingCart);
 		return order;
 	}
 

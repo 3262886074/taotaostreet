@@ -92,8 +92,8 @@ public class ShoppingController {
 				 	Integer od= shopping_CartService.addOrder(order);
 				 	
 					Order orders = shopping_CartService.getOders(1);//通过OID订单
-					long scId = orders.getShoppingcart().getScId();
-					long uid = orders.getShoppingcart().getUsers().getUid();
+					long scId = orders.getShoppingCart().getScId();
+					long uid = orders.getShoppingCart().getUsers().getUid();
 					Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(scId);
 					map.put("orders", orders);
 					Set<User_address> userAddresses = usersService.getAddressesByUId(uid);
@@ -112,8 +112,8 @@ public class ShoppingController {
 		
 
 		Order orders = shopping_CartService.getOders(1);
-		long scId = orders.getShoppingcart().getScId();
-		long uid = orders.getShoppingcart().getUsers().getUid();
+		long scId = orders.getShoppingCart().getScId();
+		long uid = orders.getShoppingCart().getUsers().getUid();
 		Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(scId);
 		map.put("orders", orders);
 

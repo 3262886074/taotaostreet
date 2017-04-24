@@ -175,7 +175,7 @@
 												<li class="td td-price">
 													<div class="item-price price-promo-promo">
 														<div class="price-content">
-															<input class="pc"   type="text"  value="${ci.commodities.forSalePrice}" style="width:60px; text-align:center; border:none"  readonly />
+															<input class="pc"   type="text"  value="${ci.commodity.forSalePrice}" style="width:60px; text-align:center; border:none"  readonly />
 														</div>
 													</div>
 												</li>
@@ -195,14 +195,14 @@
 											</li>
 											<li class="td td-sum">
 												<div class="td-inner">
-													<input class="wt" name="" value="${ci.commodities.forSalePrice*ci.number}" type="text" style="width:50px; text-align:center; border:none" readonly/>
+													<input class="wt" name="" value="${ci.commodity.forSalePrice*ci.number}" type="text" style="width:50px; text-align:center; border:none" readonly/>
 												</div>
 											</li>
 											<li class="td td-oplist">
 												<div class="td-inner">
 													<span class="phone-title">库存</span>
 													<div class="pay-logis">
-														<b class="sys_item_freprice"><c:out value="${ci.commodities.number}"/></b>
+														<b class="sys_item_freprice"><c:out value="${ci.commodity.number}"/></b>
 													</div>
 												</div>
 											</li>

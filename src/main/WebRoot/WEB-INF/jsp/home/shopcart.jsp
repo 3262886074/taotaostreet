@@ -141,10 +141,10 @@
 										<div class="item-price price-promo-promo">
 											<div class="price-content">
 												<div class="price-line">
-													<em class="price-original"><c:out value="${ci.commodities.price}"/></em>
+													<em class="price-original"><c:out value="${ci.commodity.price}"/></em>
 												</div>
 												<div class="price-line">
-													<input class="pc"   type="text"  value="${ci.commodities.forSalePrice}" style="width:50px; text-align:center; border:none" readonly/>
+													<input class="pc"   type="text"  value="${ci.commodity.forSalePrice}" style="width:50px; text-align:center; border:none" readonly/>
 												</div>
 											</div>
 										</div>
@@ -163,7 +163,7 @@
 									</li>
 									<li class="td td-sum">
 										<div class="td-inner">
-											<input class="wt" name="" value="${ci.commodities.forSalePrice*ci.number}" type="text" style="width:50px; text-align:center; border:none" readonly/>
+											<input class="wt" name="" value="${ci.commodity.forSalePrice*ci.number}" type="text" style="width:50px; text-align:center; border:none" readonly/>
 										
 										</div>
 									</li>
