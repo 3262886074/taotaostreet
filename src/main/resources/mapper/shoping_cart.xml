@@ -4,51 +4,133 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.tts.dao.Shopping_CartDao">
-  	
-  <select id="getAll" resultType="Shopping_Cart">
-     select
-     sc_id "scId",
-     ci_id "commodityItems.ciId",
-     u_id "users.uid"
-     from Shopping_cart
-  </select>
-  
-    <!-- 通过购物车ID查询购物车信息、商品条目、用户信息 -->
-      <select id="getShopping_cart"  resultType="Shopping_Cart">
-     select
-     s.sc_id "scId",
-     s.ci_id "commodityItems.ciId",
-     s.u_id "users.uid"
-     from Shopping_cart   where sc_Id= #{scId}
-  </select>
-  
-   <!--通过商品条目ID查询商品条目  -->
-     <select id="getCommodity_items"  resultType="Commodity_items">
-     select
-     ci.ci_id "ciId",
-     ci.c_id "commodities.cId",
-     ci.number "commodities.number",
-     ci.ct_id "commodityType.ct_id",
-     ci.cc_id "commodityCombo.cc_id",
+
+<!--通过购物车ID查询商品条目的商品 -->
+	<select id="getCommodity_items" resultType="Commodity_items">
+		select
+		ci.ci_id
+		"ciId",
+			ci.c_id "commodity.cId",
+		ci.number "number",
+		ci.ct_id "commodityType.ct_id",
+		ci.cc_id "commodityCombo.cc_id",
+		c.price "commodity.price",
+		c.for_sale_price "commodity.forSalePrice",
+		c.number "commodity.number",
+		ct.type_name "commodityType.typeName",
+		ct.price "commodityType.price",
+		cc.cc_name "commodityCombo.ccname",
+		cc.price "commodityCombo.price"
+		from Commodity_items ci,commodity
+		c,commodity_Type ct,commodity_Combo cc
+		where c.c_id=ci.c_id and
+		cc.cc_id=ci.cc_id and ct.ct_id=ci.ct_id and
+		sc_id= #{scId}
+	</select>
+	
+	<!-- 通过订单id查询购物车 -->
+	<select id="getOrder" resultType="Order">
+			select
+		o.o_id "o_id",
+		o.sc_id "shoppingcart.scId",
+		o.money "money",
+		o.status "status",
+		o.dc_id "discountCoupon.dcId",
+		o.urp_id "userRedPackage.urpId",
+		o.ua_id "userAddress.uaId",
+		o.u_id "userAddress.uid",
+		ua.ua_name "userAddress.uaname",
+		ua.ua_tel "userAddress.uatel",
+		ua.location "userAddress.location",
+		ua.address "userAddress.address",	
+		dc.condition "discountCoupon.condition",
+		dc.reduce "discountCoupon.reduce",
+		dc.status "discountCoupon.status",
+		urp.money "userRedPackage.money",
+		urp.status "userRedPackage.status"
+		from orders o,user_address ua, commodity_discount_coupon dc,user_red_package urp
+		 where ua.ua_id=o.ua_id and 
+		dc.dc_id=o.dc_id and urp.urp_id=o.urp_id and o.o_id=#{oid}
+		</select>
+		
+		
+	<!-- 通过用户ID查询购物车信息-->
+	<select id="getShopping_Cart" parameterType="long"  resultType="Shopping_Cart">
+		select
+		sc_id "scId",
+		u_id "users.uid"
+		from shopping_cart where u_id= #{users.uid}
+	</select>
+	
+	<!-- 添加购物车 -->
+	<insert id="addShopping_Cart" parameterType="Shopping_Cart">
+		INSERT INTO
+		shopping_Cart (u_id)
+		VALUES
+		(#{users.uid})
+	</insert>
+
+	<!-- 商品加入商品条目表 -->
+	<insert id="addCommodity_items"  >
+		INSERT INTO
+		commodity_items (c_id,ct_id,cc_id,number,sc_id)
+		VALUES
+		(#{cid},#{ct_id},#{ccid},#{number},#{scId})
+	</insert>
+
+	<!--通过商品ID查询商品信息 -->
+	<select id="getCommodity" resultType="Commodity">
+		select
+		c_id "cid",
+		c_name
+		"cname",
+		category "category",
+		price "price",
+		postage "postage",
+		for_sale_price "forSalePrice",
+		number "number"
+		from Commodity where
+		c_id= #{cid}
+	</select>
+
+	<!--通过商品条目id 删除商品条目 表 -->
+	<select id="deleteCommodity_items" resultType="int">
+		delete from
+		Commodity_items where ci_id= #{ciIds}
+	</select>
+	
+	
+	<!-- 添加订单 -->
+	<insert id="addOrder" parameterType="Order">
+		INSERT INTO
+	   orders (sc_id,money,status,dc_id,urp_id,ua_id,u_id)
+		VALUES
+		(#{shoppingcart.scId},#{money},#{status},#{discountCoupon.dcId},
+			#{userRedPackage.urpId},#{userAddress.uaId},#{shoppingcart.users.uid})
+	</insert>
+	
+		<!-- 修改订单状态 为0 表示已付款-->
+   <update id="updateOrder" parameterType="Order" >
+	 UPDATE orders
+	 set
+	 status =0,
+	
+	 	money =#{money},
+	 		 
+	 	sc_id =#{shoppingcart.scId},
+	
+	 
+	 	dc_id= #{discountCoupon.dcId},
+
+	 	
+	 	urp_id= #{userRedPackage.urpId},
+
+	 	
+	 	ua_id =#{userAddress.uaId}
+
+	 where
+	 o_id= #{oid}
      
-     ct.type_name "commodityType.typeName",
-     ct.price "commodityType.price",
-     cc.cc_name "commodityCombo.ccname",
-     cc.price "commodityCombo.price"
-    from Commodity_items ci,commodity_Type ct,commodity_Combo cc  where cc.cc_id=ci.cc_id and ct.ct_id=ci.ct_id and ci_id= #{ciId}
-  </select>
-  
-  <!--通过商品ID查询商品信息  -->
-     <select id="getCommodity"  resultType="Commodity">
-     select
-     c_id "cid",
-	c_name "cname",
-	category "category",
-	price "price",
-	postage "postage",
-	for_sale_price "forSalePrice",
-	number "number"
-    from Commodity where c_id= #{cid}
-  </select>
-  
+ </update>
+
 </mapper>

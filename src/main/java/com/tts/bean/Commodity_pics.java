@@ -12,33 +12,26 @@ public class Commodity_pics implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	private long cpId;
-    private String cp_image_one;	//图片1
-    private String cp_image_two;	//图片2
-    private String cp_image_three;	//图片3
-    private String cp_img;
+    private String cpImageOne;	//图片1
+    private String cpImageTwo;	//图片2
+    private String cpImageThree;	//图片3
+    private String cpImg;
 
     public Commodity_pics() {
     }
 
-	public static long getSerialVersionUID() {
-        return serialVersionUID;
+    @Override
+    public String toString() {
+        return "Commodity_pics{" +
+                "cpId=" + cpId +
+                ", cpImageOne='" + cpImageOne + '\'' +
+                ", cpImageTwo='" + cpImageTwo + '\'' +
+                ", cpImageThree='" + cpImageThree + '\'' +
+                ", cpImg='" + cpImg + '\'' +
+                '}';
     }
 
-    public String getCp_img() {
-		return cp_img;
-	}
-
-	public void setCp_img(String cp_img) {
-		this.cp_img = cp_img;
-	}
-
-	@Override
-	public String toString() {
-		return "Commodity_pics [cpId=" + cpId + ", cp_image_one=" + cp_image_one + ", cp_image_two=" + cp_image_two
-				+ ", cp_image_three=" + cp_image_three + ", cp_img=" + cp_img + "]";
-	}
-
-	public long getCpId() {
+    public long getCpId() {
         return cpId;
     }
 
@@ -46,27 +39,35 @@ public class Commodity_pics implements Serializable {
         this.cpId = cpId;
     }
 
-    public String getCp_image_one() {
-        return cp_image_one;
+    public String getCpImageOne() {
+        return cpImageOne;
     }
 
-    public void setCp_image_one(String cp_image_one) {
-        this.cp_image_one = cp_image_one;
+    public void setCpImageOne(String cpImageOne) {
+        this.cpImageOne = cpImageOne;
     }
 
-    public String getCp_image_two() {
-        return cp_image_two;
+    public String getCpImageTwo() {
+        return cpImageTwo;
     }
 
-    public void setCp_image_two(String cp_image_two) {
-        this.cp_image_two = cp_image_two;
+    public void setCpImageTwo(String cpImageTwo) {
+        this.cpImageTwo = cpImageTwo;
     }
 
-    public String getCp_image_three() {
-        return cp_image_three;
+    public String getCpImageThree() {
+        return cpImageThree;
     }
 
-    public void setCp_image_three(String cp_image_three) {
-        this.cp_image_three = cp_image_three;
+    public void setCpImageThree(String cpImageThree) {
+        this.cpImageThree = cpImageThree;
+    }
+
+    public String getCpImg() {
+        return cpImg;
+    }
+
+    public void setCpImg(String cpImg) {
+        this.cpImg = cpImg;
     }
 }

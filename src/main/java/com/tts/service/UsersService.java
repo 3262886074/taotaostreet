@@ -12,8 +12,6 @@ public interface UsersService {
 
     Users queryUserInfoByUid(long uid);
 
-    Set<Order> queryOrdersByUid(long uid);
-
     Set<User_Red_package> queryRedPackageByUid(long uid);
 
     Set<Discount_coupon> queryDiscountCouponByUid(long uid);
@@ -43,4 +41,8 @@ public interface UsersService {
     boolean deleteAddressByUaId(Long uaid);
 
     boolean addOneAddress(String uaname, long uatel, String location, String address, long uid);
+
+    Set<Order> queryOrdersByUid(long uid);
+
+    Set<Commodity_items> queryItemsByScid(long scid);
 }

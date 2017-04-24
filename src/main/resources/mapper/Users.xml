@@ -263,33 +263,72 @@
         (#{uaname},#{uatel},#{location},#{address},#{uid})
     </insert>
 
-    <!-- 根据用户id查找用户所有订单 -->
+    <!--
+        TODO 1.根据用户id查出订单中的购物车、用户地址
+    -->
     <select id="queryOrdersByUid" parameterType="long" resultType="Order">
         SELECT
-        o_id,
-        sc_id,
-        money,
-        status,
-        dc_id,
-        urp_id,
-        ua_id,
-        u_id
+        o.o_id,
+        o.sc_id,
+        o.money,
+        o.status,
+        o.ua_id,
+        o.u_id,
+        o.create_time,
+        sc.sc_id "shoppingCart.scId",
+        sc.u_id "shoppingCart.users.uid",
+        sc.create_time "shoppingCart.createTime",
+        ua.ua_id "userAddress.uaId",
+        ua.ua_name "userAddress.uaname",
+        ua.ua_tel "userAddress.uatel",
+        ua.location "userAddress.location",
+        ua.address "userAddress.address",
+        ua.u_id,
+        ua.status "userAddress.status"
         FROM
-        Orders
-        <where>
-            u_id = #{uid}
-        </where>
+        Orders o
+        INNER JOIN Shopping_Cart sc
+        ON o.sc_id = sc.sc_id
+        INNER JOIN User_address ua
+        ON ua.ua_id = o.ua_id
+        AND o.u_id = #{uid}
+        ORDER BY o.o_id
     </select>
 
-    <!--
-        TODO
-        订单 -> 购物车 -> 商品条目 -> 商品+商品套餐+商品类型
-    -->
+    <!-- TODO 2.根据商品条目中的购物车id查出商品信息、商品类别、套餐 -->
+    <select id="queryItemsByScid" parameterType="long" resultType="Commodity_items">
+        SELECT
+        ci.ci_id,
+        ci.c_id,
+        ci.sc_id,
+        ci.number "number",
+        c.c_id "commodity.cid",
+        c.c_name "commodity.cname",
+        c.price "commodity.price",
+        c.postage "commodity.postage",
+        c.for_sale_price "commodity.forSalePrice",
+        ct.ct_id "commodityType.ct_id",
+        ct.type_name "commodityType.typeName",
+        ct.price "commodityType.price",
+        cc.cc_id "commodityCombo.ccid",
+        cc.cc_name "commodityCombo.ccname",
+        cc.price "commodityCombo.price",
+        cp.cp_id "commodity.commodityPics.cpId",
+        cp.cp_img "commodity.commodityPics.cp_img"
+        FROM Commodity_items ci
+        INNER JOIN Commodity c
+        ON c.c_id = ci.c_id
+        INNER JOIN Commodity_type ct
+        ON ct.ct_id = ci.ct_id
+        INNER JOIN Commodity_combo cc
+        ON cc.cc_id = ci.cc_id
+        INNER JOIN Commodity_pics cp
+        ON cp.c_id = c.c_id
+        WHERE ci.sc_id = #{scid}
+        ORDER BY ci.ci_id
+    </select>
 
-    <!--
-        TODO 查询购物车中所有的商品条目
-     -->
-
+    <!-- TODO 3. -->
 
 
 </mapper>
