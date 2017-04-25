@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.tts.bean.Commodity;
 import com.tts.bean.Commodity_Category;
 import com.tts.bean.Commodity_Sell;
+import com.tts.bean.Discount_coupon;
 import com.tts.dao.CommodityDao;
 import com.tts.service.CommodityService;
 
@@ -36,7 +37,6 @@ public class CommodityServiceImpl implements CommodityService{
 		sell.setBadcomm(cd.getBadComm(cid));
 		double f = (double)cd.getGoodComm(cid)/(double)cd.getComment(cid);
 		sell.setGoodlv((int) (f*100));
-		
 		commodity.setCommoditySell(sell);
 		return commodity;
 	}
@@ -66,18 +66,17 @@ public class CommodityServiceImpl implements CommodityService{
 	@Override
 	public List<Commodity> findByCate(long cid) {
 		
-		Set<Commodity_Category> cates = cd.getCategory(cid);
-		List<Commodity_Category> list = new ArrayList<>();
-		for (Commodity_Category commodity_Category : cates) {
-			list.add(commodity_Category);
-		}
-		List<Commodity> coms = new ArrayList<>();
-		List<Long> l = cd.findByCategory(list);
-		for (Long id : l) {
-			Commodity commodity = getCommodity(id);
-			coms.add(commodity);
-		}
-		return coms;
+		return cd.findByCategory(cid);
+	}
+
+	@Override
+	public List<Discount_coupon> fingDc(long uid) {
+		return cd.findDc(uid);
+	}
+
+	@Override
+	public boolean addDc(Discount_coupon dc, long uid) {
+		return cd.addDc(dc, uid)>0?true:false;
 	}
 
 }

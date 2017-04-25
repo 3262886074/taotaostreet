@@ -9,6 +9,7 @@ import java.util.List;
  *
  */
 public class Classify_three {
+	
 	private long cThreeId;
 	private String cThreeName;
 	private List<Commodity> commodity;//商品类

@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 import com.tts.bean.Commodity;
 import com.tts.bean.Commodity_Category;
+import com.tts.bean.Discount_coupon;
 import com.tts.dao.CommodityDao;
 import com.tts.service.CommodityService;
 
@@ -34,9 +35,16 @@ public class Test {
 //			logger.info("详情={}",long1);
 //		}
 		
-		List<Commodity> l= cs.findByCate(1);
-		for (Commodity commodity : l) {
-			logger.info("aa={}",commodity);
+//		List<Discount_coupon> l= cs.fingDc(1);
+//		for (Discount_coupon commodity : l) {
+//			logger.info("aa={}",commodity);
+//		}
+		
+		Discount_coupon dc = new Discount_coupon();
+		dc.setCondition(400);
+		dc.setReduce(120);
+		if (cd.addDc(dc, 1)>0) {
+			System.out.println("添加成功");
 		}
 		
 //		Commodity_Sell sell = cs.getSellCommentById(1);
@@ -50,6 +58,14 @@ public class Test {
 //		for (String string : l) {
 //			logger.info("详情={}",string);
 //		}
+	}
+	
+	@org.junit.Test
+	public void fun1(){
+		Integer t1 = new Integer(1);
+		Integer t2 = new Integer(1);
+		System.out.println(t1 == 1);
+		System.out.println(t1 == t2);
 	}
 
 }

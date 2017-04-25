@@ -2,6 +2,8 @@ package com.tts.dao;
 
 import java.util.List;
 import java.util.Set;
+
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 import com.tts.bean.Commodity;
 import com.tts.bean.Commodity_Combo;
@@ -9,6 +11,7 @@ import com.tts.bean.Commodity_Comment;
 import com.tts.bean.Commodity_Category;
 import com.tts.bean.Commodity_pics;
 import com.tts.bean.Commodity_type;
+import com.tts.bean.Discount_coupon;
 @Repository("commodityDao")
 public interface CommodityDao {
 
@@ -52,6 +55,19 @@ public interface CommodityDao {
 	//看了又看，随机查询出除了当前商品的全部商品中的6条数据
 	public List<Commodity> findAll(long cid);
 	//猜你喜欢，根据当前浏览的类型进行随机查询20条数据
-	public List<Long> findByCategory(List<Commodity_Category> category);
-
+	public List<Commodity> findByCategory(long cid);
+	
+	/**
+	 * 查看用户的优惠券
+	 * @param uid
+	 * @return
+	 */
+	public List<Discount_coupon> findDc(long uid);
+	
+	/**
+	 * 领取优惠券
+	 * @param dc
+	 * @return
+	 */
+	public int addDc(@Param("dc")Discount_coupon dc,@Param("uid")long uid);
 }

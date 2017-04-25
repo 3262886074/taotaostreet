@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.tts.bean.Commodity;
 import com.tts.bean.Commodity_Category;
+import com.tts.bean.Discount_coupon;
 
 public interface CommodityService {
 
@@ -36,4 +37,19 @@ public interface CommodityService {
 	 * @return
 	 */
 	public List<String> getDetails(long cid);
+	
+	/**
+	 * 获取用户的优惠券
+	 * @param cid
+	 * @return
+	 */
+	public List<Discount_coupon> fingDc(long uid);
+	
+	/**
+	 * 给用户添加优惠券
+	 * @param dc
+	 * @param uid
+	 * @return
+	 */
+	public boolean addDc(Discount_coupon dc,long uid);
 }

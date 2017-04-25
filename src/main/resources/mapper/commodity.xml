@@ -67,13 +67,21 @@
     	SELECT * FROM commodity WHERE c_id NOT IN(#{cid}) ORDER BY RAND() limit 0,8
     </select>
     <!-- 猜你喜欢，根据当前浏览的类型进行随机查询20条数据 -->
-    <select id="findByCategory" parameterType="Commodity_Category" resultType="Long">
-    	SELECT DISTINCT c_id FROM commodity_category WHERE
-    	<foreach collection="list" index="i" item="item" separator="or">
-    		cy_type = #{item.cctype}
-    	</foreach>
+    <select id="findByCategory" parameterType="Long" resultType="Commodity">
+    	SELECT a.c_id "cid",c_name "cname",price,cp_img "commodityPics.cpImg"
+        FROM commodity a,commodity_pics b WHERE b.c_id=a.c_id AND
+    	c_three_id=(SELECT c_three_id FROM commodity WHERE c_id=#{cid}) 
     	ORDER BY RAND() LIMIT 0,20
     </select>
+    <!-- 查看优惠券 -->
+    <select id="findDc" parameterType="long" resultType="Discount_coupon">
+    	SELECT `condition` "condition",reduce FROM commodity_discount_coupon WHERE u_id = #{uid}
+    </select>
+    <!-- 领取优惠券 -->
+    <insert id="addDc" parameterType="Discount_coupon">
+    	INSERT INTO commodity_discount_coupon(`condition`,reduce,u_id)
+        VALUES(#{dc.condition},#{dc.reduce},#{uid})
+    </insert>
     
     <!-- Map的配置 -->
     <resultMap type="Commodity" id="commodityMap">
@@ -101,10 +109,10 @@
     </resultMap>
     <resultMap type="Commodity_pics" id="Commodity_pics_Map">
     	<id property="cpId" column="cp_id"/>
-    	<result property="cp_image_one" column="cp_img_one"/>
-    	<result property="cp_image_two" column="cp_img_two"/>
-    	<result property="cp_image_three" column="cp_img_three"/>
-    	<result property="cp_img" column="cp_img"/>
+    	<result property="cpImageOne" column="cp_img_one"/>
+    	<result property="cpImageTwo" column="cp_img_two"/>
+    	<result property="cpImageThree" column="cp_img_three"/>
+    	<result property="cpImg" column="cp_img"/>
     </resultMap>
     <resultMap type="Commodity_Comment" id="Commodity_Comment_Map">
     	<id property="commentId" column="comment_id"/>
