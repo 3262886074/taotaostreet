@@ -2,7 +2,12 @@ package com.tts.service.impl;
 
 import com.tts.bean.*;
 import com.tts.dao.UsersDao;
+import com.tts.dto.PayExecution;
+import com.tts.exception.BalanceNotEnoughException;
+import com.tts.exception.PayException;
+import com.tts.exception.UnderStockException;
 import com.tts.service.UsersService;
+import com.tts.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -146,6 +151,95 @@ public class UsersServiceImpl implements UsersService {
         } else {
             return false;
         }
+    }
+
+    @Override
+    public User_Account getAccountMoney(long uid) {
+        return usersDao.getAccountMoney(uid);
+    }
+
+    @Override
+    public String addComment(String content, Integer type, long uid, long cid) {
+        if (usersDao.addComment(content,type,uid,cid) > 0){
+            return StringUtils.success;
+        } else {
+            return StringUtils.fail;
+        }
+    }
+
+    @Override
+    public String confirmOrder(long oid) {
+        Integer integer = usersDao.confirmOrder(oid);
+        if (integer > 0) {
+            return StringUtils.success;
+        } else {
+            return StringUtils.fail;
+        }
+    }
+
+    @Transactional
+    @Override
+    public String cancelOrder(long oid, long uid) {
+        Order order = usersDao.queryOrderInfoByOid(oid);
+        Set<Commodity_items> commodityItems = usersDao.queryItemsByScid(order.getShoppingCart().getScId());
+        Integer reduceCommodityNumber = 0;
+        for (Commodity_items items : commodityItems) {
+            reduceCommodityNumber = usersDao.addCommodityNumber(items.getNumber(), items.getCommodity().getCid());
+        }
+        if (reduceCommodityNumber > 0) {
+            Integer i = usersDao.returnMoney(order.getMoney(), uid);
+            if (i > 0) {
+                Integer j = usersDao.cancelOrder(oid);
+                if (j > 0) {
+                    return StringUtils.success;
+                } else {
+                    return StringUtils.fail;
+                }
+            }
+        }
+        return null;
+    }
+
+    @Transactional
+    @Override
+    public PayExecution executePay(long oid, long uid) {
+        Order order = usersDao.queryOrderInfoByOid(oid);
+        Set<Commodity_items> commodityItems = usersDao.queryItemsByScid(order.getShoppingCart().getScId());
+        try {
+            Integer reduceCommodityNumber = 0;
+            for (Commodity_items item : commodityItems) {
+                reduceCommodityNumber = usersDao.reduceCommodityNumber(item.getNumber(), item.getCommodity().getCid());
+            }
+            if (reduceCommodityNumber <= 0) {
+                throw new UnderStockException("库存不足");
+            } else {
+                Integer updateMoney = usersDao.updateAccountMoney(order.getMoney(), uid);
+                if (updateMoney <= 0) {
+                    throw new BalanceNotEnoughException("余额不足");
+                } else {
+                    //支付成功
+                    Integer orderStatus = usersDao.updateOrderStatus(oid);
+                    if (orderStatus > 0) {
+                        //拿到订单中的地址 以及 支付的金额进行页面回显
+                        User_address userAddress = usersDao.queryAddressByUaId(order.getUserAddress().getUaId());
+                        return new PayExecution(order.getMoney(), userAddress, "支付成功");
+                    }
+                }
+            }
+        } catch (UnderStockException e) {
+            throw e;
+        } catch (BalanceNotEnoughException b) {
+            throw b;
+        } catch (Exception e) {
+            throw new PayException("内部错误");
+        }
+        return null;
+    }
+
+
+    @Override
+    public Order queryOrderInfoByOid(long oid) {
+        return usersDao.queryOrderInfoByOid(oid);
     }
 
     @Transactional

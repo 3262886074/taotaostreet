@@ -100,9 +100,9 @@
                         <div class="m-bg"></div>
                         <div class="m-userinfo">
                             <div class="m-baseinfo">
-                                <a href="information.html">
+                                <a href="${ctx}/users/userInfo/${users.uid}">
                                     <c:if test="${users.uicon == null}">
-                                    <img src="${ctx}/resources/images/getAvatar.do.jpg">
+                                        <img src="${ctx}/resources/images/getAvatar.do.jpg">
                                     </c:if>
                                     <c:if test="${users.uicon != null}">
                                         <img src="${users.uicon}">
@@ -124,6 +124,13 @@
                             <div class="s-bar">
                                 <i class="s-icon"></i>个人资产
                             </div>
+                            <p class="m-bill">
+                                <a href="">
+                                    <i><img src="${ctx}/resources/images/wallet.png"/></i>
+                                    <span class="m-title">钱包</span>
+                                    <em class="m-num">${users.userAccount.uaMoney}</em>
+                                </a>
+                            </p>
                             <p class="m-bonus">
                                 <a href="${ctx}/users/allRedPackage">
                                     <i><img src="${ctx}/resources/images/bonus.png"/></i>

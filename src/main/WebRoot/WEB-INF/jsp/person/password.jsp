@@ -147,14 +147,14 @@
                     </div>
                 </div>
                 <div class="am-form-group">
-                    <label for="password2" class="am-form-label">确认密码</label>
+                    <label for="pwd2" class="am-form-label">确认密码</label>
                     <div class="am-form-content">
                         <input type="password" id="pwd2" placeholder="请再次输入上面的密码">
                     </div>
                 </div>
                 <div class="info-btn">
                     <div class="am-btn am-btn-danger">
-                        <input type="submit" id="changePwdBtn" value="保存修改">
+                        <input class="am-btn am-btn-danger" type="submit" id="changePwdBtn" value="保存修改">
                     </div>
                 </div>
 

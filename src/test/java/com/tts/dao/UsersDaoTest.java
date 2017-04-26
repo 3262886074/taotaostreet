@@ -18,10 +18,19 @@ import java.util.Set;
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration({"classpath:spring/spring-dao.xml"})
 public class UsersDaoTest {
+
     private final Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
     private UsersDao usersDao;
+
+    @Test
+    public void quqeryOrderInfoByOid() throws Exception {
+        Order order = usersDao.queryOrderInfoByOid(1);
+        Set<Commodity_items> commodity_items = usersDao.queryItemsByScid(order.getShoppingCart().getScId());
+        logger.info("order={}",order);
+        logger.info("commodity_items={}",commodity_items);
+    }
 
     @Test
     public void userLogin() throws Exception {

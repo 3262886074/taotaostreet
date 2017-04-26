@@ -17,7 +17,7 @@ public class User_address implements Serializable {
     private long uatel;		//收货电话
     private String location;//所在地
     private String address; //详细地址
-    // 地址状态 0为非默认 1为默认
+    // 地址状态 0为非默认 1为默认 -1为隐藏状态
     private Integer status;
 
     public User_address() {
