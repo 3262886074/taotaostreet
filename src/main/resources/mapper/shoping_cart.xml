@@ -5,63 +5,116 @@
 
 <mapper namespace="com.tts.dao.Shopping_CartDao">
 
-<!--通过购物车ID查询商品条目的商品 -->
+	<!--通过购物车ID查询商品条目的商品 -->
 	<select id="getCommodity_items" resultType="Commodity_items">
 		select
 		ci.ci_id
 		"ciId",
-			ci.c_id "commodity.cId",
+		ci.c_id "commodity.cId",
+		cp.cp_img
+		"commodity.commodityPics.cpImg",
 		ci.number "number",
-		ci.ct_id "commodityType.ct_id",
+		ci.ct_id
+		"commodityType.ct_id",
 		ci.cc_id "commodityCombo.cc_id",
+		c.c_name
+		"commodity.cname",
 		c.price "commodity.price",
-		c.for_sale_price "commodity.forSalePrice",
+		c.for_sale_price
+		"commodity.forSalePrice",
 		c.number "commodity.number",
-		ct.type_name "commodityType.typeName",
+		ct.type_name
+		"commodityType.typeName",
 		ct.price "commodityType.price",
-		cc.cc_name "commodityCombo.ccname",
+		cc.cc_name
+		"commodityCombo.ccname",
 		cc.price "commodityCombo.price"
-		from Commodity_items ci,commodity
-		c,commodity_Type ct,commodity_Combo cc
+		from
+		Commodity_items ci,commodity
+		c,commodity_Type ct,commodity_Combo cc,
+		commodity_pics cp
 		where c.c_id=ci.c_id and
-		cc.cc_id=ci.cc_id and ct.ct_id=ci.ct_id and
+		cc.cc_id=ci.cc_id and
+		ct.ct_id=ci.ct_id and cp.c_id=ci.c_id and
 		sc_id= #{scId}
 	</select>
-	
+
 	<!-- 通过订单id查询购物车 -->
 	<select id="getOrder" resultType="Order">
-			select
+		select
 		o.o_id "o_id",
-		o.sc_id "shoppingcart.scId",
+		o.sc_id
+		"shoppingCart.scId",
 		o.money "money",
-		o.status "status",
-		o.dc_id "discountCoupon.dcId",
-		o.urp_id "userRedPackage.urpId",
-		o.ua_id "userAddress.uaId",
-		o.u_id "userAddress.uid",
-		ua.ua_name "userAddress.uaname",
-		ua.ua_tel "userAddress.uatel",
-		ua.location "userAddress.location",
-		ua.address "userAddress.address",	
-		dc.condition "discountCoupon.condition",
+		o.status
+		"status",
+		o.dc_id
+		"discountCoupon.dcId",
+		o.urp_id
+		"userRedPackage.urpId",
+		o.ua_id
+		"userAddress.uaId",
+		o.u_id
+		"userAddress.uid",
+		ua.ua_name
+		"userAddress.uaname",
+		ua.ua_tel
+		"userAddress.uatel",
+		ua.location
+		"userAddress.location",
+		ua.address
+		"userAddress.address",
+		dc.condition
+		"discountCoupon.condition",
 		dc.reduce "discountCoupon.reduce",
 		dc.status "discountCoupon.status",
 		urp.money "userRedPackage.money",
 		urp.status "userRedPackage.status"
-		from orders o,user_address ua, commodity_discount_coupon dc,user_red_package urp
-		 where ua.ua_id=o.ua_id and 
-		dc.dc_id=o.dc_id and urp.urp_id=o.urp_id and o.o_id=#{oid}
-		</select>
-		
-		
-	<!-- 通过用户ID查询购物车信息-->
-	<select id="getShopping_Cart" parameterType="long"  resultType="Shopping_Cart">
+		from orders o,user_address ua,
+		commodity_discount_coupon dc,user_red_package urp
+		where
+		ua.ua_id=o.ua_id and
+		dc.dc_id=o.dc_id and urp.urp_id=o.urp_id and
+		o.o_id=#{oid}
+	</select>
+
+	<!-- 通过用户ID和时间查询订单ID、OID -->
+	<select id="getOid" resultType="long">
+		select
+		o_id "oid"
+		from orders where
+		u_id=#{uid} and create_time >= #{now}
+	</select>
+	
+<!-- 根据时间和uid 查询当前添加的购物车getShopping_CartSp -->
+	<select id="getShopping_CartSp" resultType="Shopping_Cart">
 		select
 		sc_id "scId",
 		u_id "users.uid"
-		from shopping_cart where u_id= #{users.uid}
+		from shopping_cart where
+		u_id=#{uid}   and create_time >= #{now}
 	</select>
-	
+
+	<!-- 通过用户ID查询购物车信息 -->
+	<select id="getShopping_Cart" parameterType="long" resultType="Shopping_Cart">
+		select
+		sc_id "scId",
+		u_id "users.uid"
+		from shopping_cart where
+		u_id=#{uid}
+	</select>
+
+	<!-- 通过购物车ID查询购物车信息 -->
+	<select id="getShopping_CartByscId" parameterType="long"
+		resultType="Shopping_Cart">
+		select
+		sc_id "scId",
+		u_id "users.uid"
+		from shopping_cart where
+		sc_id= #{scId}
+	</select>
+
+
 	<!-- 添加购物车 -->
 	<insert id="addShopping_Cart" parameterType="Shopping_Cart">
 		INSERT INTO
@@ -71,9 +124,10 @@
 	</insert>
 
 	<!-- 商品加入商品条目表 -->
-	<insert id="addCommodity_items"  >
+	<insert id="addCommodity_items">
 		INSERT INTO
-		commodity_items (c_id,ct_id,cc_id,number,sc_id)
+		commodity_items
+		(c_id,ct_id,cc_id,number,sc_id)
 		VALUES
 		(#{cid},#{ct_id},#{ccid},#{number},#{scId})
 	</insert>
@@ -98,39 +152,105 @@
 		delete from
 		Commodity_items where ci_id= #{ciIds}
 	</select>
-	
-	
+
 	<!-- 添加订单 -->
 	<insert id="addOrder" parameterType="Order">
 		INSERT INTO
-	   orders (sc_id,money,status,dc_id,urp_id,ua_id,u_id)
+		orders
+		(sc_id,money,status,dc_id,urp_id,ua_id,u_id)
 		VALUES
-		(#{shoppingcart.scId},#{money},#{status},#{discountCoupon.dcId},
-			#{userRedPackage.urpId},#{userAddress.uaId},#{shoppingcart.users.uid})
+		(#{shoppingCart.scId},#{money},#{status},#{discountCoupon.dcId},
+		#{userRedPackage.urpId},#{userAddress.uaId},#{shoppingCart.users.uid})
 	</insert>
 	
-		<!-- 修改订单状态 为0 表示已付款-->
-   <update id="updateOrder" parameterType="Order" >
-	 UPDATE orders
-	 set
-	 status =0,
+	<!-- 立即购买添加订单addOrderSp -->
+	<insert id="addOrderSp" >
+		INSERT INTO
+		orders
+		(sc_id,money,status,dc_id,urp_id,ua_id,u_id)
+		VALUES
+		(#{scId},0,-1,1,
+		1,1,#{uid})
+	</insert>
 	
-	 	money =#{money},
-	 		 
-	 	sc_id =#{shoppingcart.scId},
+	<!-- 修改购物车uid为0代表购物车以加入订单updateShopping_CartUid -->
+	<update id="updateShopping_CartUid" >
+		UPDATE shopping_cart
+		set
+		u_id =0
+		where
+		sc_id= #{scId}
+	</update>
 	
-	 
-	 	dc_id= #{discountCoupon.dcId},
 
-	 	
-	 	urp_id= #{userRedPackage.urpId},
+	<!-- 修改订单状态 为0 表示已付款 -->
+	<update id="updateOrder" parameterType="Order">
+		UPDATE orders
+		set
+		status =#{status},
+		money =#{money},
+		sc_id =#{shoppingCart.scId},
+		dc_id= #{discountCoupon.dcId},
+		urp_id= #{userRedPackage.urpId},
+		ua_id =#{userAddress.uaId}
+		where
+		o_id= #{oid}
+	</update>
 
-	 	
-	 	ua_id =#{userAddress.uaId}
+	<!-- 修改商品条目表的商品数量 -->
+	<update id="updateCommodity_items">
+		UPDATE Commodity_items
+		set
+		number=#{number}
+		where
+		ci_id=
+		#{ciId}
+	</update>
 
-	 where
-	 o_id= #{oid}
-     
- </update>
+	<!-- 通过用户ID查询用户账户 -->
+	<select id="getUserAccount" resultType="User_Account">
+		select
+		ua_id "uaId",
+		ua_money "uaMoney"
+		from user_account where
+		u_id=#{uid}
+	</select>
 
+	<!-- 修改账户余额 -->
+	<update id="updateuaMoney">
+		UPDATE user_account
+		set
+		ua_money=ua_money-#{money}
+		where
+		ua_Id= #{uaId}
+	</update>
+	
+	<!--修改优惠券使用状态为1代表已使用updateDcst  -->
+	<update id="updateDcst" >
+		UPDATE commodity_discount_coupon
+		set
+		status =1
+		where
+		dc_Id= #{dcId}
+	</update>
+	
+	<!-- 修改红包使用状态为1代表已使用updateUrpst -->
+	<update id="updateUrpst" >
+		UPDATE user_red_package
+		set
+		status =1
+		where
+		urp_Id= #{urpId}
+	</update>
+	
+	<!--添加商品到收藏夹addUser_Collect  -->
+	<insert id="addUser_Collect" >
+		INSERT INTO
+		user_collect
+		(u_id,c_id)
+		VALUES
+		(#{uid},#{cid})
+	</insert>
+	
+	
 </mapper>

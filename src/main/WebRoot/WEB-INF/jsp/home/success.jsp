@@ -56,7 +56,7 @@
 <div class="clear"></div>
 
 
-
+<c:if test="${orders.status==0}">
 <div class="take-delivery">
  <div class="status">
    <h2>您已成功付款</h2>
@@ -66,7 +66,7 @@
        <div class="user-info">
          <p>收货人：<c:out value="${orders.userAddress.uaname}"/></p>
          <p>联系电话：<c:out value="${orders.userAddress.uatel}" /></p>
-         <p><c:out value="${orders.userAddress.uatel}"/></p>
+         <p>收货地址：<c:out value="${orders.userAddress.address}" /></p>
        </div>
              请认真核对您的收货信息，如有错误请联系客服
                                
@@ -79,8 +79,20 @@
     </div>
   </div>
 </div>
+</c:if>
+<c:if test="${orders.status==-1}">
+<div class="take-delivery">
+ <div class="status">
+<h2>余额不足</h2>
+<li>应付款金额<em>￥：<c:out value="${orders.money }"/></em></li>
 
-
+<h2>请扫码充值</h2>
+<div class="successInfo">
+<img src="${ctx}/resources/images/zhifukuaid.jpg" style="widows:200px;height:300px">
+</img>	
+</div>
+</div>
+</c:if>
 <div class="footer" >
  <div class="footer-hd">
  <p>
