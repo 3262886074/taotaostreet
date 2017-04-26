@@ -5,7 +5,7 @@
 
 <mapper namespace="com.tts.dao.UsersDao">
 
-    <!-- 用户登录 -->
+    <!-- 用户 -->
     <select id="userLogin" resultType="Users">
         SELECT
         u.u_id "uid",
@@ -418,12 +418,18 @@
     </update>
 
     <!-- 添加评价 -->
-    <insert id="addComment" parameterType="Commodity_Comment">
+    <insert id="addComment">
         INSERT INTO commodity_comment
         (content,ctype,u_id,c_id)
         VALUES
         (#{content},#{type},#{uid},#{cid})
     </insert>
+    <!-- 修改订单状态 -->
+    <update id="okOrder" parameterType="long">
+        UPDATE Orders
+        SET status = 3
+        WHERE o_id = #{oid}
+    </update>
 
 
 </mapper>

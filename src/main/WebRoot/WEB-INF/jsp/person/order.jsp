@@ -335,7 +335,7 @@
                                                                 <a>
                                                                     <div id="comment"
                                                                          class="am-btn am-btn-danger anniu">
-                                                                        立即评价
+                                                                        <a href="${ctx}/users/commentInput/${order.key.oid}">立即评价</a>
                                                                     </div>
                                                                 </a>
                                                             </li>
@@ -799,14 +799,15 @@
                                                                     <p class="order-info"><a
                                                                             href="${ctx}/users/orderInfo/${order.key.oid}">订单详情</a>
                                                                     </p>
-                                                                    <p class="order-info"><a
-                                                                            href="logistics.html">立即评价</a></p>
+                                                                    <p class="order-info">
+                                                                        <a href="${ctx}/users/commentInput/${order.key.oid}">立即评价</a>
+                                                                    </p>
                                                                 </div>
                                                                 <li class="td td-change">
                                                                     <a>
                                                                         <div id="cancel"
                                                                             class="am-btn am-btn-danger anniu">
-                                                                            立即评价
+                                                                            <a href="${ctx}/users/commentInput/${order.key.oid}">立即评价</a>
                                                                         </div>
                                                                     </a>
                                                                 </li>

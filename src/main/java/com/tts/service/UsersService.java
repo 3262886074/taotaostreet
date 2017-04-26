@@ -58,4 +58,6 @@ public interface UsersService {
     String confirmOrder(long oid);
 
     String addComment(String content, Integer type, long uid, long cid);
+
+    Integer okOrder(long oid);
 }
