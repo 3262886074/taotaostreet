@@ -12,8 +12,9 @@
           content="width=device-width, initial-scale=1.0, minimum-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="format-detection" content="telephone=no">
     <meta name="renderer" content="webkit">
-    <meta http-equiv="Cache-Control" content="no-siteapp"/>
-
+    <META HTTP-EQUIV="pragma" CONTENT="no-cache">
+    <META HTTP-EQUIV="Cache-Control" CONTENT="no-cache, must-revalidate">
+    <META HTTP-EQUIV="expires" CONTENT="0">
     <link rel="stylesheet" href="${ctx}/resources/AmazeUI-2.4.2/assets/css/amazeui.css"/>
     <link href="${ctx}/resources/css/dlstyle.css" rel="stylesheet" type="text/css">
     <script src="${ctx}/resources/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>

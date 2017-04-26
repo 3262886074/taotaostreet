@@ -77,8 +77,10 @@ public interface UsersDao {
     Integer confirmOrder(long oid);
 
     Integer addComment(@Param("content") String content,
-                              @Param("type") Integer type,
-                              @Param("uid") long uid,
-                              @Param("cid") long cid);
+                       @Param("type") Integer type,
+                       @Param("uid") long uid,
+                       @Param("cid") long cid);
+
+    Integer okOrder(long oid);
 
 }
