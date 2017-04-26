@@ -11,23 +11,64 @@ $(document).ready(function(){
    	 var zj=0;
         $(".add").click(function(){
          var t=$(this).parent().find('input[class*=text_box]');
+         var c=$(this).parent().find('input[class*=ciId]');
+        var commodity_items={
+        		number:parseInt(t.val())+1,
+        		ciId: c.val()
+        		
+        };
+         $.ajax({
+             url:'UpdateCommodity_items',
+             data:commodity_items ,
+             type:'post',
+             dataType:'text',
+         })
+         
+         
         t.val(parseInt(t.val())+1);
+      
         
       })
-     $(".min").click(function(){
+     $(".min").click(function(){	
       var t=$(this).parent().find('input[class*=text_box]');
-     
-        t.val(parseInt(t.val())-1)
-        if(parseInt(t.val())<0){
-         t.val(0);
+      var c=$(this).parent().find('input[class*=ciId]');
+      var commodity_items={
+      		number:parseInt(t.val())-1,
+      		ciId: c.val()
+      		
+      };
+       $.ajax({
+           url:'UpdateCommodity_items',
+           data:commodity_items ,
+           type:'post',
+           dataType:'text',
+       })
+      t.val(parseInt(t.val())-1)
+        if(parseInt(t.val())<1){
+         t.val(1);
          }
         
       })
       $(".td").mouseover(function(){
    	   
        	 var t=$(this).parent().find('input[class*=text_box]');
+       	if(t.val()==""){
+            t.val(1);
+            }
        	 var pc=$(this).parent().find('input[class*=pc]');
            var wt=$(this).parent().find('input[class*=wt]');
+           var c=$(this).parent().find('input[class*=ciId]');
+           var commodity_items={
+           		number:parseInt(t.val()),
+           		ciId: c.val()
+           		
+           };
+            $.ajax({
+                url:'UpdateCommodity_items',
+                data:commodity_items ,
+                type:'post',
+                dataType:'text',
+            })
            var s=0;
            s=  parseInt(t.val())*parseFloat(pc.val());
            wt.val(s.toFixed(2));
@@ -57,6 +98,10 @@ $(document).ready(function(){
           	 $("#tt").val(zj.toFixed(2));
            })
         })
+          $("#J_Go").click(function(){
+        	  $("#sbform").submit();
+          })
+        
    }) 
 
 

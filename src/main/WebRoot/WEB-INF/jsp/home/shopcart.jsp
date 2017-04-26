@@ -21,7 +21,7 @@
 	</head>
 
 	<body>
-
+	
 		<!--顶部导航条 -->
 		<div class="am-container header">
 			<ul class="message-l">
@@ -38,7 +38,7 @@
 					<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
 				</div>
 				<div class="topMessage my-shangcheng">
-					<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+					<div class="menu-hd MyShangcheng"><a href="userInfo/${shopping_Cart.users.uid }" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 				</div>
 				
 				<div class="topMessage mini-cart">
@@ -60,10 +60,10 @@
 
 				<div class="search-bar pr">
 					<a name="index_none_header_sysc" href="#"></a>
-					<form>
+			
 						<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
 						<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
-					</form>
+					
 				</div>
 			</div>
 
@@ -105,11 +105,11 @@
 								</div>
 							</div>
 						
+		
+		
 		<c:forEach var="ci" items="${shopping_Cart.commodityItems}">
 		
-		
-		
-			
+			<input name="shopping_Cart.commodityItems.ciId" value="${ci.ciId}" style="display:none" >
 		
 		
 							<div class="bundle-main">
@@ -121,11 +121,11 @@
 									<li class="td td-item">
 										<div class="item-pic">
 											<a href="#" target="_blank" data-title=<c:out value="${ci.ciId}"/> class="J_MakePoint" data-point="tbcart.8.12">
-												<img src="${ctx}/resources/images/kouhong.jpg_80x80.jpg" class="itempic J_ItemImg"></a>
+												<img src="${ctx}${ci.commodity.commodityPics.cpImg}" class="itempic J_ItemImg"></a>
 										</div>
 										<div class="item-info">
 											<div class="item-basic-info">
-												<a href="#" target="_blank" title="美康粉黛醉美唇膏 持久保湿滋润防水不掉色" class="item-title J_MakePoint" data-point="tbcart.8.11"><c:out value="${ci.ciId}"/>美康粉黛醉美唇膏 持久保湿滋润防水不掉色</a>
+												<a href="#" target="_blank" title="1" class="item-title J_MakePoint" data-point="tbcart.8.11"><c:out value="${ci.commodity.cname}"/></a>
 											</div>
 										</div>
 									</li>
@@ -154,9 +154,14 @@
 										<div class="amount-wrapper ">
 											<div class="item-amount ">
 												<div class="sl">
+											
 													<input class="min am-btn" name="" type="button" value="-" />
-													<input class="text_box" name="" value="${ci.number}" type="text" style="width:50px; text-align:center; border:none" ></input>
+													<input class="ciId" name="ciId"  value="${ci.ciId}" style="display:none"/>
+													<input class="text_box" name="number" value="${ci.number}" type="text" style="width:50px; text-align:center; border:none"
+													onkeyup="this.value=this.value.replace(/\D/g,'')"
+														onafterpaste="this.value=this.value.replace(/\D/g,'')" ></input>
 													<input class="add am-btn" name="" type="button" value="+" />
+												
 												</div>
 											</div>
 										</div>
@@ -167,12 +172,12 @@
 										
 										</div>
 									</li>
-									<li class="td td-op">
+									<li class="td td-op">		
 										<div class="td-inner">
-											<a title="移入收藏夹" class="btn-fav" href="#">
+											<a title="移入收藏夹" class="btn-fav" href="moveUc?cid=${ci.commodity.cid }&scId=${shopping_Cart.scId}&uid=${shopping_Cart.users.uid}&ciId=${ci.ciId}">
                   移入收藏夹</a>	
                  				
-											<a href="deleteCommodity_items?ciId=${ci.ciId }" data-point-url="#" class="delete">
+											<a href="deleteCommodity_items?ciId=${ci.ciId }&scId=${shopping_Cart.scId}" data-point-url="#" class="delete">
                   删除</a>
                   </div>
 									</li>
@@ -190,12 +195,26 @@
 					<div class="float-bar-right">
 						
 						<div class="price-sum">
+						
+
+		<form action="addOrders" method="post" id="sbform">
+						<input name="shoppingCart.scId" value="${shopping_Cart.scId}"   style="display:none" >
+						<input name="shoppingCart.users.uid" value="${shopping_Cart.users.uid}" style="display:none" >
+						<input name="uid" value="${shopping_Cart.users.uid}" style="display:none" >
+						<input name="status" value="-1"  style="display:none">
+						<input name="discountCoupon.dcId" value="1"  style="display:none">
+						<input name="userRedPackage.urpId" value="1"  style="display:none">
+						<input name="userAddress.uaId" value="1"  style="display:none">
+							
 							<span class="txt">合计:</span>
-							¥<input class="total" id="tt" name="" value="1.00" type="text" style="width:50px; text-align:center; border:none" readonly/>
-						</div>
+							¥<input class="total" id="tt" name="money" value="1.00" type="text" style="width:50px; text-align:center; border:none" readonly/>
+							</div>
+							</form>
+						
 						<div class="btn-area">
-							<a href="addOrder" id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
+							<a href="#" id="J_Go" class="submit-btn submit-btn-disabled" aria-label="请注意如果没有选择宝贝，将无法结算">
 								<span>结&nbsp;算</span></a>
+								
 						</div>
 					</div>
 
@@ -230,6 +249,7 @@
 			<li><a href="${ctx}/resources/person/index.html"><i class="am-icon-user"></i>我的</a></li>					
 		</div>
 		
+		</div>
 		
 	</body>
 

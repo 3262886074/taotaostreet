@@ -22,7 +22,7 @@
 	</head>
 
 	<body>
-
+	<form action="pay" id="tjfm">
 		<!--顶部导航条 -->
 		<div class="am-container header">
 			<ul class="message-l">
@@ -38,7 +38,7 @@
 					<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
 				</div>
 				<div class="topMessage my-shangcheng">
-					<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+					<div class="menu-hd MyShangcheng"><a href="userInfo/${uid}" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 				</div>
 				<div class="topMessage mini-cart">
 					<div class="menu-hd"><a id="mc-menu-hd" href="shopping_Cart" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
@@ -59,10 +59,10 @@
 
 				<div class="search-bar pr">
 					<a name="index_none_header_sysc" href="#"></a>
-					<form>
+					
 						<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
 						<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
-					</form>
+					
 				</div>
 			</div>	
 			
@@ -82,16 +82,28 @@
 
 							<div class="per-border"></div>
 	<c:forEach var="ad" items="${userAddresses}">
-<li class="user-addresslist">
+<li class="user-addresslist" id="userAddress${ad.uaId }">
+	 
+		<input id="uaname${ad.uaId }" name=""  value="${ad.uaname}" style="display:none"/>
+		<input id="uatel${ad.uaId }" name=""  value="${ad.uatel}" style="display:none"/>
+		<input id="oid${ad.uaId }" name=""  value="${orders.oid}" style="display:none"/>
+		<input id="location${ad.uaId }" name=""  value="${ad.location}" style="display:none"/>
+
+	
+
 								<div class="address-left">
 									<div class="user DefaultAddr">
 
 										<span class="buy-address-detail">   
                    <span class="buy-user"><c:out value="${ad.uaname}"/> </span>
+
 										<span class="buy-phone"><c:out value="${ad.uatel}"/></span>
 										</span>
 									</div>
-									<div class="default-address DefaultAddr">
+									<div class="default-address DefaultAddr" >
+										<input class="uaId" name=""  value="${ad.uaId}" style="display:none"/>
+
+
 										<span class="buy-line-title buy-line-title-type">收货地址：</span>
 										<span class="buy--address-detail"><c:out value="${ad.address}"/></span>
 										</span>
@@ -158,11 +170,11 @@
 												<li class="td td-item">
 													<div class="item-pic">
 														<a href="#" class="J_MakePoint">
-															<img src="${ctx}/resources/images/kouhong.jpg_80x80.jpg" class="itempic J_ItemImg"></a>
+															<img src="${ctx}${ci.commodity.commodityPics.cpImg}" class="itempic J_ItemImg"></a>
 													</div>
 													<div class="item-info">
 														<div class="item-basic-info">
-															<a href="#" class="item-title J_MakePoint" data-point="tbcart.8.11"><c:out value="${ci.ciId}"/>美康粉黛醉美唇膏 持久保湿滋润防水不掉色</a>
+															<a href="#" class="item-title J_MakePoint" data-point="tbcart.8.11"><c:out value="${ci.commodity.cname}"/></a>
 														</div>
 													</div>
 												</li>
@@ -186,7 +198,9 @@
 														<span class="phone-title">购买数量</span>
 														<div class="sl">
 															<input class="min am-btn" name="" type="button" value="-" />
-														<input class="text_box" name="" value="${ci.number}" type="text" style="width:50px; text-align:center; border:none" ></input>
+														<input class="ciId" name=""  value="${ci.ciId}" style="display:none"/>
+													<input class="text_box" name="" value="${ci.number}" type="text" style="width:50px; text-align:center; border:none" ></input>
+														<input class="kc"value="${ci.commodity.number}" type="text"  style="display:none" />
 															<input class="add am-btn" name="" type="button" value="+" />
 														</div>
 													</div>
@@ -202,7 +216,7 @@
 												<div class="td-inner">
 													<span class="phone-title">库存</span>
 													<div class="pay-logis">
-														<b class="sys_item_freprice"><c:out value="${ci.commodity.number}"/></b>
+														<b class="sys_item_freprice"><input id=""value="${ci.commodity.number}" type="text"  style=" text-align:center; border:none" readonly/></b>
 													</div>
 												</div>
 											</li>
@@ -231,13 +245,14 @@
 							<!--优惠券 -->
 							<div class="buy-agio" >
 								<li class="td td-coupon">
-
+	
 									<span class="coupon-title">优惠券</span>
 									<select id="yhxz" data-am-selected  >
-										
+								
 										<c:forEach var="dc" items="${discountCoupons}">
+					
 										<c:if test="${dc.status==0}">
-										<option value="${dc.reduce}" id="yhj"   >
+										<option value="${dc.reduce},${dc.dcId}" id="yhj"  >
 											<div class="c-price">
 												<strong>￥<c:out value="${dc.reduce }"/></strong>
 											</div>
@@ -250,20 +265,24 @@
 									</select>
 								</li>
 
-								<li class="td td-bonus">
+									<li class="td td-bonus">
 
 									<span class="bonus-title">红包</span>
-									<select data-am-selected id="hbxz">
+									<select  data-am-selected id="hbxz" name="">
 									<c:forEach var="urp" items="${userRedPackages}">
-										<option value="${urp.money}" id="hb" >
+
+								
+									<c:if test="${urp.status!=1}" >
+										<option value="${urp.money},${urp.urpId}" id="hb"  name="userRedPackages.urpId">
 											<div class="item-info">
 												<c:out value="${urp.money}"/><span>元</span>
 											</div>
 											<div class="item-remainderprice">
-												<span><c:if test="${urp.status==1}" >已使用</c:if>
-												<c:if test="${urp.status!=1}" >未使用</c:if></span>
+												<span>
+												未使用</span>
 											</div>
 										</option>
+										</c:if>
 										</c:forEach>
 										
 									</select>
@@ -279,14 +298,14 @@
 									合计（含运费） <span>¥</span><em class="pay-sum"><input class="total" id="tt"  value="${orders.money}" type="text" style="width:50px; text-align:center; border:none; border:none" readonly /></em>
 								</p>
 							</div>
-
+					
 							<!--信息 -->
 							<div class="order-go clearfix">
 								<div class="pay-confirm clearfix">
 									<div class="box">
 										<div tabindex="0" id="holyshit267" class="realPay"><em class="t" >实付款：</em>
 											<span class="price g_price ">
-                                    <span>¥</span> <input class="style-large-bold-red " id="J_ActualFee" value="${orders.money}"  type="text" style="  border:none; border:none" readonly />
+                                    <span>¥</span> <input class="style-large-bold-red " name="money" id="J_ActualFee" value="${orders.money}"  type="text" style="  border:none; border:none" readonly />
 											</span>
 										</div>
 
@@ -296,15 +315,17 @@
 												<span class="buy-line-title buy-line-title-type">寄送至：</span>
 												<span class="buy--address-detail">
 								   <span class="province">
-												<span class="street"><c:out value="${orders.userAddress.location}"/></span>
+												<span class="street"><input  id="jsz" value="${orders.userAddress.location}"  style="text-align:center; border:none; border:none" readonly	/></span>
 												</span>
 												</span>
 											</p>
 											<p class="buy-footer-address">
+											
 												<span class="buy-line-title">收货人：</span>
-												<span class="buy-address-detail">   
-                                         <span class="buy-user"><c:out value="${orders.userAddress.uaname}"/> </span>
-												<span class="buy-phone"><c:out value="${orders.userAddress.uatel}"/></span>
+												<span class="buy-address-detail">  
+												 <input id="uaIdw" name="userAddress.uaId" value="${orders.userAddress.uaId}" style="display:none"/> 
+                                         <input id="shr"  value="${orders.userAddress.uaname}" type="text" style="width:50px; text-align:center; border:none; border:none" readonly />
+												<span  class="buy-phone"><input id="lxt" value="${orders.userAddress.uatel}"  style="width:50px; text-align:center; border:none;" readonly/></span>
 												</span>
 											</p>
 										</div>
@@ -312,7 +333,14 @@
 
 									<div id="holyshit269" class="submitOrder">
 										<div class="go-btn-wrap">
-											<a id="J_Go" href="pay" class="btn-go" tabindex="0" title="点击此按钮，提交订单">提交订单</a>
+										<input name="uid" value="${uid}"   style="display:none" />
+										<input name="shoppingCart.scId" value="${shopping_Cart.scId}"   style="display:none" />
+										<input id="dc" name="discountCoupon.dcId" value="1"  style="display:none">
+										<input id="urp" name="userRedPackage.urpId" value="1"  style="display:none">
+										<input name="oid" value="${orders.oid}"  style="display:none" />
+											<input name="status" value="0"  style="display:none"/>
+										</form>
+											<a id="J_Go"  class="btn-go" tabindex="0" title="点击此按钮，提交订单">提交订单</a>
 										</div>
 									</div>
 									<div class="clear"></div>
@@ -356,9 +384,9 @@
 				<hr/>
 
 				<div class="am-u-md-12">
-					<form class="am-form am-form-horizontal">
+				
 
-						<div class="am-form-group">
+						<div class="am--group">
 							<label for="user-name" class="am-form-label">收货人</label>
 							<div class="am-form-content">
 								<input type="text" id="user-name" placeholder="收货人">
@@ -404,12 +432,13 @@
 								<div class="am-btn am-btn-danger close">取消</div>
 							</div>
 						</div>
-					</form>
+					
 				</div>
 
 			</div>
 
 			<div class="clear"></div>
+			
 	</body>
 
 </html>
