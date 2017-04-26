@@ -12,12 +12,39 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 		    	var zj=0;
 		        $(".add").click(function(){
 		         var t=$(this).parent().find('input[class*=text_box]');
+		         var c=$(this).parent().find('input[class*=ciId]');
+		         var commodity_items={
+		         		number:parseInt(t.val())+1,
+		         		ciId: c.val()
+		         		
+		         };
+		          $.ajax({
+		              url:'UpdateCommodity_items',
+		              data:commodity_items ,
+		              type:'post',
+		              dataType:'text',
+		          })
 		        t.val(parseInt(t.val())+1);
-		        
+		          var kc=$(this).parent().find('input[class*=kc]').val();
+		          if(parseInt(t.val())>kc){
+				         t.val(kc);
+				         
+				         }
 		      })
 		     $(".min").click(function(){
 		      var t=$(this).parent().find('input[class*=text_box]');
-		     
+		      var c=$(this).parent().find('input[class*=ciId]');
+		      var commodity_items={
+		      		number:parseInt(t.val())-1,
+		      		ciId: c.val()
+		      		
+		      };
+		       $.ajax({
+		           url:'UpdateCommodity_items',
+		           data:commodity_items ,
+		           type:'post',
+		           dataType:'text',
+		       })
 		        t.val(parseInt(t.val())-1)
 		        if(parseInt(t.val())<0){
 		         t.val(0);
@@ -27,8 +54,30 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 		      $(".td").mouseover(function(){
 		   	   
 		       	 var t=$(this).parent().find('input[class*=text_box]');
+		          var kc=$(this).parent().find('input[class*=kc]').val();
+		          if(parseInt(t.val())>kc){
+				         t.val(kc);
+				         
+				         }
+		          if(parseInt(t.val())<0){
+				         t.val(0);
+				         }
+		          t.val(parseInt(t.val()));
+		       	 
 		       	 var pc=$(this).parent().find('input[class*=pc]');
 		           var wt=$(this).parent().find('input[class*=wt]');
+		           var c=$(this).parent().find('input[class*=ciId]');
+		           var commodity_items={
+		           		number:parseInt(t.val()),
+		           		ciId: c.val()
+		           		
+		           };
+		            $.ajax({
+		                url:'UpdateCommodity_items',
+		                data:commodity_items ,
+		                type:'post',
+		                dataType:'text',
+		            })
 		           var s=0;
 		           s=  parseInt(t.val())*parseFloat(pc.val());
 		           wt.val(s.toFixed(2));
@@ -63,56 +112,79 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 		          
 		        
 		        })
-		        	var xz=$("#yhj");
-		        	var xzh=$("#hb");
-		        	zj=$("#J_ActualFee").val();
+		        	var xz=$("#yhj").val();
+		        	var xzh=$("#hb").val();
+		        	var xzhb= xzh.split(",") 
+		        	var xzyh= xz.split(",") 
+		        	var h=xzhb[0]
+		        	var upi=xzhb[1]
+		        	var x=xzyh[0]
+		        	var dc=xzyh[1]
 		        	
-
-		        	
-		        	$(".td").mouseover(function(){
-		        		var sf=zj-xz.val()-xzh.val();
+		        	zj=$("#J_ActualFee").val();	
+		        	$(".td-amount").mouseover(function(){
+		        		
+		        		
+		        		
+		        		var sf=zj-h-x;
+		        		
 		        		if(sf<1){
 
 			        		sf=1;
 			        	}
-			       
+		        		
 		        	$("#J_ActualFee").val(sf.toFixed(2));
+		        	
+		        	
 		        	})
-		        	$(".td").click(function(){
-		        		var sf=zj-xz.val()-xzh.val();
+		        	$(".td-amount").click(function(){
+		        		var sf=zj-x-h;
+		        		
 		        		if(sf<1){
 
 			        		sf=1;
 			        	}
 			       
-		        	$("#J_ActualFee").val(sf.toFixed(2));
+		        		$("#J_ActualFee").val(sf.toFixed(2));
 		        	})
 		        	
 		        $("#yhxz").change(function(){
 		        	
-		        	 xz= $(this).find("option:selected");
-		        	var sf=zj-xz.val()-xzh.val();
+		        	 xz= $(this).find("option:selected").val();
+		        	var xzyh= xz.split(",") 
+		        	 var x=xzyh[0]
+		        	var dc=xzyh[1]
+		        	$("#dc").val(dc);
+		        	
+		        	var sf=zj-h-x;
 		        	if(sf<1){
 		        		alert("亲！实付款不可小于1.00！！！");
 		        		sf=1;
 		        	}
 		        	$("#J_ActualFee").val(sf.toFixed(2));
+		        	
 		        })
 		        $("#hbxz").change(function(){
 		        	
-		        	 xzh= $(this).find("option:selected");
-		        	var sf=zj-xzh.val()-xz.val();
-		        	
+		        	 xzh= $(this).find("option:selected").val();
+		        	var xzhb= xzh.split(",") 
+		        	var h=xzhb[0]
+		        	var upi=xzhb[1]
+		        	var sf=zj-x-h;
+		       
 		        	if(sf<1){
 		        		alert("亲！实付款不可小于1.00！！！");
 		        		sf=1;
 		        	}
 		        	
 		        	$("#J_ActualFee").val(sf.toFixed(2));
+		        	$("#urp").val(upi);
 		        })
 		    }) 
 		   }) 
-		   
+		   $("#J_Go").click(function(){
+        	  $("#tjfm").submit();
+          })
 	 		
 	   }) 
 	<!--兼容IE浏览器 -->
@@ -121,7 +193,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
             var ret = [];
             var els = document.getElementsByTagName('*');
             for (var i = 0, len = els.length; i < len; i++) {
-
+            	
                 if (els[i].className.indexOf(cls + ' ') >=0 || els[i].className.indexOf(' ' + cls + ' ') >=0 || els[i].className.indexOf(' ' + cls) >=0) {
                     ret.push(els[i]);
                 }
@@ -133,20 +205,30 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
  
 // 地址选择
 				$(function() {
-					$(".user-addresslist").click(function() {
-						$(this).addClass("defaultAddr").siblings().removeClass("defaultAddr");
-					});
-					$(".logistics").each(function() {
-						var i = $(this);
-						var p = i.find("ul>li");
-						p.click(function() {
-							if (!!$(this).hasClass("selected")) {
-								$(this).removeClass("selected");
-							} else {
-								$(this).addClass("selected").siblings("li").removeClass("selected");
-							}
-						})
-					})
+				
+						
+						
+						$("li[id^=userAddress]").click(function(){
+							 //被点击的按钮id
+				            var idStr = $(this).attr("id");
+				            //截取最后的数字 不管是几位数字
+				            var id = idStr.substring(11, idStr.length);
+							var uaname = $("#uaname"+id).val();
+							var uatel = $("#uatel"+id).val();
+							var location = $("#location"+id).val();
+							$("#shr").val(uaname);
+							$("#lxt").val(uatel);
+							$("#jsz").val(location);
+							$("#uaIdw").val(id);
+					
+						    $(this).addClass("defaultAddr").siblings().removeClass("defaultAddr");
+						    });
+						
+					
+					
+				
+					
+					
 				});
  
  

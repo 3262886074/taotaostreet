@@ -379,34 +379,34 @@ public class UsersController {
      * 一键购买
      */
     @ResponseBody
-    @RequestMapping(value = "/pay/{oid}",method = RequestMethod.POST,
-                            produces = {"application/json;charset=UTF-8"})
+    @RequestMapping(value = "/pay/{oid}", method = RequestMethod.POST,
+            produces = {"application/json;charset=UTF-8"})
     public PayResult<PayExecution> pay(@PathVariable("oid") long oid,
-                                       HttpSession session){
+                                       HttpSession session) {
         Users users = (Users) session.getAttribute("users");
         try {
-            PayExecution payExecution = usersService.executePay(oid,users.getUid());
-            return new PayResult<>(payExecution,true);
+            PayExecution payExecution = usersService.executePay(oid, users.getUid());
+            return new PayResult<>(payExecution, true);
         } catch (BalanceNotEnoughException b) {
             PayExecution payExecution = new PayExecution("余额不足");
-            return new PayResult<>(payExecution,true);
-        } catch (UnderStockException u){
+            return new PayResult<>(payExecution, true);
+        } catch (UnderStockException u) {
             PayExecution payExecution = new PayExecution("库存不足");
-            return new PayResult<>(payExecution,true);
-        } catch (Exception e){
+            return new PayResult<>(payExecution, true);
+        } catch (Exception e) {
             PayExecution payExecution = new PayExecution("内部错误");
-            return new PayResult<>(payExecution,true);
+            return new PayResult<>(payExecution, true);
         }
     }
 
     /**
      * 购买成功 跳转到成功页面
      */
-    @RequestMapping(value = "/paySuccess/{oid}",method = RequestMethod.GET)
+    @RequestMapping(value = "/paySuccess/{oid}", method = RequestMethod.GET)
     public String paySuccess(@PathVariable("oid") long oid,
-                             ModelMap map){
+                             ModelMap map) {
         Order order = usersService.queryOrderInfoByOid(oid);
-        map.put("order",order);
+        map.put("order", order);
         return "person/success";
     }
 
@@ -419,7 +419,7 @@ public class UsersController {
     public String cancelOrder(@PathVariable("oid") long oid,
                               HttpSession session) {
         Users users = (Users) session.getAttribute("users");
-        String s = usersService.cancelOrder(oid,users.getUid());
+        String s = usersService.cancelOrder(oid, users.getUid());
         return s;
     }
 
@@ -443,10 +443,33 @@ public class UsersController {
         Order order = usersService.queryOrderInfoByOid(oid);
         Set<Commodity_items> commodityItems = usersService.queryItemsByScid(order.getShoppingCart().getScId());
         map.put("commodityItems", commodityItems);
-        map.put("order",order);
+        map.put("order", order);
         return "person/commentlist";
     }
 
+    /**
+     * 添加评论
+     */
+    @RequestMapping(value = "/addComment", method = RequestMethod.POST)
+    public String addComment(@RequestParam("cid") long cid,
+                             @RequestParam("uid") long uid,
+                             @RequestParam("type") Integer type,
+                             @RequestParam("content") String content,
+                             @RequestParam("oid") long oid) {
+        //1好评 0差评 2中评
+        String s = usersService.addComment(content, type, uid, cid);
+        usersService.okOrder(oid);
+        return "redirect:orders";
+    }
+
+    /**
+     * 订单已完成
+     */
+    //@RequestMapping(value = "/okOrder/oid",method = RequestMethod.POST)
+    //public String okOrder(@PathVariable("oid") long oid){
+    //    usersService.okOrder(oid);
+    //    return "redirect:orders";
+    //}
 
 
 }

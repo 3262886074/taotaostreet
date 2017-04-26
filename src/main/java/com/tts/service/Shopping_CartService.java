@@ -1,5 +1,6 @@
 package com.tts.service;
 
+import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 
@@ -23,20 +24,37 @@ public interface Shopping_CartService {
 
 	// 通过用户ID 添加购物车
 	Shopping_Cart addShopping_Cart(Integer uid);
-
+	
+	// 通过用户ID 添加购物车(立即购买的购物车)
+	Shopping_Cart addShopping_CartSp(long uid);
+	
 	// 添加商品到商品条目表
 	Integer addCommodity_items(Integer number, long ct_id, long ccid, long scId, long l);
-	
 
 	// 添加订单
 	Integer addOrder(Order order);
 
-	//查询订单
+	// 查询订单
 	Order getOders(long oid);
 
-		//修改订单
-	Integer updateOrder(Order order);
+	// 修改订单
+	Integer updateOrder(Order order,long uid);
 
+	// 查询当前添加的订单通过时间和用户ID
+	long getOid(long uid, String now);
 
+	// 修改商品条目表商品的信息
+	Integer updateShoppingCart(Commodity_items commodity_items);
 
+	//修改购物车用户ID
+	Integer updateShopping_CartUid(long scId);
+	
+	//添加商品到收藏夹
+	Integer addUser_Collect(long cid, long uid);
+	
+	//添加订单
+	Integer addOrderSp(long scId, long uid);
+
+	
+	
 }

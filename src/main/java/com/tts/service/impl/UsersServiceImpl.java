@@ -159,8 +159,13 @@ public class UsersServiceImpl implements UsersService {
     }
 
     @Override
+    public Integer okOrder(long oid) {
+        return usersDao.okOrder(oid);
+    }
+
+    @Override
     public String addComment(String content, Integer type, long uid, long cid) {
-        if (usersDao.addComment(content,type,uid,cid) > 0){
+        if (usersDao.addComment(content, type, uid, cid) > 0) {
             return StringUtils.success;
         } else {
             return StringUtils.fail;
