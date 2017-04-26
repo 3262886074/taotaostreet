@@ -1,6 +1,6 @@
 package com.tts.controller;
 
-import com.tts.bean.*;
+import com.tts.bean.Users;
 import com.tts.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
-import java.util.Set;
 
 /**
  * Created by joe on 17/4/21.
@@ -74,12 +74,13 @@ public class LoginAndRegisterController {
      * 注销
      */
     @RequestMapping(value = "/loginOut", method = RequestMethod.GET)
-    public String loginOut(HttpSession session) {
-        Users users = (Users) session.getAttribute("users");
-        if (users != null) {
-            session.removeAttribute("users");
-            session.invalidate();
+    public String loginOut(HttpServletRequest request) {
+        HttpSession session = request.getSession(false);
+        if (session == null) {
+            return "redirect:loginInput";
         }
+        session.removeAttribute("users");
+        session.invalidate();
         return "redirect:loginInput";
     }
 }
