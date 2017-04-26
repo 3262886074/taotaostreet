@@ -31,7 +31,8 @@
 					<div class="menu-hd">
 						<c:if test="${empty users}">
 							<a href="${ctx}/loginOrRegister/registerInput" target="_top">免费注册</a>
-							<a href="${ctx}/loginOrRegister/loginInput" target="_top" class="h">亲，请登录</a>
+							<a href="${ctx}/loginOrRegister/loginInput" target="_top"
+								class="h">亲，请登录</a>
 						</c:if>
 						<c:if test="${!empty users}">
 							<a href="${ctx}/loginOrRegister/loginOut">注销</a>
@@ -73,8 +74,8 @@
 					</div>
 					<div class="topMessage mini-cart">
 						<div class="menu-hd">
-							<a id="mc-menu-hd" href="${ctx}/loginOrRegister/loginInput" target="_top"><i
-								class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong
+							<a id="mc-menu-hd" href="${ctx}/loginOrRegister/loginInput"
+								target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong
 								id="J_MiniCartNum" class="h">0</strong></a>
 						</div>
 					</div>
@@ -155,51 +156,124 @@
 									<c:choose>
 										<c:when test="${status.index+1==1}">
 											<li class="appliance js_toggle relative first">
+												<div class="category-info">
+													<h3 class="category-name b-category-name">
+														<i><img
+															src="${ctx}/resources/images/classify_img/${status.index+1}cf.png" /></i><a
+															class="ml-22" title="点心">${classifyOne.cOneName}</a>
+													</h3>
+													<em>&gt;</em>
+												</div>
+												<div class="menu-item menu-in top">
+													<div class="area-in">
+														<div class="area-bg">
+															<div class="menu-srot">
+																<div class="sort-side">
+																	<!-- 二级分类 -->
+																	<c:forEach items="${classifyOne.classifyTwo}"
+																		var="classifyTwo">
+																		<dl class="dl-sort">
+																			<dt>
+																				<span title="蛋糕">${classifyTwo.cTwoName}</span>
+																			</dt>
+																			<c:forEach items="${classifyTwo.classifyThree}"
+																				var="classifyThree">
+																				<dd>
+																					<a title="${classifyThree.cThreeName}"
+																						href="${ctx}/home/query?type=${classifyThree.cThreeName}"
+																						onclick="queryType(this.title);return false;"><span>${classifyThree.cThreeName}</span></a>
+																				</dd>
+																			</c:forEach>
+																		</dl>
+																	</c:forEach>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div> <b class="arrow"></b>
+											</li>
 										</c:when>
 										<c:when test="${status.index+1==7}}">
 											<li class="appliance js_toggle relative">
+												<div class="category-info">
+													<h3 class="category-name b-category-name">
+														<i><img
+															src="${ctx}/resources/images/classify_img/${status.index+1}cf.png" /></i><a
+															class="ml-22" title="点心">${classifyOne.cOneName}</a>
+													</h3>
+													<em>&gt;</em>
+												</div>
+												<div class="menu-item menu-in top">
+													<div class="area-in">
+														<div class="area-bg">
+															<div class="menu-srot">
+																<div class="sort-side">
+																	<!-- 二级分类 -->
+																	<c:forEach items="${classifyOne.classifyTwo}"
+																		var="classifyTwo">
+																		<dl class="dl-sort">
+																			<dt>
+																				<span title="蛋糕">${classifyTwo.cTwoName}</span>
+																			</dt>
+																			<c:forEach items="${classifyTwo.classifyThree}"
+																				var="classifyThree">
+																				<dd>
+																					<a title="${classifyThree.cThreeName}"
+																						href="${ctx}/home/query?type=${classifyThree.cThreeName}"
+																						onclick="queryType(this.title);return false;"><span>${classifyThree.cThreeName}</span></a>
+																				</dd>
+																			</c:forEach>
+																		</dl>
+																	</c:forEach>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div> <b class="arrow"></b>
+											</li>
 										</c:when>
 										<c:otherwise>
 											<li class="appliance js_toggle relative last">
+
+
+												<div class="category-info">
+													<h3 class="category-name b-category-name">
+														<i><img
+															src="${ctx}/resources/images/classify_img/${status.index+1}cf.png" /></i><a
+															class="ml-22" title="点心">${classifyOne.cOneName}</a>
+													</h3>
+													<em>&gt;</em>
+												</div>
+												<div class="menu-item menu-in top">
+													<div class="area-in">
+														<div class="area-bg">
+															<div class="menu-srot">
+																<div class="sort-side">
+																	<!-- 二级分类 -->
+																	<c:forEach items="${classifyOne.classifyTwo}"
+																		var="classifyTwo">
+																		<dl class="dl-sort">
+																			<dt>
+																				<span title="蛋糕">${classifyTwo.cTwoName}</span>
+																			</dt>
+																			<c:forEach items="${classifyTwo.classifyThree}"
+																				var="classifyThree">
+																				<dd>
+																					<a title="${classifyThree.cThreeName}"
+																						href="${ctx}/home/query?type=${classifyThree.cThreeName}"
+																						onclick="queryType(this.title);return false;"><span>${classifyThree.cThreeName}</span></a>
+																				</dd>
+																			</c:forEach>
+																		</dl>
+																	</c:forEach>
+																</div>
+															</div>
+														</div>
+													</div>
+												</div> <b class="arrow"></b>
+											</li>
 										</c:otherwise>
 									</c:choose>
-									<div class="category-info">
-										<h3 class="category-name b-category-name">
-											<i><img
-												src="${ctx}/resources/images/classify_img/${status.index+1}cf.png" /></i><a
-												class="ml-22" title="点心">${classifyOne.cOneName}</a>
-										</h3>
-										<em>&gt;</em>
-									</div>
-									<div class="menu-item menu-in top">
-										<div class="area-in">
-											<div class="area-bg">
-												<div class="menu-srot">
-													<div class="sort-side">
-														<!-- 二级分类 -->
-														<c:forEach items="${classifyOne.classifyTwo}"
-															var="classifyTwo">
-															<dl class="dl-sort">
-																<dt>
-																	<span title="蛋糕">${classifyTwo.cTwoName}</span>
-																</dt>
-																<c:forEach items="${classifyTwo.classifyThree}"
-																	var="classifyThree">
-																	<dd>
-																		<a title="${classifyThree.cThreeName}"
-																			href="${ctx}/home/query?type=${classifyThree.cThreeName}"
-																			onclick="queryType(this.title);return false;"><span>${classifyThree.cThreeName}</span></a>
-																	</dd>
-																</c:forEach>
-															</dl>
-														</c:forEach>
-													</div>
-												</div>
-											</div>
-										</div>
-									</div>
-									<b class="arrow"></b>
-									</li>
 								</c:forEach>
 							</ul>
 						</div>
@@ -244,6 +318,25 @@
 													});
 								});
 			</script>
+			<!--小导航 -->
+			<div class="am-g am-g-fixed smallnav">
+				<div class="am-u-sm-3">
+					<a href="sort.html"><img src="${ctx}/resources/images/navsmall.jpg" />
+						<div class="title">商品分类</div> </a>
+				</div>
+				<div class="am-u-sm-3">
+					<a href="#"><img src="${ctx}/resources/images/huismall.jpg" />
+						<div class="title">大聚惠</div> </a>
+				</div>
+				<div class="am-u-sm-3">
+					<a href="#"><img src="${ctx}/resources/images/mansmall.jpg" />
+						<div class="title">个人中心</div> </a>
+				</div>
+				<div class="am-u-sm-3">
+					<a href="#"><img src="${ctx}/resources/images/moneysmall.jpg" />
+						<div class="title">投资理财</div> </a>
+				</div>
+			</div>
 
 			<!--走马灯 -->
 			<div class="marqueen">
@@ -256,7 +349,7 @@
 							<c:if test="${statop.index+1==2}">
 								<div class="mod-vip">
 									<c:choose>
-										<c:when test="${users==null}">
+										<c:when test="${empty users}">
 											<div class="m-baseinfo">
 												<a href="${ctx}/resources/person/index.html"> <img
 													src="${ctx}/resources/images/getAvatar.do.jpg" />
@@ -266,8 +359,9 @@
 												</em>
 											</div>
 											<div class="member-logout">
-												<a class="am-btn-warning btn" href="${ctx}/loginOrRegister/loginInput">登录</a>
 												<a class="am-btn-warning btn"
+													href="${ctx}/loginOrRegister/loginInput">登录</a> <a
+													class="am-btn-warning btn"
 													href="${ctx}/loginOrRegister/registerInput">注册</a>
 											</div>
 										</c:when>
@@ -282,8 +376,9 @@
 												</em>
 											</div>
 											<div class="member-logout">
-												<a class="am-btn-warning btn" href="${ctx}/loginOrRegister/loginInput">我的订单</a>
 												<a class="am-btn-warning btn"
+													href="${ctx}/loginOrRegister/loginInput">我的订单</a> <a
+													class="am-btn-warning btn"
 													href="${ctx}/loginOrRegister/registerInput">我的足迹</a>
 											</div>
 										</c:otherwise>
@@ -329,34 +424,18 @@
 						今日<br> 推荐
 					</p>
 				</div>
-				<div class="am-u-sm-4 am-u-lg-3 ">
-					<div class="info ">
-						<h3>真的有鱼</h3>
-						<h4>开年福利篇</h4>
+				<c:forEach items="${commodityNow}" var="commodity">
+					<div class="am-u-sm-4 am-u-lg-3 ">
+						<div class="info ">
+							<h3 class="shenglue">${commodity.cname}</h3>
+							<h4>开年福利篇</h4>
+						</div>
+						<div class="recommendationMain one">
+							<a href="introduction.html"><img
+								src="${ctx}${commodity.commodityPics.cpImg} "></img></a>
+						</div>
 					</div>
-					<div class="recommendationMain one">
-						<a href="introduction.html"><img
-							src="${ctx}/resources/images/tj.png "></img></a>
-					</div>
-				</div>
-				<div class="am-u-sm-4 am-u-lg-3 ">
-					<div class="info ">
-						<h3>囤货过冬</h3>
-						<h4>让爱早回家</h4>
-					</div>
-					<div class="recommendationMain two">
-						<img src="${ctx}/resources/images/tj1.png "></img>
-					</div>
-				</div>
-				<div class="am-u-sm-4 am-u-lg-3 ">
-					<div class="info ">
-						<h3>浪漫情人节</h3>
-						<h4>甜甜蜜蜜</h4>
-					</div>
-					<div class="recommendationMain three">
-						<img src="${ctx}/resources/images/tj2.png "></img>
-					</div>
-				</div>
+				</c:forEach>
 			</div>
 			<div class="clear "></div>
 
@@ -368,8 +447,9 @@
 					<div class="am-container ">
 						<div class="shopTitle ">
 							<h4>${classifyTwo.cTwoName}</h4>
-							<h3></h3>
-							<span class="more "> <a href="# ">更多美味<i
+							<h3>挑战你的味蕾</h3>
+							<span class="more "> <a
+								href="${ctx}/home/query?type=${classifyTwo.cTwoName} ">更多美味<i
 									class="am-icon-angle-right" style="padding-left: 10px;"></i></a>
 							</span>
 						</div>
@@ -394,77 +474,74 @@
 						</div>
 
 
-						<c:forEach items="${classifyTwo.classifyThree}"
-							var="classifythree" end="0">
-							<c:forEach items="${classifythree.commodity}" var="commodity"
-								varStatus="stacom" end="5">
-								<c:if test="${stacom.index+1==1}">
-									<div class="am-u-sm-7 am-u-md-4 text-two sug">
-										<div class="outer-con ">
-											<div class="title shenglue">${commodity.cname }</div>
-											<div class="sub-title ">¥${commodity.forSalePrice }</div>
-											<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-										</div>
-										<a href="# "><img
-											src="${ctx}${commodity.commodityPics.cpImg}" /></a>
+						<c:forEach items="${classifyTwo.commodity}" var="commodity"
+							varStatus="stacom" end="5">
+							<c:if test="${stacom.index+1==1}">
+								<div class="am-u-sm-7 am-u-md-4 text-two sug">
+									<div class="outer-con ">
+										<div class="title shenglue">${commodity.cname }</div>
+										<div class="sub-title ">¥${commodity.forSalePrice }</div>
+										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
-								</c:if>
-								<c:if test="${stacom.index+1==2}">
-									<div class="am-u-sm-7 am-u-md-4 text-two">
-										<div class="outer-con ">
-											<div class="title shenglue">${commodity.cname }</div>
-											<div class="sub-title ">¥${commodity.forSalePrice }</div>
-											<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-										</div>
-										<a href="# "><img
-											src="${ctx}${commodity.commodityPics.cpImg}" /></a>
+									<a href="# "><img
+										src="${ctx}${commodity.commodityPics.cpImg}" /></a>
+								</div>
+							</c:if>
+							<c:if test="${stacom.index+1==2}">
+								<div class="am-u-sm-7 am-u-md-4 text-two">
+									<div class="outer-con ">
+										<div class="title shenglue">${commodity.cname }</div>
+										<div class="sub-title ">¥${commodity.forSalePrice }</div>
+										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
-								</c:if>
-								<c:if test="${stacom.index+1==3}">
-									<div class="am-u-sm-3 am-u-md-2 text-three big">
-										<div class="outer-con ">
-											<div class="title shenglue">${commodity.cname }</div>
-											<div class="sub-title ">¥${commodity.forSalePrice }</div>
-											<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-										</div>
-										<a href="# "><img
-											src="${ctx}${commodity.commodityPics.cpImg}" /></a>
+									<a href="# "><img
+										src="${ctx}${commodity.commodityPics.cpImg}" /></a>
+								</div>
+							</c:if>
+							<c:if test="${stacom.index+1==3}">
+								<div class="am-u-sm-3 am-u-md-2 text-three big">
+									<div class="outer-con ">
+										<div class="title shenglue">${commodity.cname }</div>
+										<div class="sub-title ">¥${commodity.forSalePrice }</div>
+										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
-								</c:if>
-								<c:if test="${stacom.index+1==4}">
-									<div class="am-u-sm-3 am-u-md-2 text-three sug">
-										<div class="outer-con ">
-											<div class="title shenglue">${commodity.cname }</div>
-											<div class="sub-title ">¥${commodity.forSalePrice }</div>
-											<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-										</div>
-										<a href="# "><img
-											src="${ctx}${commodity.commodityPics.cpImg}" /></a>
+									<a href="# "><img
+										src="${ctx}${commodity.commodityPics.cpImg}" /></a>
+								</div>
+							</c:if>
+							<c:if test="${stacom.index+1==4}">
+								<div class="am-u-sm-3 am-u-md-2 text-three sug">
+									<div class="outer-con ">
+										<div class="title shenglue">${commodity.cname }</div>
+										<div class="sub-title ">¥${commodity.forSalePrice }</div>
+										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
-								</c:if>
-								<c:if test="${stacom.index+1==5}">
-									<div class="am-u-sm-3 am-u-md-2 text-three ">
-										<div class="outer-con ">
-											<div class="title shenglue">${commodity.cname }</div>
-											<div class="sub-title ">¥${commodity.forSalePrice }</div>
-											<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-										</div>
-										<a href="# "><img
-											src="${ctx}${commodity.commodityPics.cpImg}" /></a>
+									<a href="# "><img
+										src="${ctx}${commodity.commodityPics.cpImg}" /></a>
+								</div>
+							</c:if>
+							<c:if test="${stacom.index+1==5}">
+								<div class="am-u-sm-3 am-u-md-2 text-three ">
+									<div class="outer-con ">
+										<div class="title shenglue">${commodity.cname }</div>
+										<div class="sub-title ">¥${commodity.forSalePrice }</div>
+										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
-								</c:if>
-								<c:if test="${stacom.index+1==6}">
-									<div class="am-u-sm-3 am-u-md-2 text-three last big ">
-										<div class="outer-con ">
-											<div class="title shenglue">${commodity.cname }</div>
-											<div class="sub-title ">¥${commodity.forSalePrice }</div>
-											<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
-										</div>
-										<a href="# "><img
-											src="${ctx}${commodity.commodityPics.cpImg}" /></a>
+									<a href="# "><img
+										src="${ctx}${commodity.commodityPics.cpImg}" /></a>
+								</div>
+							</c:if>
+							<c:if test="${stacom.index+1==6}">
+								<div class="am-u-sm-3 am-u-md-2 text-three last big ">
+									<div class="outer-con ">
+										<div class="title shenglue">${commodity.cname }</div>
+										<div class="sub-title ">¥${commodity.forSalePrice }</div>
+										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
-								</c:if>
-							</c:forEach>
+									<a href="# "><img
+										src="${ctx}${commodity.commodityPics.cpImg}" /></a>
+								</div>
+							</c:if>
 						</c:forEach>
 
 					</div>
@@ -493,6 +570,16 @@
 
 		</div>
 	</div>
+	<!--引导 -->
+	<div class="navCir">
+		<li><a href="home.html"><i class="am-icon-home "></i>首页</a></li>
+		<li><a href="sort.html"><i class="am-icon-list"></i>分类</a></li>
+		<li><a href="shopcart.html"><i
+				class="am-icon-shopping-basket"></i>购物车</a></li>
+		<li><a href="${ctx}/resources/person/index.html"><i
+				class="am-icon-user"></i>我的</a></li>
+	</div>
+
 	<!--菜单 -->
 	<div class="tip">
 		<div id="sidebar">
@@ -501,19 +588,40 @@
 					<a href="# "> <span class="setting "></span>
 					</a>
 					<div class="ibar_login_box status_login ">
-						<div class="avatar_box ">
-							<p class="avatar_imgbox ">
-								<img src="${ctx}/resources/images/no-img_mid_.jpg " />
-							</p>
-							<ul class="user_info ">
-								<li>${users.nickName}</li>
-								<li>级&nbsp;别普通会员</li>
-							</ul>
-						</div>
-						<div class="login_btnbox ">
-							<a href="# " class="login_order ">我的订单</a> <a href="# "
-								class="login_favorite ">我的收藏</a>
-						</div>
+						<c:choose>
+							<c:when test="${!empty users}">
+								<div class="avatar_box ">
+									<p class="avatar_imgbox ">
+										<img src="${ctx}${users.uicon} " />
+									</p>
+									<ul class="user_info ">
+										<li>${users.nickName }</li>
+										<li>级&nbsp;别:黄金会员</li>
+									</ul>
+								</div>
+								<div class="login_btnbox ">
+									<a href="${ctx}/users/orders " class="login_order ">我的订单</a> <a
+										href="${ctx}/users/allCollects " class="login_favorite ">我的收藏</a>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="avatar_box ">
+									<p class="avatar_imgbox ">
+										<img src="${ctx}/resources/images/no-img_mid_.jpg " />
+									</p>
+									<ul class="user_info ">
+										<li>尚未登录！</li>
+										<li></li>
+									</ul>
+								</div>
+								<div class="login_btnbox ">
+									<a href="${ctx}/loginOrRegister/loginInput "
+										class="login_order ">马上登录</a> <a
+										href="${ctx}/loginOrRegister/registerInput "
+										class="login_favorite ">立即注册</a>
+								</div>
+							</c:otherwise>
+						</c:choose>
 						<i class="icon_arrow_white "></i>
 					</div>
 				</div>
@@ -572,6 +680,56 @@
 				<!--回到顶部 -->
 				<div id="quick_links_pop " class="quick_links_pop hide "></div>
 			</div>
+		</div>
+		<div id="prof-content" class="nav-content">
+			<div class="nav-con-close">
+				<i class="am-icon-angle-right am-icon-fw"></i>
+			</div>
+			<div>我</div>
+		</div>
+		<div id="shopCart-content" class="nav-content">
+			<div class="nav-con-close">
+				<i class="am-icon-angle-right am-icon-fw"></i>
+			</div>
+			<div>购物车</div>
+		</div>
+		<div id="asset-content" class="nav-content">
+			<div class="nav-con-close">
+				<i class="am-icon-angle-right am-icon-fw"></i>
+			</div>
+			<div>资产</div>
+
+			<div class="ia-head-list">
+				<a href="#" target="_blank" class="pl">
+					<div class="num">0</div>
+					<div class="text">优惠券</div>
+				</a> <a href="#" target="_blank" class="pl">
+					<div class="num">0</div>
+					<div class="text">红包</div>
+				</a> <a href="#" target="_blank" class="pl money">
+					<div class="num">￥0</div>
+					<div class="text">余额</div>
+				</a>
+			</div>
+
+		</div>
+		<div id="foot-content" class="nav-content">
+			<div class="nav-con-close">
+				<i class="am-icon-angle-right am-icon-fw"></i>
+			</div>
+			<div>足迹</div>
+		</div>
+		<div id="brand-content" class="nav-content">
+			<div class="nav-con-close">
+				<i class="am-icon-angle-right am-icon-fw"></i>
+			</div>
+			<div>收藏</div>
+		</div>
+		<div id="broadcast-content" class="nav-content">
+			<div class="nav-con-close">
+				<i class="am-icon-angle-right am-icon-fw"></i>
+			</div>
+			<div>充值</div>
 		</div>
 	</div>
 	<script>
