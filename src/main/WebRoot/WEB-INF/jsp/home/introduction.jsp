@@ -49,9 +49,10 @@
 				<div class="menu-hd">
 					<c:if test="${empty users}">
 							<a href="${ctx}/loginOrRegister/registerInput" target="_top">免费注册</a>
-							<a href="${ctx}/loginOrRegister/loginInput" target="_top" class="h">亲，请登录</a>
+							<a href="${ctx}/loginOrRegister/loginInput   " target="_top" class="h">亲，请登录</a>
 						</c:if>
 						<c:if test="${!empty users}">
+							<b>${users.nickName }</b>，
 							<a href="${ctx}/loginOrRegister/loginOut">注销</a>
 						</c:if>
 				</div>
@@ -85,20 +86,20 @@
 				<c:if test="${empty users}">
 					<div class="topMessage my-shangcheng">
 						<div class="menu-hd MyShangcheng">
-							<a href="${ctx}/loginOrRegister/loginInput" target="_top"><i
+							<a href="javascript:void(0);" onclick="toLogin();" target="_top"><i
 								class="am-icon-user am-icon-fw"></i>个人中心</a>
 						</div>
 					</div>
 					<div class="topMessage mini-cart">
 						<div class="menu-hd">
-							<a id="mc-menu-hd" href="${ctx}/loginOrRegister/loginInput" target="_top"><i
+							<a id="mc-menu-hd" href="javascript:void(0);" onclick="toLogin();" target="_top"><i
 								class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong
 								id="J_MiniCartNum" class="h">0</strong></a>
 						</div>
 					</div>
 					<div class="topMessage favorite">
 						<div class="menu-hd">
-							<a href="${ctx}/loginOrRegister/loginInput" target="_top"><i
+							<a href="javascript:void(0);" onclick="toLogin();" target="_top"><i
 								class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a>
 						</div>
 				</c:if>
@@ -394,18 +395,33 @@
 						<div class="coupon">
 							<dt class="tb-metatit">优惠券</dt>
 							<div class="gold-list">
+							<c:if test="${!empty users }">
 								<ul>
 									<a href="javascript:void(0);" onclick="getyhq();"><li><i id="q1">125</i>减<i id="q2">5</i></li></a>
 									<a href="javascript:void(0);" onclick="getyhq1();"><li><i id="a1">198</i>减<i id="a2">10</i></li></a>
-									<a href="javascript:void(0);" onclick="getyhq2();"><li><i id="w1">298</i>减<i id="w2">10</i></li></a>
+									<a href="javascript:void(0);" onclick="getyhq2();"><li><i id="w1">298</i>减<i id="w2">30</i></li></a>
 								</ul>
+							</c:if>
+							<c:if test="${empty users }">
+								<ul>
+									<a href="javascript:void(0);" onclick="toLogin();"><li><i id="q1">125</i>减<i id="q2">5</i></li></a>
+									<a href="javascript:void(0);" onclick="toLogin();"><li><i id="a1">198</i>减<i id="a2">10</i></li></a>
+									<a href="javascript:void(0);" onclick="toLogin();"><li><i id="w1">298</i>减<i id="w2">30</i></li></a>
+								</ul>
+							</c:if>
 							</div>
+							<script type="text/javascript">
+								function toLogin() {
+									alert("请先登录！")
+									window.location.href="loginOrRegister/loginInput";
+							}
+							</script>
 							<script type="text/javascript" >
 								function getyhq() {
 									var condition = parseInt($("#q1").html());
 									var reduce = parseInt($("#q2").html());
 									if (confirm("确定领取？")){ 
-										$.post("getDc","cond="+condition+"&red="+reduce+"&uid=1",function(a){
+										$.post("getDc","cond="+condition+"&red="+reduce+"&uid="+${users.uid},function(a){
 											if (a==0) {
 												alert("领取成功")
 											}else{
@@ -419,7 +435,7 @@
 									var condition = parseInt($("#a1").html());
 									var reduce = parseInt($("#a2").html());
 									if (confirm("确定领取？")){ 
-										$.post("getDc","cond="+condition+"&red="+reduce+"&uid=1",function(a){
+										$.post("getDc","cond="+condition+"&red="+reduce+"&uid="+${users.uid},function(a){
 											if (a==0) {
 												alert("领取成功")
 											}else{
@@ -433,7 +449,7 @@
 									var condition = parseInt($("#w1").html());
 									var reduce = parseInt($("#w2").html());
 									if (confirm("确定领取？")){ 
-										$.post("getDc","cond="+condition+"&red="+reduce+"&uid=1",function(a){
+										$.post("getDc","cond="+condition+"&red="+reduce+"&uid="+${users.uid},function(a){
 											if (a==0) {
 												alert("领取成功")
 											}else{
@@ -454,11 +470,39 @@
 						<a><span class="am-icon-heart am-icon-fw">收藏</span></a>
 
 					</div>
+					<c:if test="${!empty users }">
 					<li>
 						<div class="clearfix tb-btn tb-btn-buy theme-login">
+						
 							<a id="LikBuy" title="点此按钮到下一步确认购买信息" href="javascript:void(0)"
 								onclick="show()">立即购买</a>
-							<script type="text/javascript">
+							
+						</div>
+					</li>
+					<li>
+						<div class="clearfix tb-btn tb-btn-basket theme-login">
+							<a id="LikBasket" title="加入购物车" href="javascript:void(0)"
+								onclick="show2()"><i></i>加入购物车</a>
+						</div> 
+					</li>
+					</c:if>
+					<c:if test="${empty users }">
+					<li>
+						<div class="clearfix tb-btn tb-btn-buy theme-login">
+						
+							<a id="LikBuy" title="点此按钮到下一步确认购买信息" href="javascript:void(0)"
+								onclick="toLogin()">立即购买</a>
+							
+						</div>
+					</li>
+					<li>
+						<div class="clearfix tb-btn tb-btn-basket theme-login">
+							<a id="LikBasket" title="加入购物车" href="javascript:void(0)"
+								onclick="toLogin()"><i></i>加入购物车</a>
+						</div> 
+					</li>
+					</c:if>
+						<script type="text/javascript">
 										function show(){
 											if(mon + m2 <=0){
 												$("#show1").show();
@@ -471,14 +515,8 @@
 												$("#show1").show();
 											}
 										}
-									</script>
-						</div>
-					</li>
-					<li>
-						<div class="clearfix tb-btn tb-btn-basket theme-login">
-							<a id="LikBasket" title="加入购物车" href="javascript:void(0)"
-								onclick="show2()"><i></i>加入购物车</a>
-						</div> <script type="text/javascript">
+						</script>
+						<script type="text/javascript">
 										function show2(){
 											if(mon + m2 <=0){
 												$("#show1").show();
@@ -491,8 +529,8 @@
 												$("#show1").show();
 											}
 										}
-								</script>
-					</li>
+					    </script>
+					
 				</div>
 
 			</div>
@@ -788,7 +826,7 @@
 		<div id="sidebar">
 			<div id="wrap">
 				<div id="prof" class="item">
-					<a href="${ctx}/loginOrRegister/loginInput"> <span class="setting"></span>
+					<a href="javascript:void(0);" onclick="toLogin();"> <span class="setting"></span>
 					</a>
 					<div class="ibar_login_box status_login">
 						<div class="avatar_box">
@@ -801,8 +839,8 @@
 							</ul>
 						</div>
 						<div class="login_btnbox">
-							<a href="${ctx}/loginOrRegister/loginInput" class="login_order">我的订单</a> 
-							<a href="${ctx}/loginOrRegister/loginInput"
+							<a href="javascript:void(0);" onclick="toLogin();" class="login_order">我的订单</a> 
+							<a href="javascript:void(0);" onclick="toLogin();"
 								class="login_favorite">我的收藏</a>
 						</div>
 						<i class="icon_arrow_white"></i>
@@ -810,13 +848,13 @@
 
 				</div>
 				<div id="shopCart" class="item">
-					<a href="${ctx}/loginOrRegister/loginInput"><span class="message"></span>
+					<a href="javascript:void(0);" onclick="toLogin();"><span class="message"></span>
 					</a>
 					<p>购物车</p>
 					<p class="cart_num">0</p>
 				</div>
 				<div id="asset" class="item">
-					<a href="${ctx}/loginOrRegister/loginInput"> <span class="view"></span>
+					<a href="javascript:void(0);" onclick="toLogin();"> <span class="view"></span>
 					</a>
 					<div class="mp_tooltip">
 						我的资产 <i class="icon_arrow_right_black"></i>
@@ -824,7 +862,7 @@
 				</div>
 
 				<div id="brand" class="item">
-					<a href="${ctx}/loginOrRegister/loginInput"> <span class="wdsc"><img
+					<a href="javascript:void(0);" onclick="toLogin();"> <span class="wdsc"><img
 							src="${ctx}/resources/images/wdsc.png" /></span>
 					</a>
 					<div class="mp_tooltip">
@@ -833,7 +871,7 @@
 				</div>
 
 				<div id="broadcast" class="item">
-					<a href="${ctx}/loginOrRegister/loginInput"> <span class="chongzhi"><img
+					<a href="javascript:void(0);" onclick="toLogin();"> <span class="chongzhi"><img
 							src="${ctx}/resources/images/chongzhi.png" /></span>
 					</a>
 					<div class="mp_tooltip">
