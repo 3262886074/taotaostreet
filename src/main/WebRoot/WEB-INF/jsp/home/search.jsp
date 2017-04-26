@@ -216,17 +216,24 @@
 												<b>¥</b> <strong>${commodity.forSalePrice}</strong>
 											</p>
 											<p class="number fl">
-												销量<span>${commodity.commoditySell.allSell}</span>
+
+												销量<span><c:choose>
+														<c:when test="${!empty commodity.commoditySell.allSell}">
+															${commodity.commoditySell.allSell}
+														</c:when>
+														<c:otherwise>
+														0
+														</c:otherwise>
+													</c:choose> </span>
 											</p>
 										</div>
 									</li>
 								</c:forEach>
 							</ul>
 						</div>
+						<!--  -->
 						<div class="search-side">
-
 							<div class="side-title">经典搭配</div>
-
 							<li>
 								<div class="i-pic check">
 									<img src="${ctx}/resources/images/cp.jpg" />

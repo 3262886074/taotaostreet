@@ -1,6 +1,8 @@
 package com.tts.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,13 +30,29 @@ public class HomeServiceImpl implements IHomeService {
 	}
 
 	@Override
-	public List<Commodity> queryTop(){
-		return iHomeDao.queryTop();
+	public List<Commodity> queryTop(String adjustTop) {
+		String[] adjustRecommends = adjustTop.split(",");
+		return iHomeDao.queryTop(adjustRecommends);
 	}
 
 	@Override
-	public List<Classify_two> queryCTwoId() {
-		return iHomeDao.queryCTwoId();
+	public List<Commodity> queryNow(String adjustRecommend) {
+		String[] adjustRecommends = adjustRecommend.split(",");
+		return iHomeDao.queryNow(adjustRecommends);
+	}
+
+	@Override
+	public List<Classify_two> queryCTwoId(String adjustTwoId, String adjustComId) {
+		for (String c : adjustTwoId.split(",")) {
+			System.out.println("测试数据" + c);
+		}
+		for (String c : adjustComId.split(",")) {
+			System.out.println("测试数据：" + c);
+		}
+		Map<String, String[]> mapType = new HashMap<>();
+		mapType.put("adjustTwoId", adjustTwoId.split(","));
+		mapType.put("adjustComId", adjustComId.split(","));
+		return iHomeDao.queryCTwoId(mapType);
 	}
 
 }
