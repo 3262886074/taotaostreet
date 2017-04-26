@@ -1,9 +1,9 @@
 package com.tts.controller;
 
 import java.util.List;
-import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +25,18 @@ import com.tts.service.IHomeService;
 public class HomeController {
 	@Autowired
 	private IHomeService iHomeService;
+
+	@Value("#{configProperties['adjustTwoId']}")
+	private String adjustTwoId;
+
+	@Value("#{configProperties['adjustComId']}")
+	private String adjustComId;
+
+	@Value("#{configProperties['adjustTop']}")
+	private String adjustTop;
+
+	@Value("#{configProperties['adjustRecommend']}")
+	private String adjustRecommend;
 
 	/**
 	 * 搜索商品
@@ -50,10 +62,13 @@ public class HomeController {
 		List<Classify_one> classifyOneList = iHomeService.queryClassify();
 		map.put("classifyOneList", classifyOneList);
 		// 商城头条
-		List<Commodity> commodityList = iHomeService.queryTop();
+		List<Commodity> commodityList = iHomeService.queryTop(adjustTop);
 		map.put("commodityList", commodityList);
+		// 今日推荐
+		List<Commodity> commodityNow = iHomeService.queryNow(adjustRecommend);
+		map.put("commodityNow", commodityNow);
 		// 底部分类展示
-		List<Classify_two> ClassifyTwoList = iHomeService.queryCTwoId();
+		List<Classify_two> ClassifyTwoList = iHomeService.queryCTwoId(adjustTwoId, adjustComId);
 		map.put("ClassifyTwoList", ClassifyTwoList);
 		return "home/home";
 	}

@@ -1,14 +1,12 @@
 package com.tts.controller;
 
 import java.util.List;
-
 import javax.annotation.Resource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import com.tts.bean.Discount_coupon;
 import com.tts.service.CommodityService;
 
@@ -17,7 +15,7 @@ public class CommController {
 
 	@Resource(name="commodityService")
 	private CommodityService cs;
-	
+
 	@RequestMapping("toShowOne")
 	public String toIntroduction(ModelMap map,@RequestParam("cid")long cid) {
 		
