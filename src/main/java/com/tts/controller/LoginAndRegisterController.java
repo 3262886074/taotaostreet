@@ -41,18 +41,6 @@ public class LoginAndRegisterController {
                         ModelMap map) {
         Users users = usersService.userLogin(nickname, pwd);
         if (users != null) {
-            Set<Order> orders = usersService.queryOrdersByUid(users.getUid());
-            Set<User_Collect> userCollects = usersService.queryCollectsByUid(users.getUid());
-            Set<Discount_coupon> discountCoupons = usersService.queryDiscountCouponByUid(users.getUid());
-            Set<User_Red_package> userRedPackages = usersService.queryRedPackageByUid(users.getUid());
-            Users_Authentication users_authentication = usersService.queryAuthenticationByUid(users.getUid());
-            User_Safety_Question user_safety_question = usersService.querySafetyQuestionByUid(users.getUid());
-            users.setOrders(orders);
-            users.setUserCollects(userCollects);
-            users.setUserRedPackages(userRedPackages);
-            users.setDiscountCoupons(discountCoupons);
-            users.setUsers_authentication(users_authentication);
-            users.setUser_safety_question(user_safety_question);
             map.put("users", users);
             return "redirect:/";
         } else {
@@ -87,8 +75,11 @@ public class LoginAndRegisterController {
      */
     @RequestMapping(value = "/loginOut", method = RequestMethod.GET)
     public String loginOut(HttpSession session) {
-        session.removeAttribute("users");
-        session.invalidate();
+        Users users = (Users) session.getAttribute("users");
+        if (users != null) {
+            session.removeAttribute("users");
+            session.invalidate();
+        }
         return "redirect:loginInput";
     }
 }

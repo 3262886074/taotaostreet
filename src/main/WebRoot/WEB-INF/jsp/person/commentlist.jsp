@@ -1,6 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
-<%@taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <c:set var="ctx" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
@@ -9,16 +8,14 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0,maximum-scale=1.0, user-scalable=0">
 
-    <title>个人资料</title>
+    <title>发表评论</title>
 
     <link href="${ctx}/resources/AmazeUI-2.4.2/assets/css/admin.css" rel="stylesheet" type="text/css">
     <link href="${ctx}/resources/AmazeUI-2.4.2/assets/css/amazeui.css" rel="stylesheet" type="text/css">
 
     <link href="${ctx}/resources/css/personal.css" rel="stylesheet" type="text/css">
-    <link href="${ctx}/resources/css/infstyle.css" rel="stylesheet" type="text/css">
-    <script src="${ctx}/resources/AmazeUI-2.4.2/assets/js/jquery.min.js" type="text/javascript"></script>
-    <script src="${ctx}/resources/AmazeUI-2.4.2/assets/js/amazeui.js" type="text/javascript"></script>
-
+    <link href="${ctx}/resources/css/appstyle.css" rel="stylesheet" type="text/css">
+    <script type="text/javascript" src="${ctx}/resources/js/jquery-1.7.2.min.js"></script>
 </head>
 
 <body>
@@ -29,14 +26,11 @@
             <!--顶部导航条 -->
             <div class="am-container header">
                 <ul class="message-l">
-                    <div class="menu-hd">
-                        <c:if test="${empty users}">
-                            <a href="${ctx}/loginOrRegister/loginInput" target="_top" class="h">亲，请登录</a>
-                            <a href="${ctx}/loginOrRegister/registerInput" target="_top">免费注册</a>
-                        </c:if>
-                        <c:if test="${!empty users}">
-                            <a href="${ctx}/loginOrRegister/loginOut">注销</a>
-                        </c:if>
+                    <div class="topMessage">
+                        <div class="menu-hd">
+                            <a href="#" target="_top" class="h">亲，请登录</a>
+                            <a href="#" target="_top">免费注册</a>
+                        </div>
                     </div>
                 </ul>
                 <ul class="message-r">
@@ -44,13 +38,13 @@
                         <div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
                     </div>
                     <div class="topMessage my-shangcheng">
-                        <div class="menu-hd MyShangcheng"><a href="${ctx}/users/allInfo" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+                        <div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
                     </div>
                     <div class="topMessage mini-cart">
                         <div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
                     </div>
                     <div class="topMessage favorite">
-                        <div class="menu-hd"><a href="${ctx}/users/allCollects" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+                        <div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
                 </ul>
             </div>
 
@@ -96,73 +90,72 @@
     <div class="col-main">
         <div class="main-wrap">
 
-            <div class="user-info">
+            <div class="user-comment">
                 <!--标题 -->
                 <div class="am-cf am-padding">
-                    <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">个人资料</strong> / <small>Personal&nbsp;information</small></div>
+                    <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">发表评论</strong> / <small>Make&nbsp;Comments</small></div>
                 </div>
                 <hr/>
+                <form>
+                    <div class="comment-main">
+                    <!-- TODO 多个商品评论-->
 
-                <!--头像 -->
-                <div class="user-infoPic">
-
-                    <div class="filePic">
-                        <input type="file" class="inputPic" allowexts="gif,jpeg,jpg,png,bmp" accept="image/*">
-                        <img class="am-circle am-img-thumbnail" src="${ctx}/resources/images/getAvatar.do.jpg" alt="" />
-                    </div>
-
-                    <p class="am-form-help">头像</p>
-
-                    <div class="info-m">
-                        <div><b>用户名：<i>${users.nickName}</i></b></div>
-                        <div class="u-level">
-									<span class="rank r2">
-							             <s class="vip1"></s><a class="classes" href="#">铜牌会员</a>
-						            </span>
-                        </div>
-                        <div class="u-safety">
-                            <a href="safety.html">
-                                账户安全
-                                <span class="u-profile"><i class="bc_ee0000" style="width: 60px;" width="0">60分</i></span>
+                    <c:forEach items="${commodityItems}" var="items">
+                        <div class="comment-list">
+                        <div class="item-pic">
+                            <a href="#" class="J_MakePoint">
+                                <img src="${items.commodity.commodityPics.cpImg}" class="itempic">
                             </a>
                         </div>
+
+                        <div class="item-title">
+
+                            <div class="item-name">
+                                <a href="#">
+                                    <p class="item-basic-info">${items.commodity.cname}</p>
+                                </a>
+                            </div>
+                            <div class="item-info">
+                                <div class="info-little">
+                                    <span>类型：${items.commodityType.typeName}</span>
+                                    <span>包装：${items.commodityCombo.ccname}</span>
+                                </div>
+                                <div class="item-price">
+                                    价格：<strong>${items.commodity.price}元</strong>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="item-comment">
+                            <textarea placeholder="请写下对宝贝的感受吧，对他人帮助很大哦！"></textarea>
+                        </div>
+                        <div class="item-opinion">
+                            <li><i class="op1"></i>好评</li>
+                            <li><i class="op2"></i>中评</li>
+                            <li><i class="op3"></i>差评</li>
+                        </div>
                     </div>
+                    </c:forEach>
+                    <div class="info-btn">
+                        <div class="am-btn am-btn-danger">
+                            <input class="am-btn am-btn-danger" type="submit" value="发表评论">
+                        </div>
+                    </div>
+                    <script type="text/javascript">
+                        $(document).ready(function() {
+                            $(".comment-list .item-opinion li").click(function() {
+                                $(this).prevAll().children('i').removeClass("active");
+                                $(this).nextAll().children('i').removeClass("active");
+                                $(this).children('i').addClass("active");
+
+                            });
+                        })
+                    </script>
+
+
+
                 </div>
-
-                <!--个人信息 -->
-                <div class="info-main">
-                    <form:form action="${ctx}/users/updateInfo" method="post" modelAttribute="users" class="am-form am-form-horizontal">
-                        <input type="hidden" name="_method" value="PUT">
-                        <form:hidden path="uid"/>
-                        <div class="am-form-group">
-                            <label for="nickname" class="am-form-label">昵称</label>
-                            <div class="am-form-content">
-                                <form:input type="text" path="nickName" id="nickname" placeholder="${users.nickName}"/>
-
-                            </div>
-                        </div>
-
-                        <div class="am-form-group">
-                            <label for="user-phone" class="am-form-label">电话</label>
-                            <div class="am-form-content">
-                                <form:input id="user-phone" path="utel" placeholder="${users.utel}" type="tel"/>
-
-                            </div>
-                        </div>
-                        <div class="am-form-group">
-                            <label for="user-email" class="am-form-label">电子邮件</label>
-                            <div class="am-form-content">
-                                <form:input id="user-email" path="email" placeholder="${users.email}" type="email"/>
-
-                            </div>
-                        </div>
-                        <div class="info-btn">
-                             <input class="am-btn am-btn-danger" type="submit" value="保存修改">
-                        </div>
-
-                    </form:form>
-                </div>
-
+                </form>
             </div>
 
         </div>
@@ -193,35 +186,40 @@
 
     <aside class="menu">
         <ul>
-            <li class="person active">
-                <a href="${ctx}/users/allInfo">个人中心</a>
+            <li class="person">
+                <a href="index.html">个人中心</a>
             </li>
             <li class="person">
-                <a href="">个人资料</a>
+                <a href="#">个人资料</a>
                 <ul>
-                    <li> <a href="${ctx}/users/userInfo/${users.uid}">个人信息</a></li>
-                    <li> <a href="${ctx}/users/safety">安全设置</a></li>
-                    <li> <a href="${ctx}/users/getAddress">收货地址</a></li>
+                    <li> <a href="information.html">个人信息</a></li>
+                    <li> <a href="safety.html">安全设置</a></li>
+                    <li> <a href="address.html">收货地址</a></li>
                 </ul>
             </li>
             <li class="person">
                 <a href="#">我的交易</a>
                 <ul>
-                    <li><a href="${ctx}/users/orders">订单管理</a></li>
+                    <li><a href="order.html">订单管理</a></li>
+                    <li> <a href="change.html">退款售后</a></li>
                 </ul>
             </li>
             <li class="person">
                 <a href="#">我的资产</a>
                 <ul>
-                    <li> <a href="${ctx}/users/allCoupons">优惠券 </a></li>
-                    <li> <a href="${ctx}/users/allRedPackage">红包</a></li>
+                    <li> <a href="coupon.html">优惠券 </a></li>
+                    <li> <a href="bonus.html">红包</a></li>
+                    <li> <a href="bill.html">账单明细</a></li>
                 </ul>
             </li>
 
             <li class="person">
                 <a href="#">我的小窝</a>
                 <ul>
-                    <li> <a href="${ctx}/users/allCollects">收藏</a></li>
+                    <li> <a href="collection.html">收藏</a></li>
+                    <li> <a href="foot.html">足迹</a></li>
+                    <li class="active"> <a href="comment.html">评价</a></li>
+                    <li> <a href="news.html">消息</a></li>
                 </ul>
             </li>
 

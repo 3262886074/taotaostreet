@@ -32,7 +32,7 @@ public class Users implements Serializable {
     //红包 一对多
     private Set<User_Red_package> userRedPackages = new HashSet<>();
     //账户安全问题 双向一对一
-    private User_Safety_Question user_safety_question;
+    private User_Safety_Question safetyQuestions;
     //账户认证 双向一对一
     private Users_Authentication users_authentication;
     //订单 一对多
@@ -59,7 +59,7 @@ public class Users implements Serializable {
                 ", userAddresses=" + userAddresses +
                 ", userCollects=" + userCollects +
                 ", userRedPackages=" + userRedPackages +
-                ", user_safety_question=" + user_safety_question +
+                ", user_safety_question=" + safetyQuestions +
                 ", users_authentication=" + users_authentication +
                 ", orders=" + orders +
                 ", discountCoupons=" + discountCoupons +
@@ -174,12 +174,12 @@ public class Users implements Serializable {
         this.userRedPackages = userRedPackages;
     }
 
-    public User_Safety_Question getUser_safety_question() {
-        return user_safety_question;
+    public User_Safety_Question getsafetyQuestions() {
+        return safetyQuestions;
     }
 
-    public void setUser_safety_question(User_Safety_Question user_safety_question) {
-        this.user_safety_question = user_safety_question;
+    public void setUser_safety_question(User_Safety_Question safetyQuestions) {
+        this.safetyQuestions = safetyQuestions;
     }
 
     public Users_Authentication getUsers_authentication() {

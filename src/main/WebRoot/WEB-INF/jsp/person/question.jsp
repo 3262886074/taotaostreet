@@ -124,11 +124,10 @@
             </div>
             <form:form action="${ctx}/users/safetyQuestion"
                        method="post"
-                       modelAttribute="user_safety_question"
+                       modelAttribute="safetyQuestions"
                        class="am-form am-form-horizontal">
-                <%-- TODO --%>
                 <input type="hidden" name="users.uid" value="${users.uid}">
-                <c:if test="${!empty users.user_safety_question}">
+                <c:if test="${!empty users.safetyQuestions}">
                     <input type="hidden" name="_method" value="PUT">
                     <input type="hidden" name="uid" value="${users.uid}">
                 </c:if>
@@ -147,7 +146,7 @@
                 <div class="am-form-group">
                     <label for="user-answer1" class="am-form-label">答案</label>
                     <div class="am-form-content">
-                        <form:input type="text" path="answerOne" id="user-answer1" placeholder="请输入安全问题答案"/>
+                        <form:input type="text" path="answerOne" required="true" id="user-answer1" placeholder="请输入安全问题答案"/>
                     </div>
                 </div>
                 <div class="am-form-group select">
@@ -165,12 +164,12 @@
                 <div class="am-form-group">
                     <label for="user-answer2" class="am-form-label">答案</label>
                     <div class="am-form-content">
-                        <form:input type="text" path="answerTwo" id="user-answer2" placeholder="请输入安全问题答案"/>
+                        <form:input type="text" path="answerTwo" required="true" id="user-answer2" placeholder="请输入安全问题答案"/>
                     </div>
                 </div>
                 <div class="info-btn">
                     <div class="am-btn am-btn-danger">
-                        <input type="submit" value="保存修改">
+                        <input class="am-btn am-btn-danger" type="submit" value="保存修改">
                     </div>
                 </div>
 

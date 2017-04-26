@@ -247,13 +247,15 @@
         </where>
     </select>
 
-    <!-- 根据地址id删除地址 -->
-    <delete id="deleteAddressByUaId" parameterType="long">
-        DELETE FROM User_address
+    <!-- 根据地址id隐藏地址 -->
+    <update id="deleteAddressByUaId" parameterType="long">
+        UPDATE User_address
+        SET
+        status = -1
         <where>
             ua_id = #{uaid}
         </where>
-    </delete>
+    </update>
 
     <!-- 添加地址 多个参数,注意用@param绑定 -->
     <insert id="addOneAddress" parameterType="User_address">
@@ -264,7 +266,7 @@
     </insert>
 
     <!--
-        TODO 1.根据用户id查出订单中的购物车、用户地址
+        1.根据用户id查出订单中的购物车、用户地址
     -->
     <select id="queryOrdersByUid" parameterType="long" resultType="Order">
         SELECT
@@ -295,7 +297,7 @@
         ORDER BY o.o_id
     </select>
 
-    <!-- TODO 2.根据商品条目中的购物车id查出商品信息、商品类别、套餐 -->
+    <!-- 2.根据商品条目中的购物车id查出商品信息、商品类别、套餐 -->
     <select id="queryItemsByScid" parameterType="long" resultType="Commodity_items">
         SELECT
         ci.ci_id,
@@ -328,7 +330,100 @@
         ORDER BY ci.ci_id
     </select>
 
-    <!-- TODO 3. -->
+    <!-- 3.根据订单id查找订单信息 -->
+    <select id="queryOrderInfoByOid" parameterType="long" resultType="Order">
+        SELECT
+        o.o_id,
+        o.sc_id,
+        o.money,
+        o.status,
+        o.ua_id,
+        o.u_id,
+        o.create_time,
+        sc.sc_id "shoppingCart.scId",
+        sc.u_id "shoppingCart.users.uid",
+        sc.create_time "shoppingCart.createTime",
+        ua.ua_id "userAddress.uaId",
+        ua.ua_name "userAddress.uaname",
+        ua.ua_tel "userAddress.uatel",
+        ua.location "userAddress.location",
+        ua.address "userAddress.address",
+        ua.u_id,
+        ua.status "userAddress.status"
+        FROM
+        Orders o
+        INNER JOIN Shopping_Cart sc
+        ON o.sc_id = sc.sc_id
+        INNER JOIN User_address ua
+        ON ua.ua_id = o.ua_id
+        AND o.o_id = #{oid}
+    </select>
+
+    <!-- 用户钱包余额 -->
+    <select id="getAccountMoney" parameterType="long" resultType="User_Account">
+        SELECT
+        ua_id "uaId",
+        ua_money "uaMoney"
+        FROM user_account
+        WHERE u_id = #{uid}
+    </select>
+
+    <!-- 一键支付 -->
+    <!-- 1.先看库存够不够 -->
+    <update id="reduceCommodityNumber">
+        UPDATE Commodity
+        SET number = number - #{number}
+        WHERE c_id = #{cid}
+        AND number >= #{number}
+    </update>
+    <!-- 2.从用户账户扣除相应的金额，如金额不够则购买失败 -->
+    <update id="updateAccountMoney">
+        UPDATE user_account
+        SET ua_money = ua_money - #{money}
+        WHERE u_id = #{uid}
+        AND ua_money >= #{money}
+    </update>
+    <!-- 3.以上都成功后，更改订单状态 -->
+    <update id="updateOrderStatus" parameterType="long">
+        UPDATE Orders
+        SET status = 0
+        WHERE o_id = #{oid}
+    </update>
+
+    <!-- 取消订单 -->
+    <!-- 1.修改订单状态为已取消 -->
+    <update id="cancelOrder" parameterType="long">
+        UPDATE Orders
+        SET status = 4
+        WHERE o_id = #{oid}
+    </update>
+    <!-- 2.给用户账户加上订单的钱 money+uid -->
+    <update id="returnMoney">
+        UPDATE user_account
+        SET ua_money = ua_money + #{money}
+        WHERE u_id = #{uid}
+    </update>
+    <!-- 3.给商品加上库存 number + cid -->
+    <update id="addCommodityNumber">
+        UPDATE Commodity
+        SET number = number + #{number}
+        WHERE c_id = #{cid}
+    </update>
+
+    <!-- 确认收货 -->
+    <update id="confirmOrder" parameterType="long">
+        UPDATE Orders
+        SET status = 2
+        WHERE o_id = #{oid}
+    </update>
+
+    <!-- 添加评价 -->
+    <insert id="addComment" parameterType="Commodity_Comment">
+        INSERT INTO commodity_comment
+        (content,ctype,u_id,c_id)
+        VALUES
+        (#{content},#{type},#{uid},#{cid})
+    </insert>
 
 
 </mapper>

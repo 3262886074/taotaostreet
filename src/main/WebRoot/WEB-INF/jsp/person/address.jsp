@@ -23,7 +23,7 @@
 <script type="text/javascript">
     $(function () {
         //更新默认地址
-        $("li[id^=userAddress]").click(function () {
+        $("span[id^=userAddress]").click(function () {
             //被点击的按钮id
             var idStr = $(this).attr("id");
             //截取最后的数字 不管是几位数字
@@ -36,22 +36,18 @@
         });
         //删除地址
         $("a[id^=deleteAddr]").click(function () {
-            //被点击的按钮id
-            var idStr = $(this).attr("id");
-            //截取最后的数字 不管是几位数字
-            var id = idStr.substring(10, idStr.length);
-            var form =  $("#deleteForm"+id);
-            var action = "${ctx}/users/deleteAddress";
-            form.attr("action",action);
-            form.submit();
+            if (confirm("确定要删除吗?")){
+                //被点击的按钮id
+                var idStr = $(this).attr("id");
+                //截取最后的数字 不管是几位数字
+                var id = idStr.substring(10, idStr.length);
+                var form =  $("#deleteForm"+id);
+                var action = "${ctx}/users/deleteAddress";
+                form.attr("action",action);
+                form.submit();
+            }
             return false;
         });
-//        //添加地址
-//        $("#save").click(function () {
-//            var form = $("#addressForm");
-//            form.submit();
-//            return false;
-//        });
     })
 </script>
 <body>
@@ -141,12 +137,13 @@
                 <hr/>
                 <ul class="am-avg-sm-1 am-avg-md-3 am-thumbnails">
                     <c:forEach items="${userAddresses}" var="address">
-                    <li id="userAddress${address.uaId}" class="user-addresslist defaultAddr">
+                        <c:if test="${address.status != -1}">
+                        <li class="user-addresslist defaultAddr">
                         <c:if test="${address.status == 1}">
-                        <span class="new-option-r"><i class="am-icon-check-circle"></i>默认地址</span>
+                            <span class="new-option-r"><i class="am-icon-check-circle"></i>默认地址</span>
                         </c:if>
                         <c:if test="${address.status == 0}">
-                            <span class="new-option-r"><i class="am-icon-check-circle"></i>设为默认</span>
+                            <span id="userAddress${address.uaId}" class="new-option-r"><i class="am-icon-check-circle"></i>设为默认</span>
                         </c:if>
                         <p class="new-tit new-p-re">
                             <span class="new-txt">${address.uaname}</span>
@@ -165,11 +162,12 @@
                             <%-- 隐藏表单 --%>
                             <form action="" id="deleteForm${address.uaId}" method="post">
                                 <input type="hidden" id="hideUaId" name="uaid" value="${address.uaId}">
-                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_method" value="PUT">
                             </form>
                         </div>
                     </li>
-                    <%-- 隐藏表单 --%>
+                        </c:if>
+                    <%-- 隐藏表单 添加地址 --%>
                     <form action="" method="post" id="form${address.uaId}">
                         <input type="hidden" name="_method" value="PUT">
                         <input type="hidden" name="uid" value="${users.uid}">

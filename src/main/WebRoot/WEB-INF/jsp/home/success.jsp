@@ -62,7 +62,7 @@
    <h2>您已成功付款</h2>
    <div class="successInfo">
      <ul>
-       <li>付款金额<em><c:out value="${orders.money }"/></em></li>
+       <li>付款金额<em><c:out value="${orders.money}"/></em></li>
        <div class="user-info">
          <p>收货人：<c:out value="${orders.userAddress.uaname}"/></p>
          <p>联系电话：<c:out value="${orders.userAddress.uatel}" /></p>

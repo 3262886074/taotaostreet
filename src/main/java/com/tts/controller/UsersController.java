@@ -1,10 +1,13 @@
 package com.tts.controller;
 
 import com.tts.bean.*;
+import com.tts.dto.PayExecution;
+import com.tts.dto.PayResult;
+import com.tts.exception.BalanceNotEnoughException;
+import com.tts.exception.UnderStockException;
 import com.tts.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
@@ -37,20 +40,35 @@ public class UsersController {
         Set<Order> status2 = new HashSet<>();
         Set<Order> status3 = new HashSet<>();
         for (Order order : orders) {
-            if (order.getStatus() == -1){
+            if (order.getStatus() == -1) {
                 status0.add(order);
-            } else if (order.getStatus() == 0){
+            } else if (order.getStatus() == 0) {
                 status1.add(order);
-            } else if (order.getStatus() == 1){
+            } else if (order.getStatus() == 1) {
                 status2.add(order);
-            } else if (order.getStatus() == 2){
+            } else if (order.getStatus() == 2) {
                 status3.add(order);
             }
         }
-        map.put("status0",status0.size());
-        map.put("status1",status1.size());
-        map.put("status2",status2.size());
-        map.put("status3",status3.size());
+        map.put("status0", status0.size());
+        map.put("status1", status1.size());
+        map.put("status2", status2.size());
+        map.put("status3", status3.size());
+        //用户其他信息
+        Set<User_Collect> userCollects = usersService.queryCollectsByUid(users.getUid());
+        Set<Discount_coupon> discountCoupons = usersService.queryDiscountCouponByUid(users.getUid());
+        Set<User_Red_package> userRedPackages = usersService.queryRedPackageByUid(users.getUid());
+        Users_Authentication users_authentication = usersService.queryAuthenticationByUid(users.getUid());
+        User_Safety_Question user_safety_question = usersService.querySafetyQuestionByUid(users.getUid());
+        User_Account userAccount = usersService.getAccountMoney(users.getUid());
+        users.setOrders(orders);
+        users.setUserCollects(userCollects);
+        users.setUserRedPackages(userRedPackages);
+        users.setDiscountCoupons(discountCoupons);
+        users.setUsers_authentication(users_authentication);
+        users.setUser_safety_question(user_safety_question);
+        users.setUserAccount(userAccount);
+        map.put("users", users);
         return "person/index";
     }
 
@@ -150,7 +168,7 @@ public class UsersController {
      */
     @RequestMapping(value = "/safetyQeustionInput", method = RequestMethod.GET)
     public String safetyQeustionInput(ModelMap map) {
-        map.put("user_safety_question", new User_Safety_Question());
+        map.put("safetyQuestions", new User_Safety_Question());
         return "person/question";
     }
 
@@ -158,8 +176,8 @@ public class UsersController {
      * 添加安全问题
      */
     @RequestMapping(value = "/safetyQuestion", method = RequestMethod.POST)
-    public String addSafety(User_Safety_Question user_safety_question) {
-        boolean b = usersService.addSafetyQuestion(user_safety_question);
+    public String addSafety(User_Safety_Question safetyQuestions) {
+        boolean b = usersService.addSafetyQuestion(safetyQuestions);
         if (b) {
             return "person/index";
         } else {
@@ -170,12 +188,12 @@ public class UsersController {
     /**
      * 获取安全问题
      */
-    @ModelAttribute("user_safety_question")
+    @ModelAttribute("safetyQuestions")
     public void getSafetyQuestion(@RequestParam(value = "uid", required = false) Long uid,
                                   ModelMap map) {
         if (uid != null) {
-            User_Safety_Question user_safety_question = usersService.querySafetyQuestionByUid(uid);
-            map.put("user_safety_question", user_safety_question);
+            User_Safety_Question safetyQuestions = usersService.querySafetyQuestionByUid(uid);
+            map.put("safetyQuestions", safetyQuestions);
         }
     }
 
@@ -183,8 +201,8 @@ public class UsersController {
      * 更新安全问题
      */
     @RequestMapping(value = "/safetyQuestion", method = RequestMethod.PUT)
-    public String updateSafetyQuestion(@ModelAttribute("user_safety_question") User_Safety_Question user_safety_question) {
-        boolean b = usersService.updateSafetyQuestion(user_safety_question);
+    public String updateSafetyQuestion(@ModelAttribute("safetyQuestions") User_Safety_Question safetyQuestions) {
+        boolean b = usersService.updateSafetyQuestion(safetyQuestions);
         if (b) {
             return "person/index";
         } else {
@@ -217,9 +235,9 @@ public class UsersController {
     }
 
     /**
-     * 删除地址
+     * 删除地址(隐藏地址)
      */
-    @RequestMapping(value = "/deleteAddress", method = RequestMethod.DELETE)
+    @RequestMapping(value = "/deleteAddress", method = RequestMethod.PUT)
     public String deleteAddress(@RequestParam("uaid") Long uaid, HttpSession session) {
         boolean b = usersService.deleteAddressByUaId(uaid);
         Users users = (Users) session.getAttribute("users");
@@ -258,34 +276,47 @@ public class UsersController {
         Users users = (Users) session.getAttribute("users");
         Set<Order> orders = usersService.queryOrdersByUid(users.getUid());
         //map.put("orders", orders);
-        Map<Order,Set<Commodity_items>> commodities = new HashMap<>();
+        Map<Order, Set<Commodity_items>> commodities = new HashMap<>();
         for (Order order : orders) {
             Set<Commodity_items> commodityItems = usersService.queryItemsByScid(order.getShoppingCart().getScId());
-            commodities.put(order,commodityItems);
+            commodities.put(order, commodityItems);
         }
-        map.put("orders",commodities);
+        map.put("orders", commodities);
         return "person/order";
     }
 
     /**
-     * 退货/退款页面
+     * 订单详情 根据订单id查找
      */
-    @RequestMapping(value = "/change", method = RequestMethod.GET)
-    public String getChange(HttpSession session,
-                            ModelMap map){
-        Users users = (Users) session.getAttribute("users");
-        Set<Order> orders = usersService.queryOrdersByUid(users.getUid());
-        //map.put("orders", orders);
-        Map<Order,Set<Commodity_items>> commodities = new HashMap<>();
-        for (Order order : orders) {
-            if (order.getStatus() == 3 || order.getStatus() == 4 || order.getStatus() == 5) {
-                Set<Commodity_items> commodityItems = usersService.queryItemsByScid(order.getShoppingCart().getScId());
-                commodities.put(order, commodityItems);
-            }
-        }
-        map.put("orders",commodities);
-        return "person/change";
+    @RequestMapping(value = "/orderInfo/{oid}", method = RequestMethod.GET)
+    public String getOrderInfo(@PathVariable("oid") Long oid,
+                               ModelMap map) {
+        Order order = usersService.queryOrderInfoByOid(oid);
+        Set<Commodity_items> commodityItems = usersService.queryItemsByScid(order.getShoppingCart().getScId());
+        map.put("order", order);
+        map.put("commodityItems", commodityItems);
+        return "person/orderinfo";
     }
+
+    ///**
+    // * 退货/退款页面
+    // */
+    //@RequestMapping(value = "/change", method = RequestMethod.GET)
+    //public String getChange(HttpSession session,
+    //                        ModelMap map){
+    //    Users users = (Users) session.getAttribute("users");
+    //    Set<Order> orders = usersService.queryOrdersByUid(users.getUid());
+    //    //map.put("orders", orders);
+    //    Map<Order,Set<Commodity_items>> commodities = new HashMap<>();
+    //    for (Order order : orders) {
+    //        if (order.getStatus() == 3 || order.getStatus() == 4 || order.getStatus() == 5) {
+    //            Set<Commodity_items> commodityItems = usersService.queryItemsByScid(order.getShoppingCart().getScId());
+    //            commodities.put(order, commodityItems);
+    //        }
+    //    }
+    //    map.put("orders",commodities);
+    //    return "person/change";
+    //}
 
     /**
      * 我的优惠券页面
@@ -343,6 +374,79 @@ public class UsersController {
         map.put("userCollects", userCollects);
         return "person/collection";
     }
+
+    /**
+     * 一键购买
+     */
+    @ResponseBody
+    @RequestMapping(value = "/pay/{oid}",method = RequestMethod.POST,
+                            produces = {"application/json;charset=UTF-8"})
+    public PayResult<PayExecution> pay(@PathVariable("oid") long oid,
+                                       HttpSession session){
+        Users users = (Users) session.getAttribute("users");
+        try {
+            PayExecution payExecution = usersService.executePay(oid,users.getUid());
+            return new PayResult<>(payExecution,true);
+        } catch (BalanceNotEnoughException b) {
+            PayExecution payExecution = new PayExecution("余额不足");
+            return new PayResult<>(payExecution,true);
+        } catch (UnderStockException u){
+            PayExecution payExecution = new PayExecution("库存不足");
+            return new PayResult<>(payExecution,true);
+        } catch (Exception e){
+            PayExecution payExecution = new PayExecution("内部错误");
+            return new PayResult<>(payExecution,true);
+        }
+    }
+
+    /**
+     * 购买成功 跳转到成功页面
+     */
+    @RequestMapping(value = "/paySuccess/{oid}",method = RequestMethod.GET)
+    public String paySuccess(@PathVariable("oid") long oid,
+                             ModelMap map){
+        Order order = usersService.queryOrderInfoByOid(oid);
+        map.put("order",order);
+        return "person/success";
+    }
+
+    /**
+     * 取消订单 修改订单状态为4
+     */
+    @ResponseBody
+    @RequestMapping(value = "/cancelOrder/{oid}", method = RequestMethod.POST,
+            produces = {"application/json;charset=UTF-8"})
+    public String cancelOrder(@PathVariable("oid") long oid,
+                              HttpSession session) {
+        Users users = (Users) session.getAttribute("users");
+        String s = usersService.cancelOrder(oid,users.getUid());
+        return s;
+    }
+
+    /**
+     * 确认收货
+     */
+    @ResponseBody
+    @RequestMapping(value = "/confirmOrder/{oid}", method = RequestMethod.POST,
+            produces = {"application/json;charset=UTF-8"})
+    public String confirmOrder(@PathVariable("oid") long oid) {
+        String s = usersService.confirmOrder(oid);
+        return s;
+    }
+
+    /**
+     * 评论页面
+     */
+    @RequestMapping(value = "/commentInput/{oid}", method = RequestMethod.GET)
+    public String commentInput(@PathVariable("oid") long oid,
+                               ModelMap map) {
+        Order order = usersService.queryOrderInfoByOid(oid);
+        Set<Commodity_items> commodityItems = usersService.queryItemsByScid(order.getShoppingCart().getScId());
+        map.put("commodityItems", commodityItems);
+        map.put("order",order);
+        return "person/commentlist";
+    }
+
 
 
 }

@@ -1,6 +1,7 @@
 package com.tts.service;
 
 import com.tts.bean.*;
+import com.tts.dto.PayExecution;
 
 import java.util.Set;
 
@@ -22,7 +23,7 @@ public interface UsersService {
 
     boolean updatePwd(String upwd, long uid);
 
-    boolean addAuthentication(Long uid,String name,Long idcard);
+    boolean addAuthentication(Long uid, String name, Long idcard);
 
     boolean addSafetyQuestion(User_Safety_Question user_safety_question);
 
@@ -34,7 +35,7 @@ public interface UsersService {
 
     Set<User_address> getAddressesByUId(long uid);
 
-    boolean updateDefaultAddress(long uid,long uaid);
+    boolean updateDefaultAddress(long uid, long uaid);
 
     User_address queryAddressByUaId(Long uaid);
 
@@ -45,4 +46,16 @@ public interface UsersService {
     Set<Order> queryOrdersByUid(long uid);
 
     Set<Commodity_items> queryItemsByScid(long scid);
+
+    User_Account getAccountMoney(long uid);
+
+    Order queryOrderInfoByOid(long oid);
+
+    PayExecution executePay(long oid, long uid);
+
+    String cancelOrder(long oid, long uid);
+
+    String confirmOrder(long oid);
+
+    String addComment(String content, Integer type, long uid, long cid);
 }

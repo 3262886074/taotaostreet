@@ -24,9 +24,9 @@ public interface UsersDao {
 
     Integer updateInfo(Users users);
 
-    Integer updatePwd(@Param("upwd") String upwd,@Param("uid") long uid);
+    Integer updatePwd(@Param("upwd") String upwd, @Param("uid") long uid);
 
-    Integer addAuthentication(@Param("uid") Long uid,@Param("uraName") String uname,@Param("idcard") Long idcard);
+    Integer addAuthentication(@Param("uid") Long uid, @Param("uraName") String uname, @Param("idcard") Long idcard);
 
     Integer addSafetyQuestion(User_Safety_Question user_safety_question);
 
@@ -55,4 +55,30 @@ public interface UsersDao {
     Set<Order> queryOrdersByUid(long uid);
 
     Set<Commodity_items> queryItemsByScid(long scid);
+
+    User_Account getAccountMoney(long uid);
+
+    Order queryOrderInfoByOid(long oid);
+
+    Integer updateAccountMoney(@Param("money") double money,
+                               @Param("uid") long uid);
+
+    Integer reduceCommodityNumber(@Param("number") Integer number,
+                                  @Param("cid") long cid);
+
+    Integer updateOrderStatus(long oid);
+
+    Integer cancelOrder(long oid);
+
+    Integer returnMoney(@Param("money") double money, @Param("uid") long uid);
+
+    Integer addCommodityNumber(@Param("number") Integer number, @Param("cid") long cid);
+
+    Integer confirmOrder(long oid);
+
+    Integer addComment(@Param("content") String content,
+                              @Param("type") Integer type,
+                              @Param("uid") long uid,
+                              @Param("cid") long cid);
+
 }

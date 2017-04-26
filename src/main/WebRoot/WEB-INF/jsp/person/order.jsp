@@ -19,9 +19,67 @@
 
     <script src="${ctx}/resources/AmazeUI-2.4.2/assets/js/jquery.min.js"></script>
     <script src="${ctx}/resources/AmazeUI-2.4.2/assets/js/amazeui.js"></script>
-
+    <script src="${ctx}/resources/AmazeUI-2.4.2/assets/js/jquery.min.js" type="text/javascript"></script>
 </head>
-
+<script type="text/javascript">
+    $(function () {
+        //一键支付
+        $("div[id^=pay]").click(function () {
+            if (confirm("确定要支付吗?")) {
+                //被点击的按钮id
+                var idStr = $(this).attr("id");
+                //截取最后的数字 不管是几位数字
+                var id = idStr.substring(3, idStr.length);
+                var url = "${ctx}/users/pay/" + id;
+                $.post(url, {}, function (data) {
+                    alert(data.object.stateInfo);
+                    if (data.object.userAddress != null) {
+                        parent.location.href = "${ctx}/users/paySuccess/" + id;
+                    }
+                });
+            }
+            return false;
+        });
+        //取消订单
+        $("a[id^=cancel]").click(function () {
+           if (confirm("确定要取消订单吗?")){
+               //被点击的按钮id
+               var idStr = $(this).attr("id");
+               //截取最后的数字 不管是几位数字
+               var id = idStr.substring(6, idStr.length);
+               var url = "${ctx}/users/cancelOrder/" + id;
+               $.post(url, {}, function (data) {
+                   if (data == 1) {
+                       alert("成功");
+                       parent.location.href = "${ctx}/users/orders";
+                   } else {
+                       alert("失败");
+                   }
+               });
+           }
+            return false;
+        });
+        //确认收货
+        $("a[id^=confirm]").click(function () {
+            if (confirm("确定要确认收货吗?")){
+                //被点击的按钮id
+                var idStr = $(this).attr("id");
+                //截取最后的数字 不管是几位数字
+                var id = idStr.substring(7, idStr.length);
+                var url = "${ctx}/users/confirmOrder/" + id;
+                $.post(url, {}, function (data) {
+                    if (data == 1) {
+                        alert("成功");
+                        parent.location.href = "${ctx}/users/orders";
+                    } else {
+                        alert("失败");
+                    }
+                });
+            }
+            return false;
+        });
+    })
+</script>
 <body>
 <!--头 -->
 <header>
@@ -45,13 +103,18 @@
                         <div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
                     </div>
                     <div class="topMessage my-shangcheng">
-                        <div class="menu-hd MyShangcheng"><a href="${ctx}/users/allInfo" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+                        <div class="menu-hd MyShangcheng"><a href="${ctx}/users/allInfo" target="_top"><i
+                                class="am-icon-user am-icon-fw"></i>个人中心</a></div>
                     </div>
                     <div class="topMessage mini-cart">
-                        <div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+                        <div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i
+                                class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum"
+                                                                                                      class="h">0</strong></a>
+                        </div>
                     </div>
                     <div class="topMessage favorite">
-                        <div class="menu-hd"><a href="${ctx}/users/allCollects" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+                        <div class="menu-hd"><a href="${ctx}/users/allCollects" target="_top"><i
+                                class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
                 </ul>
             </div>
 
@@ -149,89 +212,152 @@
                                     <!--交易成功-->
                                     <c:forEach items="${orders}" var="order">
                                         <div class="order-status3">
-                                        <div class="order-title">
-                                            <div class="dd-num">订单编号：<a href="">${order.key.oid}</a></div>
-                                            <span>创建时间：<fmt:formatDate value="${order.key.createTime}" pattern="yyyy年MM月dd日"/></span>
-                                            <!--    <em>店铺：小桔灯</em>-->
-                                        </div>
-                                        <div class="order-content">
-                                            <div class="order-left">
-                                                <c:forEach items="${order.value}" var="item">
-                                                <ul class="item-list">
-                                                    <li class="td td-item">
-                                                        <div class="item-pic">
-                                                            <a href="#" class="J_MakePoint">
-                                                                <img src="${item.commodity.commodityPics.cpImg}"
-                                                                     class="itempic J_ItemImg">
-                                                            </a>
-                                                        </div>
-                                                        <div class="item-info">
-                                                            <div class="item-basic-info">
-                                                                <a href="#">
-                                                                    <p>${item.commodity.cname}</p>
-                                                                    <p class="info-little">类型：${item.commodityType.typeName}
-                                                                        <br/>包装：${item.commodityCombo.ccname} </p>
-                                                                </a>
-                                                            </div>
-                                                        </div>
-                                                    </li>
-                                                    <li class="td td-price">
-                                                        <div class="item-price">
-                                                             ￥${item.commodity.price}
-                                                        </div>
-                                                    </li>
-                                                    <li class="td td-number">
-                                                        <div class="item-number">
-                                                            <span>×</span>${item.number}
-                                                        </div>
-                                                    </li>
-                                                    <li class="td td-operation">
-                                                        <div class="item-operation">
-                                                            <a href="refund.html">退款/退货</a>
-                                                        </div>
-                                                    </li>
-                                                </ul>
-                                                </c:forEach>
+                                            <div class="order-title">
+                                                <div class="dd-num">订单编号：<a href="">${order.key.oid}</a></div>
+                                                <span>创建时间：<fmt:formatDate value="${order.key.createTime}"
+                                                                           pattern="yyyy年MM月dd日"/></span>
+                                                <!--    <em>店铺：小桔灯</em>-->
                                             </div>
-                                            <div class="order-right">
-                                                <li class="td td-amount">
-                                                    <div class="item-amount">
-                                                        合计：￥${order.key.money}
-                                                    </div>
-                                                </li>
-                                                <div class="move-right">
-                                                    <li class="td td-status">
-                                                            <c:if test="${order.key.status == -1}">
-                                                                <div class="item-status">
-                                                                <p class="Mystatus">未付款</p>
-                                                                </div>
-                                                                <li class="td td-change">
-                                                                    <a href="pay.html">
-                                                                        <div class="am-btn am-btn-danger anniu">
-                                                                            一键支付
-                                                                        </div>
+                                            <div class="order-content">
+                                                <div class="order-left">
+                                                    <c:forEach items="${order.value}" var="item">
+                                                        <ul class="item-list">
+                                                            <li class="td td-item">
+                                                                <div class="item-pic">
+                                                                    <a href="#" class="J_MakePoint">
+                                                                        <img src="${item.commodity.commodityPics.cpImg}"
+                                                                             class="itempic J_ItemImg">
                                                                     </a>
-                                                                </li>
-                                                            </c:if>
-                                                            <c:if test="${order.key.status == 0}">
-                                                                <div class="item-status">
-                                                                <p class="Mystatus">待发货</p>
-                                                                <p class="order-info"><a href="logistics.html">确认收货</a></p>
                                                                 </div>
-                                                            </c:if>
-                                                            <c:if test="${order.key.status == 1}">
+                                                                <div class="item-info">
+                                                                    <div class="item-basic-info">
+                                                                        <a href="#">
+                                                                            <p>${item.commodity.cname}</p>
+                                                                            <p class="info-little">
+                                                                                类型：${item.commodityType.typeName}
+                                                                                <br/>包装：${item.commodityCombo.ccname}
+                                                                            </p>
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                            </li>
+                                                            <li class="td td-price">
+                                                                <div class="item-price">
+                                                                    ￥${item.commodity.price}
+                                                                </div>
+                                                            </li>
+                                                            <li class="td td-number">
+                                                                <div class="item-number">
+                                                                    <span>×</span>${item.number}
+                                                                </div>
+                                                            </li>
+                                                            <li class="td td-operation">
+                                                                <div class="item-operation">
+                                                                        <%--<a href="refund.html">退款/退货</a>--%>
+                                                                </div>
+                                                            </li>
+                                                        </ul>
+                                                    </c:forEach>
+                                                </div>
+                                                <div class="order-right">
+                                                    <li class="td td-amount">
+                                                        <div class="item-amount">
+                                                            合计：￥${order.key.money}
+                                                        </div>
+                                                    </li>
+                                                    <div class="move-right">
+                                                        <li class="td td-status">
+                                                        <c:if test="${order.key.status == -1}">
+                                                            <div class="item-status">
+                                                                <p class="Mystatus">未付款</p>
+                                                                <p class="order-info"><a
+                                                                        href="${ctx}/users/orderInfo/${order.key.oid}">订单详情</a>
+                                                                </p>
+                                                                <p class="order-info">
+                                                                    <a id="cancel${order.key.oid}">取消订单</a>
+                                                                </p>
+                                                            </div>
+                                                            <li class="td td-change">
+                                                                <a>
+                                                                    <div id="pay${order.key.oid}"
+                                                                         class="am-btn am-btn-danger anniu">
+                                                                        一键支付
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                        </c:if>
+                                                        <c:if test="${order.key.status == 0}">
+                                                            <div class="item-status">
+                                                                <p class="Mystatus">待发货</p>
+                                                                <p class="order-info"><a
+                                                                        href="${ctx}/users/orderInfo/${order.key.oid}">订单详情</a>
+                                                                </p>
+                                                                <p class="order-info">
+                                                                    <a id="cancel${order.key.oid}">取消订单</a>
+                                                                </p>
+                                                            </div>
+                                                            <li class="td td-change">
+                                                                <a>
+                                                                    <div id="cancel"
+                                                                         class="am-btn am-btn-danger anniu">
+                                                                        <a id="confirm${order.key.oid}">确认收货</a>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                        </c:if>
+                                                        <c:if test="${order.key.status == 1}">
+                                                            <div class="item-status">
                                                                 <p class="Mystatus">在途中</p>
-                                                                <p class="order-info"><a href="logistics.html">查看物流</a></p>
-                                                                <p class="order-info"><a href="logistics.html">确认收货</a></p>
-                                                            </c:if>
-                                                            <c:if test="${order.key.status == 2}">
+                                                                <p class="order-info"><a href="">查看物流</a></p>
+                                                                <p class="order-info">
+                                                                    <a href="${ctx}/users/orderInfo/${order.key.oid}">订单详情</a>
+                                                                </p>
+                                                                <p class="order-info"><a id="confirm${order.key.oid}">确认收货</a></p>
+                                                            </div>
+                                                            <li class="td td-change">
+                                                                <a>
+                                                                    <div id="cancel"
+                                                                         class="am-btn am-btn-danger anniu">
+                                                                        <a id="cancel${order.key.oid}">取消订单</a>
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                        </c:if>
+                                                        <c:if test="${order.key.status == 2}">
+                                                            <div class="item-status">
                                                                 <p class="Mystatus">待评价</p>
+                                                                <p class="order-info"><a
+                                                                        href="${ctx}/users/orderInfo/${order.key.oid}">订单详情</a>
+                                                                </p>
                                                                 <p class="order-info"><a href="logistics.html">立即评价</a></p>
-                                                            </c:if>
-                                                            <c:if test="${order.key.status == 3}">
+                                                            </div>
+                                                            <li class="td td-change">
+                                                                <a>
+                                                                    <div id="comment"
+                                                                         class="am-btn am-btn-danger anniu">
+                                                                        立即评价
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                        </c:if>
+                                                        <c:if test="${order.key.status == 3}">
+                                                            <div class="item-status">
                                                                 <p class="Mystatus">已完成</p>
-                                                                <p class="order-info"><a href="logistics.html">退货/售后</a></p>
-                                                            </c:if>
+                                                                <p class="order-info"><a
+                                                                        href="${ctx}/users/orderInfo/${order.key.oid}">订单详情</a>
+                                                                </p>
+                                                            </div>
+                                                            <%--<p class="order-info"><a href="logistics.html">退货/售后</a></p>--%>
+                                                        </c:if>
+                                                        <c:if test="${order.key.status == 4}">
+                                                            <div class="item-status">
+                                                                <p class="Mystatus">已取消</p>
+                                                                <p class="order-info">
+                                                                    <a href="${ctx}/users/orderInfo/${order.key.oid}">订单详情</a>
+                                                                </p>
+                                                            </div>
+                                                            <%--<p class="order-info"><a href="logistics.html">退货/售后</a></p>--%>
+                                                        </c:if>
                                                         </li>
                                                     </div>
                                                 </div>
@@ -273,68 +399,78 @@
                                     <c:forEach items="${orders}" var="order">
                                         <c:if test="${order.key.status == -1}">
                                             <div class="order-status3">
-                                            <div class="order-title">
-                                                <div class="dd-num">订单编号：<a href="">${order.key.oid}</a></div>
-                                                <span>创建时间：<fmt:formatDate value="${order.key.createTime}" pattern="yyyy年MM月dd日"/></span>
-                                                <!--    <em>店铺：小桔灯</em>-->
-                                            </div>
-                                            <div class="order-content">
-                                                <div class="order-left">
-                                                    <c:forEach items="${order.value}" var="item">
-                                                        <ul class="item-list">
-                                                            <li class="td td-item">
-                                                                <div class="item-pic">
-                                                                    <a href="#" class="J_MakePoint">
-                                                                        <img src="${item.commodity.commodityPics.cpImg}"
-                                                                             class="itempic J_ItemImg">
-                                                                    </a>
-                                                                </div>
-                                                                <div class="item-info">
-                                                                    <div class="item-basic-info">
-                                                                        <a href="#">
-                                                                            <p>${item.commodity.cname}</p>
-                                                                            <p class="info-little">类型：${item.commodityType.typeName}
-                                                                                <br/>包装：${item.commodityCombo.ccname} </p>
+                                                <div class="order-title">
+                                                    <div class="dd-num">订单编号：<a href="">${order.key.oid}</a></div>
+                                                    <span>创建时间：<fmt:formatDate value="${order.key.createTime}"
+                                                                               pattern="yyyy年MM月dd日"/></span>
+                                                    <!--    <em>店铺：小桔灯</em>-->
+                                                </div>
+                                                <div class="order-content">
+                                                    <div class="order-left">
+                                                        <c:forEach items="${order.value}" var="item">
+                                                            <ul class="item-list">
+                                                                <li class="td td-item">
+                                                                    <div class="item-pic">
+                                                                        <a href="#" class="J_MakePoint">
+                                                                            <img src="${item.commodity.commodityPics.cpImg}"
+                                                                                 class="itempic J_ItemImg">
                                                                         </a>
                                                                     </div>
-                                                                </div>
-                                                            </li>
-                                                            <li class="td td-price">
-                                                                <div class="item-price">
-                                                                        ${item.commodity.price}
-                                                                </div>
-                                                            </li>
-                                                            <li class="td td-number">
-                                                                <div class="item-number">
-                                                                    <span>×</span>${item.number}
-                                                                </div>
-                                                            </li>
-                                                        </ul>
-                                                    </c:forEach>
-                                                </div>
-                                                <div class="order-right">
-                                                    <li class="td td-amount">
-                                                        <div class="item-amount">
-                                                            合计：￥${order.key.money}
-                                                        </div>
-                                                    </li>
-                                                    <div class="move-right">
-                                                        <li class="td td-status">
-                                                            <div class="item-status">
-                                                                <p class="Mystatus">未付款</p>
+                                                                    <div class="item-info">
+                                                                        <div class="item-basic-info">
+                                                                            <a href="#">
+                                                                                <p>${item.commodity.cname}</p>
+                                                                                <p class="info-little">
+                                                                                    类型：${item.commodityType.typeName}
+                                                                                    <br/>包装：${item.commodityCombo.ccname}
+                                                                                </p>
+                                                                            </a>
+                                                                        </div>
+                                                                    </div>
+                                                                </li>
+                                                                <li class="td td-price">
+                                                                    <div class="item-price">
+                                                                            ${item.commodity.price}
+                                                                    </div>
+                                                                </li>
+                                                                <li class="td td-number">
+                                                                    <div class="item-number">
+                                                                        <span>×</span>${item.number}
+                                                                    </div>
+                                                                </li>
+                                                            </ul>
+                                                        </c:forEach>
+                                                    </div>
+                                                    <div class="order-right">
+                                                        <li class="td td-amount">
+                                                            <div class="item-amount">
+                                                                合计：￥${order.key.money}
                                                             </div>
-                                                            <li class="td td-change">
-                                                            <a href="pay.html">
-                                                                <div class="am-btn am-btn-danger anniu">
-                                                                    一键支付
+                                                        </li>
+                                                        <div class="move-right">
+                                                            <li class="td td-status">
+                                                                <div class="item-status">
+                                                                    <p class="Mystatus">未付款</p>
+                                                                    <p class="order-info"><a
+                                                                            href="${ctx}/users/orderInfo/${order.key.oid}">订单详情</a>
+                                                                    </p>
+                                                                    <p class="order-info">
+                                                                        <a id="cancel${order.key.oid}">取消订单</a>
+                                                                    </p>
                                                                 </div>
-                                                            </a>
-                                                        </li>
-                                                        </li>
+                                                            <li class="td td-change">
+                                                                <a>
+                                                                    <div id="pay${order.key.oid}"
+                                                                         class="am-btn am-btn-danger anniu">
+                                                                        一键支付
+                                                                    </div>
+                                                                </a>
+                                                            </li>
+                                                            </li>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
                                         </c:if>
                                     </c:forEach>
                                 </div>
@@ -375,7 +511,8 @@
                                             <div class="order-status3">
                                                 <div class="order-title">
                                                     <div class="dd-num">订单编号：<a href="">${order.key.oid}</a></div>
-                                                    <span>创建时间：<fmt:formatDate value="${order.key.createTime}" pattern="yyyy年MM月dd日"/></span>
+                                                    <span>创建时间：<fmt:formatDate value="${order.key.createTime}"
+                                                                               pattern="yyyy年MM月dd日"/></span>
                                                     <!--    <em>店铺：小桔灯</em>-->
                                                 </div>
                                                 <div class="order-content">
@@ -393,15 +530,17 @@
                                                                         <div class="item-basic-info">
                                                                             <a href="#">
                                                                                 <p>${item.commodity.cname}</p>
-                                                                                <p class="info-little">类型：${item.commodityType.typeName}
-                                                                                    <br/>包装：${item.commodityCombo.ccname} </p>
+                                                                                <p class="info-little">
+                                                                                    类型：${item.commodityType.typeName}
+                                                                                    <br/>包装：${item.commodityCombo.ccname}
+                                                                                </p>
                                                                             </a>
                                                                         </div>
                                                                     </div>
                                                                 </li>
                                                                 <li class="td td-price">
                                                                     <div class="item-price">
-                                                                            ￥${item.commodity.price}
+                                                                        ￥${item.commodity.price}
                                                                     </div>
                                                                 </li>
                                                                 <li class="td td-number">
@@ -411,7 +550,7 @@
                                                                 </li>
                                                                 <li class="td td-operation">
                                                                     <div class="item-operation">
-                                                                        <a href="refund.html">退款/退货</a>
+                                                                            <%--<a href="refund.html">退款/退货</a>--%>
                                                                     </div>
                                                                 </li>
                                                             </ul>
@@ -427,8 +566,21 @@
                                                             <li class="td td-status">
                                                                 <div class="item-status">
                                                                     <p class="Mystatus">已付款</p>
-                                                                    <p class="order-info"><a href="logistics.html">确认收货</a></p>
+                                                                    <p class="order-info"><a
+                                                                            href="${ctx}/users/orderInfo/${order.key.oid}">订单详情</a>
+                                                                    </p>
+                                                                    <p class="order-info">
+                                                                        <a id="cancel${order.key.oid}">取消订单</a>
+                                                                    </p>
                                                                 </div>
+                                                            </li>
+                                                            <li class="td td-change">
+                                                                <a>
+                                                                    <div id="cancel"
+                                                                         class="am-btn am-btn-danger anniu">
+                                                                        <a id="confirm${order.key.oid}">确认收货</a>
+                                                                    </div>
+                                                                </a>
                                                             </li>
                                                         </div>
                                                     </div>
@@ -474,7 +626,8 @@
                                             <div class="order-status3">
                                                 <div class="order-title">
                                                     <div class="dd-num">订单编号：<a href="">${order.key.oid}</a></div>
-                                                    <span>创建时间：<fmt:formatDate value="${order.key.createTime}" pattern="yyyy年MM月dd日"/></span>
+                                                    <span>创建时间：<fmt:formatDate value="${order.key.createTime}"
+                                                                               pattern="yyyy年MM月dd日"/></span>
                                                     <!--    <em>店铺：小桔灯</em>-->
                                                 </div>
                                                 <div class="order-content">
@@ -492,15 +645,17 @@
                                                                         <div class="item-basic-info">
                                                                             <a href="#">
                                                                                 <p>${item.commodity.cname}</p>
-                                                                                <p class="info-little">类型：${item.commodityType.typeName}
-                                                                                    <br/>包装：${item.commodityCombo.ccname} </p>
+                                                                                <p class="info-little">
+                                                                                    类型：${item.commodityType.typeName}
+                                                                                    <br/>包装：${item.commodityCombo.ccname}
+                                                                                </p>
                                                                             </a>
                                                                         </div>
                                                                     </div>
                                                                 </li>
                                                                 <li class="td td-price">
                                                                     <div class="item-price">
-                                                                            ￥${item.commodity.price}
+                                                                        ￥${item.commodity.price}
                                                                     </div>
                                                                 </li>
                                                                 <li class="td td-number">
@@ -510,7 +665,7 @@
                                                                 </li>
                                                                 <li class="td td-operation">
                                                                     <div class="item-operation">
-                                                                        <a href="refund.html">退款/退货</a>
+                                                                            <%--<a href="refund.html">退款/退货</a>--%>
                                                                     </div>
                                                                 </li>
                                                             </ul>
@@ -526,8 +681,21 @@
                                                             <li class="td td-status">
                                                                 <div class="item-status">
                                                                     <p class="Mystatus">在途中</p>
-                                                                    <p class="order-info"><a href="logistics.html">确认收货</a></p>
+                                                                    <p class="order-info"><a
+                                                                            href="${ctx}/users/orderInfo/${order.key.oid}">订单详情</a>
+                                                                    </p>
+                                                                    <p class="order-info">
+                                                                        <a id="cancel${order.key.oid}">取消订单</a>
+                                                                    </p>
                                                                 </div>
+                                                                <li class="td td-change">
+                                                                    <a>
+                                                                        <div id="cancel"
+                                                                             class="am-btn am-btn-danger anniu">
+                                                                            <a id="confirm${order.key.oid}">确认收货</a>
+                                                                        </div>
+                                                                    </a>
+                                                                </li>
                                                             </li>
                                                         </div>
                                                     </div>
@@ -573,7 +741,8 @@
                                             <div class="order-status3">
                                                 <div class="order-title">
                                                     <div class="dd-num">订单编号：<a href="">${order.key.oid}</a></div>
-                                                    <span>创建时间：<fmt:formatDate value="${order.key.createTime}" pattern="yyyy年MM月dd日"/></span>
+                                                    <span>创建时间：<fmt:formatDate value="${order.key.createTime}"
+                                                                               pattern="yyyy年MM月dd日"/></span>
                                                     <!--    <em>店铺：小桔灯</em>-->
                                                 </div>
                                                 <div class="order-content">
@@ -591,15 +760,17 @@
                                                                         <div class="item-basic-info">
                                                                             <a href="#">
                                                                                 <p>${item.commodity.cname}</p>
-                                                                                <p class="info-little">类型：${item.commodityType.typeName}
-                                                                                    <br/>包装：${item.commodityCombo.ccname} </p>
+                                                                                <p class="info-little">
+                                                                                    类型：${item.commodityType.typeName}
+                                                                                    <br/>包装：${item.commodityCombo.ccname}
+                                                                                </p>
                                                                             </a>
                                                                         </div>
                                                                     </div>
                                                                 </li>
                                                                 <li class="td td-price">
                                                                     <div class="item-price">
-                                                                            ￥${item.commodity.price}
+                                                                        ￥${item.commodity.price}
                                                                     </div>
                                                                 </li>
                                                                 <li class="td td-number">
@@ -609,7 +780,7 @@
                                                                 </li>
                                                                 <li class="td td-operation">
                                                                     <div class="item-operation">
-                                                                        <a href="refund.html">退款/退货</a>
+                                                                            <%--<a href="refund.html">退款/退货</a>--%>
                                                                     </div>
                                                                 </li>
                                                             </ul>
@@ -625,8 +796,20 @@
                                                             <li class="td td-status">
                                                                 <div class="item-status">
                                                                     <p class="Mystatus">已完成</p>
-                                                                    <p class="order-info"><a href="logistics.html">立即评价</a></p>
+                                                                    <p class="order-info"><a
+                                                                            href="${ctx}/users/orderInfo/${order.key.oid}">订单详情</a>
+                                                                    </p>
+                                                                    <p class="order-info"><a
+                                                                            href="logistics.html">立即评价</a></p>
                                                                 </div>
+                                                                <li class="td td-change">
+                                                                    <a>
+                                                                        <div id="cancel"
+                                                                            class="am-btn am-btn-danger anniu">
+                                                                            立即评价
+                                                                        </div>
+                                                                    </a>
+                                                                </li>
                                                             </li>
                                                         </div>
                                                     </div>
@@ -676,9 +859,9 @@
             <li class="person">
                 <a href="">个人资料</a>
                 <ul>
-                    <li> <a href="${ctx}/users/userInfo/${users.uid}">个人信息</a></li>
-                    <li> <a href="${ctx}/users/safety">安全设置</a></li>
-                    <li> <a href="${ctx}/users/getAddress">收货地址</a></li>
+                    <li><a href="${ctx}/users/userInfo/${users.uid}">个人信息</a></li>
+                    <li><a href="${ctx}/users/safety">安全设置</a></li>
+                    <li><a href="${ctx}/users/getAddress">收货地址</a></li>
                 </ul>
             </li>
             <li class="person">
@@ -690,15 +873,15 @@
             <li class="person">
                 <a href="#">我的资产</a>
                 <ul>
-                    <li> <a href="${ctx}/users/allCoupons">优惠券 </a></li>
-                    <li> <a href="${ctx}/users/allRedPackage">红包</a></li>
+                    <li><a href="${ctx}/users/allCoupons">优惠券 </a></li>
+                    <li><a href="${ctx}/users/allRedPackage">红包</a></li>
                 </ul>
             </li>
 
             <li class="person">
                 <a href="#">我的小窝</a>
                 <ul>
-                    <li> <a href="${ctx}/users/allCollects">收藏</a></li>
+                    <li><a href="${ctx}/users/allCollects">收藏</a></li>
                 </ul>
             </li>
 
