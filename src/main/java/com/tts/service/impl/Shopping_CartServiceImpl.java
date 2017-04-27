@@ -30,7 +30,7 @@ public class Shopping_CartServiceImpl implements Shopping_CartService {
 
     // 通过用户ID添加购物车，或查询
     @Override
-    public Shopping_Cart addShopping_Cart(Integer uid) {
+    public Shopping_Cart addShopping_Cart(long uid) {
 
         if (shopping_CartDao.getShopping_Cart(uid) == null) {
 

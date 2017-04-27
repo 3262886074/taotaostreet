@@ -279,7 +279,9 @@ public class UsersController {
         Map<Order, Set<Commodity_items>> commodities = new HashMap<>();
         for (Order order : orders) {
             Set<Commodity_items> commodityItems = usersService.queryItemsByScid(order.getShoppingCart().getScId());
-            commodities.put(order, commodityItems);
+            if (commodityItems.size() > 0 && !commodityItems.isEmpty()) {
+                commodities.put(order, commodityItems);
+            }
         }
         map.put("orders", commodities);
         return "person/order";
@@ -466,12 +468,12 @@ public class UsersController {
      * 订单已完成
      */
     @ResponseBody
-    @RequestMapping(value = "/okOrder/{oid}",method = RequestMethod.POST)
+    @RequestMapping(value = "/okOrder/{oid}", method = RequestMethod.POST)
     public String okOrder(@RequestParam("cid") long cid,
                           @RequestParam("uid") long uid,
                           @RequestParam("type") Integer type,
                           @RequestParam("content") String content,
-                          @PathVariable("oid") long oid){
+                          @PathVariable("oid") long oid) {
         //1好评 0差评 2中评
         String s = usersService.addComment(content, type, uid, cid);
         usersService.okOrder(oid);

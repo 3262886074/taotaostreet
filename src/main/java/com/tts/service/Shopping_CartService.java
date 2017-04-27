@@ -21,7 +21,7 @@ public interface Shopping_CartService {
     Integer deleteCommodity_items(long ciId);
 
     // 通过用户ID 添加购物车
-    Shopping_Cart addShopping_Cart(Integer uid);
+    Shopping_Cart addShopping_Cart(long uid);
 
     // 通过用户ID 添加购物车(立即购买的购物车)
     Shopping_Cart addShopping_CartSp(long uid);
