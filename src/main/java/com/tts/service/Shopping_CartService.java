@@ -31,7 +31,7 @@ public interface Shopping_CartService {
 	Shopping_Cart addShopping_CartSp(long uid);
 	
 	// 添加商品到商品条目表	num ct cc c sc
-	Integer addCommodity_items(Integer number, long ct_id, long ccid, long cid, long scId);
+	Integer addCommodity_items(long cid,long ct_id, long ccid,Integer number, long scId);
 
 	// 添加订单
 	Integer addOrder(Order order);

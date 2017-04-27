@@ -8,6 +8,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.annotation.Resource;
@@ -31,9 +32,10 @@ public class ShoppingController {
 		// 添加购物车 根据用户id
 		Shopping_Cart shopping_Carts = shopping_CartService.addShopping_Cart(uid);
 
-		shopping_CartService.addCommodity_items(commodity_items.getNumber(),
+		shopping_CartService.addCommodity_items(
+				commodity_items.getCommodity().getCid(),
 				commodity_items.getCommodityType().getCt_id(), commodity_items.getCommodityCombo().getCcid(),
-				shopping_Carts.getScId(), commodity_items.getCommodity().getCid());
+				commodity_items.getNumber(), shopping_Carts.getScId());
 		Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(shopping_Carts.getScId());
 		map.put("shopping_Cart", shopping_Cart);
 		return "home/shopcart";
@@ -91,11 +93,10 @@ public class ShoppingController {
 
 		// 添加购物车 根据用户id
 		Shopping_Cart shopping_Carts = shopping_CartService.addShopping_CartSp(uid);
-
-		shopping_CartService.addCommodity_items(commodity_items.getNumber(),
+		
+		shopping_CartService.addCommodity_items(commodity_items.getCommodity().getCid(),
 				commodity_items.getCommodityType().getCt_id(), commodity_items.getCommodityCombo().getCcid(),
-				shopping_Carts.getScId(), commodity_items.getCommodity().getCid());
-
+				commodity_items.getNumber(), shopping_Carts.getScId());
 		Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(shopping_Carts.getScId());
 
 		// 获取当前时间

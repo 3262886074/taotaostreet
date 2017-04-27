@@ -208,8 +208,9 @@
 							<ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
 								<c:forEach items="${commodityList}" var="commodity">
 									<li>
+									
 										<div class="i-pic limit">
-
+											<a href="${ctx }/toShowOne?cid=${commodity.cid }">
 											<img src="${ctx}${commodity.commodityPics.cpImg}" />
 											<p class="title fl">${commodity.cname}</p>
 											<p class="price fl">
@@ -226,6 +227,7 @@
 														</c:otherwise>
 													</c:choose> </span>
 											</p>
+											</a>
 										</div>
 									</li>
 								</c:forEach>

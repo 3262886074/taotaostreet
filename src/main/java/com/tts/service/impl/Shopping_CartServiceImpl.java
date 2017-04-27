@@ -66,7 +66,7 @@ public class Shopping_CartServiceImpl implements Shopping_CartService {
 
 	// 添加商品到商品条目表 num ct cc c sc
 	@Override
-	public Integer addCommodity_items(Integer number,  long ct_id, long ccid, long cid,long scId) {
+	public Integer addCommodity_items(long cid, long ct_id, long ccid,Integer number,  long scId) {
 
 		return shopping_CartDao.addCommodity_items(number,ct_id, ccid, cid, scId);
 	}
