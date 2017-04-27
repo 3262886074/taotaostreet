@@ -51,11 +51,11 @@ public class ShoppingController {
 	public String addShopping_Cart(Commodity_items commodity_items, long uid, ModelMap map) {
 
 		// 添加购物车 根据用户id
-		Shopping_Cart shopping_Carts = shopping_CartService.addShopping_Cart(1);
-
-		shopping_CartService.addCommodity_items(commodity_items.getNumber(),
+		Shopping_Cart shopping_Carts = shopping_CartService.addShopping_Cart(uid);
+		shopping_CartService.addCommodity_items(
+				commodity_items.getCommodity().getCid(),
 				commodity_items.getCommodityType().getCt_id(), commodity_items.getCommodityCombo().getCcid(),
-				shopping_Carts.getScId(), commodity_items.getCommodity().getCid());
+				commodity_items.getNumber(), shopping_Carts.getScId());
 		Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(shopping_Carts.getScId());
 		map.put("shopping_Cart", shopping_Cart);
 		return "home/shopcart";
@@ -111,10 +111,10 @@ public class ShoppingController {
 
 		// 添加购物车 根据用户id
 		Shopping_Cart shopping_Carts = shopping_CartService.addShopping_CartSp(uid);
-
-		shopping_CartService.addCommodity_items(commodity_items.getNumber(),
+		
+		shopping_CartService.addCommodity_items(commodity_items.getCommodity().getCid(),
 				commodity_items.getCommodityType().getCt_id(), commodity_items.getCommodityCombo().getCcid(),
-				shopping_Carts.getScId(), commodity_items.getCommodity().getCid());
+				commodity_items.getNumber(), shopping_Carts.getScId());
 		
 		Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(shopping_Carts.getScId());
 		

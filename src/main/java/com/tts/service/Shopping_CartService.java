@@ -23,13 +23,13 @@ public interface Shopping_CartService {
 	Integer deleteCommodity_items(long ciId);
 
 	// 通过用户ID 添加购物车
-	Shopping_Cart addShopping_Cart(Integer uid);
+	Shopping_Cart addShopping_Cart(long uid);
 	
 	// 通过用户ID 添加购物车(立即购买的购物车)
 	Shopping_Cart addShopping_CartSp(long uid);
 	
 	// 添加商品到商品条目表
-	Integer addCommodity_items(Integer number, long ct_id, long ccid, long scId, long l);
+	Integer addCommodity_items(long cid, long ct_id, long ccid, Integer number, long scId);
 
 	// 添加订单
 	Integer addOrder(Order order);

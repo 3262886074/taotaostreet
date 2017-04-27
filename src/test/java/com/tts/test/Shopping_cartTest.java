@@ -46,11 +46,13 @@ public class Shopping_cartTest {
 		// Order list= shopping_CartDao.getOrder(1);
 		// List<Commodity> list=shopping_CartDao.getCommodity(1);
 		//		 Order list=shopping_CartDao.getOrder(1);
-		Shopping_Cart list=	shopping_CartDao.getShopping_CartByscId(1);
+//		Shopping_Cart list=	shopping_CartDao.getShopping_CartByscId(1);
 		// HashSet<Commodity_items> list=shopping_CartDao.getCommodity_items(1);
 		// Integer list=shopping_CartDao.addCommodity_items(1,2,3,1,5);
 //		User_Account list = shopping_CartDao.getUserAccount(1);
 //		Integer list =shopping_CartDao.updateShopping_CartUid(1);
+		
+		Integer list=shopping_CartDao.addCommodity_items(1, 1, 1, 5, 8);
 		Date now = new Date();
 		// long list=shopping_CartDao.getOid(1, now);
 		Order order = new Order();

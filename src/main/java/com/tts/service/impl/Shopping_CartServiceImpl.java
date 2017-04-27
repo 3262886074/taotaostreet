@@ -33,7 +33,7 @@ public class Shopping_CartServiceImpl implements Shopping_CartService {
 
 	// 通过用户ID添加购物车，或查询
 	@Override
-	public Shopping_Cart addShopping_Cart(Integer uid) {
+	public Shopping_Cart addShopping_Cart(long uid) {
 
 		if (shopping_CartDao.getShopping_Cart(uid) == null) {
 
@@ -65,9 +65,9 @@ public class Shopping_CartServiceImpl implements Shopping_CartService {
 
 	// 添加商品到商品条目表
 	@Override
-	public Integer addCommodity_items(Integer number, long cid, long ct_id, long ccid, long scId) {
+	public Integer addCommodity_items(long cid, long ct_id, long ccid, Integer number, long scId) {
 
-		return shopping_CartDao.addCommodity_items(ct_id, ccid, scId, number, cid);
+		return shopping_CartDao.addCommodity_items(cid, ct_id, ccid, number, scId);
 	}
 
 	// 添加订单
