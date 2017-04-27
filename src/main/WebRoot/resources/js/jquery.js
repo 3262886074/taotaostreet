@@ -18,7 +18,7 @@ $(document).ready(function(){
         		
         };
          $.ajax({
-             url:'UpdateCommodity_items',
+             url:'updateCommodity_items',
              data:commodity_items ,
              type:'post',
              dataType:'text',
@@ -38,7 +38,7 @@ $(document).ready(function(){
       		
       };
        $.ajax({
-           url:'UpdateCommodity_items',
+           url:'updateCommodity_items',
            data:commodity_items ,
            type:'post',
            dataType:'text',
@@ -64,7 +64,7 @@ $(document).ready(function(){
            		
            };
             $.ajax({
-                url:'UpdateCommodity_items',
+                url:'updateCommodity_items',
                 data:commodity_items ,
                 type:'post',
                 dataType:'text',

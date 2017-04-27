@@ -7,6 +7,8 @@ import java.util.List;
 import com.tts.bean.Commodity_items;
 import com.tts.bean.Order;
 import com.tts.bean.Shopping_Cart;
+import com.tts.bean.User_address;
+
 
 /**
  * Created by joe on 17/4/14.
@@ -23,13 +25,13 @@ public interface Shopping_CartService {
 	Integer deleteCommodity_items(long ciId);
 
 	// 通过用户ID 添加购物车
-	Shopping_Cart addShopping_Cart(Integer uid);
+	Shopping_Cart addShopping_Cart(long uid);
 	
 	// 通过用户ID 添加购物车(立即购买的购物车)
 	Shopping_Cart addShopping_CartSp(long uid);
 	
-	// 添加商品到商品条目表
-	Integer addCommodity_items(Integer number, long ct_id, long ccid, long scId, long l);
+	// 添加商品到商品条目表	num ct cc c sc
+	Integer addCommodity_items(Integer number, long ct_id, long ccid, long cid, long scId);
 
 	// 添加订单
 	Integer addOrder(Order order);
@@ -41,7 +43,7 @@ public interface Shopping_CartService {
 	Integer updateOrder(Order order,long uid);
 
 	// 查询当前添加的订单通过时间和用户ID
-	long getOid(long uid, String now);
+	long getOid(long uid, String hehe);
 
 	// 修改商品条目表商品的信息
 	Integer updateShoppingCart(Commodity_items commodity_items);
@@ -54,6 +56,12 @@ public interface Shopping_CartService {
 	
 	//添加订单
 	Integer addOrderSp(long scId, long uid);
+	
+	//查询用户默认的地址
+	User_address getUser_address(long uid);
+	
+	//查询订单带地址的
+	Order getOder(long oid);
 
 	
 	
