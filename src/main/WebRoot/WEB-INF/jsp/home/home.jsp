@@ -312,7 +312,7 @@
 					<ul>
 						<c:forEach items="${commodityList}" var="commodity"
 							varStatus="statop">
-							<li><a target="_blank" href="#"><span>[特惠]</span>${commodity.cname}</a></li>
+							<li><a target="_blank" href="${ctx }/toShowOne?cid=${commodity.cid }"><span>[特惠]</span>${commodity.cname}</a></li>
 							<c:if test="${statop.index+1==2}">
 								<div class="mod-vip">
 									<c:choose>
@@ -396,7 +396,7 @@
 							<h4>开年福利篇</h4>
 						</div>
 						<div class="recommendationMain one">
-							<a href="introduction.html"><img
+							<a href="${ctx }/toShowOne?cid=${commodity.cid }"><img
 								src="${ctx}${commodity.commodityPics.cpImg} "></img></a>
 						</div>
 					</div>
@@ -448,7 +448,7 @@
 										<div class="sub-title ">¥${commodity.forSalePrice }</div>
 										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
-									<a href="# "><img
+									<a href="${ctx }/toShowOne?cid=${commodity.cid }"><img
 										src="${ctx}${commodity.commodityPics.cpImg}" /></a>
 								</div>
 							</c:if>
@@ -459,7 +459,7 @@
 										<div class="sub-title ">¥${commodity.forSalePrice }</div>
 										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
-									<a href="# "><img
+									<a href="${ctx }/toShowOne?cid=${commodity.cid }"><img
 										src="${ctx}${commodity.commodityPics.cpImg}" /></a>
 								</div>
 							</c:if>
@@ -470,7 +470,7 @@
 										<div class="sub-title ">¥${commodity.forSalePrice }</div>
 										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
-									<a href="# "><img
+									<a href="${ctx }/toShowOne?cid=${commodity.cid }"><img
 										src="${ctx}${commodity.commodityPics.cpImg}" /></a>
 								</div>
 							</c:if>
@@ -481,7 +481,7 @@
 										<div class="sub-title ">¥${commodity.forSalePrice }</div>
 										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
-									<a href="# "><img
+									<a href="${ctx }/toShowOne?cid=${commodity.cid }"><img
 										src="${ctx}${commodity.commodityPics.cpImg}" /></a>
 								</div>
 							</c:if>
@@ -492,7 +492,7 @@
 										<div class="sub-title ">¥${commodity.forSalePrice }</div>
 										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
-									<a href="# "><img
+									<a href="${ctx }/toShowOne?cid=${commodity.cid }"><img
 										src="${ctx}${commodity.commodityPics.cpImg}" /></a>
 								</div>
 							</c:if>
@@ -503,7 +503,7 @@
 										<div class="sub-title ">¥${commodity.forSalePrice }</div>
 										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
-									<a href="# "><img
+									<a href="${ctx }/toShowOne?cid=${commodity.cid }"><img
 										src="${ctx}${commodity.commodityPics.cpImg}" /></a>
 								</div>
 							</c:if>
@@ -614,6 +614,7 @@
 				<div id="quick_links_pop " class="quick_links_pop hide "></div>
 			</div>
 		</div>
+    </div>
 	<script>
 		window.jQuery
 				|| document

@@ -160,7 +160,10 @@ $(document).ready(function() {
 	//获得库存
 	var c_number = parseInt($("#c_number").val());
 	//初始化数量为1,并失效减
-	$('#min').attr('disabled', true);
+	//$('#min').attr('disabled', true);
+	if (t.val(1)) {
+		$('#min').attr('disabled', true);
+	}
 	//输入文本框数量
 	$("#text_box").keyup(function(){
 			if (t.val()=="") {

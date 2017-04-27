@@ -48,30 +48,62 @@
 			<div class="topMessage">
 				<div class="menu-hd">
 					<c:if test="${empty users}">
-						<a href="${ctx}/loginOrRegister/loginInput" target="_top" class="h">亲，请登录</a>
-						<a href="${ctx}/loginOrRegister/registerInput" target="_top">免费注册</a>
-					</c:if>
-					<c:if test="${!empty users}">
-						欢迎您,${users.nickName}
-						<a href="${ctx}/loginOrRegister/loginOut">注销</a>
-					</c:if>
+							<a href="${ctx}/loginOrRegister/registerInput" target="_top">免费注册</a>
+							<a href="${ctx}/loginOrRegister/loginInput" target="_top" class="h">亲，请登录</a>
+						</c:if>
+						<c:if test="${!empty users}">
+							<b>${users.nickName }</b>，
+							<a href="${ctx}/loginOrRegister/loginOut">注销</a>
+						</c:if>
 				</div>
 			</div>
 		</ul>
 		<ul class="message-r">
-			<div class="topMessage home">
-				<div class="menu-hd"><a href="${ctx}/" target="_top" class="h">商城首页</a></div>
-			</div>
-			<div class="topMessage my-shangcheng">
-				<div class="menu-hd MyShangcheng"><a href="${ctx}/users/allInfo" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
-			</div>
-			<div class="topMessage mini-cart">
-				<div class="menu-hd"><a id="mc-menu-hd" href="${ctx}/shop/shopping_Cart" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div>
-			</div>
-			<div class="topMessage favorite">
-				<div class="menu-hd"><a href="${ctx}/users/allCollects" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
-		</ul>
-	</div>
+				<div class="topMessage home">
+					<div class="menu-hd">
+						<a href="${ctx}/" target="_top" class="h">商城首页</a>
+					</div>
+				</div>
+				<c:if test="${!empty users}">
+					<div class="topMessage my-shangcheng">
+						<div class="menu-hd MyShangcheng">
+							<a href="${ctx}/users/allInfo" target="_top"><i
+								class="am-icon-user am-icon-fw"></i>个人中心</a>
+						</div>
+					</div>
+					<div class="topMessage mini-cart">
+						<div class="menu-hd">
+							<a id="mc-menu-hd" href="#" target="_top"><i
+								class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a>
+						</div>
+					</div>
+					<div class="topMessage favorite">
+						<div class="menu-hd">
+							<a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a>
+						</div>
+				</c:if>
+				<c:if test="${empty users}">
+					<div class="topMessage my-shangcheng">
+						<div class="menu-hd MyShangcheng">
+							<a href="javascript:void(0);" onclick="toLogin();" target="_top"><i
+								class="am-icon-user am-icon-fw"></i>个人中心</a>
+						</div>
+					</div>
+					<div class="topMessage mini-cart">
+						<div class="menu-hd">
+							<a id="mc-menu-hd" href="javascript:void(0);" onclick="toLogin();" target="_top"><i
+								class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong
+								id="J_MiniCartNum" class="h">0</strong></a>
+						</div>
+					</div>
+					<div class="topMessage favorite">
+						<div class="menu-hd">
+							<a href="javascript:void(0);" onclick="toLogin();" target="_top"><i
+								class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a>
+						</div>
+				</c:if>
+			</ul>
+		</div>
 
 	<!--悬浮搜索框-->
 
@@ -413,6 +445,7 @@
 
 					</div>
 					<c:if test="${!empty users }">
+					
 					<li>
 						<div class="clearfix tb-btn tb-btn-buy theme-login">
 						
@@ -444,6 +477,7 @@
 						</div> 
 					</li>
 					</c:if>
+					
 						<script type="text/javascript">
 										function show(){
 											if(mon + m2 <=0){
@@ -451,8 +485,11 @@
 											}else if(sel1 && sel2 && flag && flag2){
 												var oneMoney = mon+m2;
 												var allMoney = oneMoney*tt
-												alert("正在下订单。。cid:"+${commodity.cid }+" 口味id："+selctid+" 包装id："+selccid+" 数量为："+tt)
-												alert("单个金额为："+oneMoney+" 总金额为："+allMoney)
+												$("#ctidsel").attr("value",selctid);
+												$("#ccidsel").attr("value",selccid);
+												$("#ttNumber").attr("value",tt);
+												$("#onemoney").attr("value",oneMoney);
+												window.location.href="${ctx}/users/standpoint";
 											}else{
 												$("#show1").show();
 											}
@@ -464,9 +501,11 @@
 												$("#show1").show();
 											}else if(sel1 && sel2 && flag && flag2){
 												var oneMoney = mon+m2;
-												var allMoney = oneMoney*tt
-												alert("正在下订单。。cid:"+${commodity.cid }+" 口味id："+selctid+" 包装id："+selccid+" 数量为："+tt)
-												alert("单个金额为："+oneMoney+" 总金额为："+allMoney )
+												$("#ctidsel").attr("value",selctid);
+												$("#ccidsel").attr("value",selccid);
+												$("#ttNumber").attr("value",tt);
+												$("#onemoney").attr("value",oneMoney);
+												window.location.href="${ctx}/users/addShopping_Cart"
 											}else{
 												$("#show1").show();
 											}
@@ -476,7 +515,12 @@
 				</div>
 
 			</div>
-
+			<input type="hidden" name="commodity.cid" value="${commodity.cid }">
+					<input type="hidden" id="ctidsel" name="commodityType.ct_id">
+					<input type="hidden" id="ccidsel" name="commodityCombo.ccid">
+					<input type="hidden" id="ttNumber" name="number">
+					<input type="hidden" name="uid" value="${users.uid }">
+					<input type="hidden" id="onemoney" name="money">
 			<div class="clear"></div>
 
 		</div>
@@ -687,161 +731,73 @@
 	</div>
 	<!--菜单 -->
 	<div class=tip>
-		<c:if test="${!empty users }">
 		<div id="sidebar">
 			<div id="wrap">
-				<div id="prof" class="item">
-					<a href="#"> <span class="setting"></span>
+				<div id="prof" class="item ">
+					<a href="${ctx}/users/allInfo"> <span class="setting "></span>
 					</a>
-					<div class="ibar_login_box status_login">
-						<div class="avatar_box">
-							<p class="avatar_imgbox">
-								<img src="${ctx}/resources/images/no-img_mid_.jpg" />
-							</p>
-							<ul class="user_info">
-								<li>用户名：sl1903</li>
-								<li>级&nbsp;别：普通会员</li>
-							</ul>
-						</div>
-						<div class="login_btnbox">
-							<a href="#" class="login_order">我的订单</a> <a href="#"
-								class="login_favorite">我的收藏</a>
-						</div>
-						<i class="icon_arrow_white"></i>
+					<div class="ibar_login_box status_login ">
+						<c:choose>
+							<c:when test="${!empty users}">
+								<div class="avatar_box ">
+									<p class="avatar_imgbox ">
+										<img src="${ctx}${users.uicon} " />
+									</p>
+									<ul class="user_info ">
+										<li>${users.nickName }</li>
+										<li>级&nbsp;别:黄金会员</li>
+									</ul>
+								</div>
+								<div class="login_btnbox ">
+									<a href="${ctx}/users/orders" class="login_order ">我的订单</a> <a
+										href="${ctx}/users/allCollects" class="login_favorite ">我的收藏</a>
+								</div>
+							</c:when>
+							<c:otherwise>
+								<div class="avatar_box ">
+									<p class="avatar_imgbox ">
+										<img src="${ctx}/resources/images/no-img_mid_.jpg " />
+									</p>
+									<ul class="user_info ">
+										<li>尚未登录！</li>
+										<li></li>
+									</ul>
+								</div>
+								<div class="login_btnbox ">
+									<a href="${ctx}/loginOrRegister/loginInput "
+									   class="login_order ">马上登录</a> <a
+										href="${ctx}/loginOrRegister/registerInput "
+										class="login_favorite ">立即注册</a>
+								</div>
+							</c:otherwise>
+						</c:choose>
+						<i class="icon_arrow_white "></i>
 					</div>
-
 				</div>
-				<div id="shopCart" class="item">
-					<a href="#"> <span class="message"></span>
+				<div id="shopCart " class="item ">
+					<a href="${ctx}/shop/shopping_Cart "> <span class="message "></span>
 					</a>
 					<p>购物车</p>
-					<p class="cart_num">0</p>
 				</div>
-				<div id="asset" class="item">
-					<a href="#"> <span class="view"></span>
+				<div id="asset " class="item ">
+					<a href="${ctx}/users/allInfo "> <span class="view "></span>
 					</a>
-					<div class="mp_tooltip">
-						我的资产 <i class="icon_arrow_right_black"></i>
+					<div class="mp_tooltip ">
+						我的资产 <i class="icon_arrow_right_black "></i>
 					</div>
 				</div>
-
-				<div id="brand" class="item">
-					<a href="#"> <span class="wdsc"><img
-							src="${ctx}/resources/images/wdsc.png" /></span>
+				<div id="brand " class="item ">
+					<a href="${ctx}/users/allCollects"> <span class="wdsc "><img
+							src="${ctx}/resources/images/wdsc.png " /></span>
 					</a>
-					<div class="mp_tooltip">
-						我的收藏 <i class="icon_arrow_right_black"></i>
+					<div class="mp_tooltip ">
+						我的收藏 <i class="icon_arrow_right_black "></i>
 					</div>
-				</div>
-
-				<div id="broadcast" class="item">
-					<a href="#"> <span class="chongzhi"><img
-							src="${ctx}/resources/images/chongzhi.png" /></span>
-					</a>
-					<div class="mp_tooltip">
-						我要充值 <i class="icon_arrow_right_black"></i>
-					</div>
-				</div>
-
-				<div class="quick_toggle">
-					<li class="qtitem"><a href="#"><span class="kfzx"></span></a>
-						<div class="mp_tooltip">
-							客服中心<i class="icon_arrow_right_black"></i>
-						</div></li>
-					<!--二维码 -->
-					<li class="qtitem"><a href="#none"><span
-							class="mpbtn_qrcode"></span></a>
-						<div class="mp_qrcode" style="display: none;">
-							<img src="${ctx}/resources/images/weixin_code_145.png" /><i
-								class="icon_arrow_white"></i>
-						</div></li>
-					<li class="qtitem"><a href="#top" class="return_top"><span
-							class="top"></span></a></li>
 				</div>
 				<!--回到顶部 -->
-				<div id="quick_links_pop" class="quick_links_pop hide"></div>
+				<div id="quick_links_pop " class="quick_links_pop hide "></div>
 			</div>
 		</div>
-		</c:if>
-		
-		<c:if test="${empty users }">
-		<div id="sidebar">
-			<div id="wrap">
-				<div id="prof" class="item">
-					<a href="javascript:void(0);" onclick="toLogin();"> <span class="setting"></span>
-					</a>
-					<div class="ibar_login_box status_login">
-						<div class="avatar_box">
-							<p class="avatar_imgbox">
-								<img src="${ctx}/resources/images/no-img_mid_.jpg" />
-							</p>
-							<ul class="user_info">
-								<li>用户名：****</li>
-								<li>级&nbsp;别：**会员</li>
-							</ul>
-						</div>
-						<div class="login_btnbox">
-							<a href="javascript:void(0);" onclick="toLogin();" class="login_order">我的订单</a> 
-							<a href="javascript:void(0);" onclick="toLogin();"
-								class="login_favorite">我的收藏</a>
-						</div>
-						<i class="icon_arrow_white"></i>
-					</div>
-
-				</div>
-				<div id="shopCart" class="item">
-					<a href="javascript:void(0);" onclick="toLogin();"><span class="message"></span>
-					</a>
-					<p>购物车</p>
-					<p class="cart_num">0</p>
-				</div>
-				<div id="asset" class="item">
-					<a href="javascript:void(0);" onclick="toLogin();"> <span class="view"></span>
-					</a>
-					<div class="mp_tooltip">
-						我的资产 <i class="icon_arrow_right_black"></i>
-					</div>
-				</div>
-
-				<div id="brand" class="item">
-					<a href="javascript:void(0);" onclick="toLogin();"> <span class="wdsc"><img
-							src="${ctx}/resources/images/wdsc.png" /></span>
-					</a>
-					<div class="mp_tooltip">
-						我的收藏 <i class="icon_arrow_right_black"></i>
-					</div>
-				</div>
-
-				<div id="broadcast" class="item">
-					<a href="javascript:void(0);" onclick="toLogin();"> <span class="chongzhi"><img
-							src="${ctx}/resources/images/chongzhi.png" /></span>
-					</a>
-					<div class="mp_tooltip">
-						我要充值 <i class="icon_arrow_right_black"></i>
-					</div>
-				</div>
-
-				<div class="quick_toggle">
-					<li class="qtitem"><a href="#"><span class="kfzx"></span></a>
-						<div class="mp_tooltip">
-							客服中心<i class="icon_arrow_right_black"></i>
-						</div></li>
-					<!--二维码 -->
-					<li class="qtitem"><a href="#none"><span
-							class="mpbtn_qrcode"></span></a>
-						<div class="mp_qrcode" style="display: none;">
-							<img src="${ctx}/resources/images/weixin_code_145.png" /><i
-								class="icon_arrow_white"></i>
-						</div></li>
-					<li class="qtitem"><a href="#top" class="return_top"><span
-							class="top"></span></a></li>
-				</div>
-
-				<!--回到顶部 -->
-				<div id="quick_links_pop" class="quick_links_pop hide"></div>
-			</div>
-		</div>
-		</c:if>
 		
 	</div>
 
