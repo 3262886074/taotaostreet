@@ -1,18 +1,16 @@
 package com.tts.service;
 
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-
 import com.tts.bean.Commodity_items;
 import com.tts.bean.Order;
 import com.tts.bean.Shopping_Cart;
+
+import java.util.HashSet;
+
 
 /**
  * Created by joe on 17/4/14.
  */
 public interface Shopping_CartService {
-
     // 通过用户ID查询购物车信息、商品条目、用户信息
     Shopping_Cart getShopping_Cart(long uid);
 

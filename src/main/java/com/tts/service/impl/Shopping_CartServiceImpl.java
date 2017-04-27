@@ -1,20 +1,17 @@
 package com.tts.service.impl;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.tts.bean.Commodity_items;
 import com.tts.bean.Order;
 import com.tts.bean.Shopping_Cart;
 import com.tts.bean.User_Account;
 import com.tts.dao.Shopping_CartDao;
 import com.tts.service.Shopping_CartService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashSet;
 
 @Service("shopping_CartService")
 public class Shopping_CartServiceImpl implements Shopping_CartService {

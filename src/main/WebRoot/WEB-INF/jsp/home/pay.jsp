@@ -22,8 +22,7 @@
 	</head>
 
 	<body>
-	<form action="pay" id="tjfm">
-		<!--顶部导航条 -->
+	<!--顶部导航条 -->
 		<div class="am-container header">
 			<ul class="message-l">
 				<div class="topMessage">
@@ -38,14 +37,13 @@
 					<div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
 				</div>
 				<div class="topMessage my-shangcheng">
-					<div class="menu-hd MyShangcheng"><a href="userInfo/${uid}" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+					<div class="menu-hd MyShangcheng"><a href="#" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
 				</div>
 				<div class="topMessage mini-cart">
-					<div class="menu-hd"><a id="mc-menu-hd" href="shopping_Cart" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+					<div class="menu-hd"><a id="mc-menu-hd" href="${ctx}/shopping_Cart?uid=${uid}" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h"></strong></a></div>
 				</div>
 				<div class="topMessage favorite">
 					<div class="menu-hd"><a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
-				</div>
 			</ul>
 			</div>
 
@@ -59,16 +57,21 @@
 
 				<div class="search-bar pr">
 					<a name="index_none_header_sysc" href="#"></a>
-					
+					<form>
 						<input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
 						<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
-					
+					</form>
 				</div>
-			</div>	
+			</div>
+
+			<div class="clear"></div>
+			<div class="concent">
+
 			
 			<!--配送地址-->
 			
 			
+	<form action="${ctx}/pay" id="tjfm">
 			<div class="concent">
 				<!--地址 -->
 				<div class="paycont">
@@ -118,11 +121,11 @@
 								<div class="clear"></div>
 
 								<div class="new-addr-btn">
-									<a href="#"><c:if test="${ad.status==1}"></c:if><c:if test="${ad.status!=1}">设为默认</c:if></a>
-									<span class="new-addr-bar">|</span>
-									<a href="#">编辑</a>
-									<span class="new-addr-bar">|</span>
-									<a href="javascript:void(0);"  onclick="delClick(this);">删除</a>
+									<a href="#"><c:if test="${ad.status==1}"></c:if><c:if test="${ad.status!=1}"></c:if></a>
+									<span class="new-addr-bar"></span>
+									<a href="#"></a>
+									<span class="new-addr-bar"></span>
+									<a href="javascript:void(0);"  onclick="delClick(this);"></a>
 								</div>
 
 							</li>
@@ -231,10 +234,10 @@
 							<div class="order-extra">
 								<div class="order-user-info">
 									<div id="holyshit257" class="memo">
-										<label>买家留言：</label>
-										<input type="text" title="选填,对本次交易的说明（建议填写已经和卖家达成一致的说明）" placeholder="选填,建议填写和卖家达成一致的说明" class="memo-input J_MakePoint c2c-text-default memo-close">
+										<label></label>
+										
 										<div class="msg hidden J-msg">
-											<p class="error">最多输入500个字符</p>
+											
 										</div>
 									</div>
 								</div>
@@ -315,7 +318,7 @@
 												<span class="buy-line-title buy-line-title-type">寄送至：</span>
 												<span class="buy--address-detail">
 								   <span class="province">
-												<span class="street"><input  id="jsz" value="${orders.userAddress.location}"  style="text-align:center; border:none; border:none" readonly	/></span>
+												<span class="street"><input  id="jsz" value="${orders.userAddress.location}"  style="width:100px;text-align:center; border:none; border:none" readonly	/></span>
 												</span>
 												</span>
 											</p>
@@ -325,7 +328,7 @@
 												<span class="buy-address-detail">  
 												 <input id="uaIdw" name="userAddress.uaId" value="${orders.userAddress.uaId}" style="display:none"/> 
                                          <input id="shr"  value="${orders.userAddress.uaname}" type="text" style="width:50px; text-align:center; border:none; border:none" readonly />
-												<span  class="buy-phone"><input id="lxt" value="${orders.userAddress.uatel}"  style="width:50px; text-align:center; border:none;" readonly/></span>
+												<span  class="buy-phone"><input id="lxt" value="${orders.userAddress.uatel}"  style="width:100px; text-align:center; border:none;" readonly/></span>
 												</span>
 											</p>
 										</div>
@@ -385,51 +388,43 @@
 
 				<div class="am-u-md-12">
 				
+							<div class="am-form-group">
+		 <form id="addressForm" action="${ctx}/addAddresso" method="post" class="am-form am-form-horizontal">
+                                    <label for="user-name" class="am-form-label">收货人</label>
+                                    <div class="am-form-content">
+                                        <input type="text" required name="uaname" id="user-name" placeholder="收货人">
+                                    </div>
+                                </div>
 
-						<div class="am--group">
-							<label for="user-name" class="am-form-label">收货人</label>
-							<div class="am-form-content">
-								<input type="text" id="user-name" placeholder="收货人">
-							</div>
-						</div>
+                                <div class="am-form-group">
+                                    <label for="user-phone" class="am-form-label">手机号码</label>
+                                    <div class="am-form-content">
+                                        <input id="user-phone" required name="uatel" placeholder="手机号必填" type="tel">
+                                    </div>
+                                </div>
+                                <div class="am-form-group">
+                                    <label class="am-form-label">所在地</label>
+                                    <div class="am-form-content address">
+                                        <input id="user-location" required name="location" placeholder="所在地必填" type="text">
+                                    </div>
+                                </div>
 
-						<div class="am-form-group">
-							<label for="user-phone" class="am-form-label">手机号码</label>
-							<div class="am-form-content">
-								<input id="user-phone" placeholder="手机号必填" type="email">
-							</div>
-						</div>
+                                <div class="am-form-group">
+                                    <label for="user-intro" class="am-form-label">详细地址</label>
+                                    <div class="am-form-content">
+                                        <textarea class="" rows="3" required id="user-intro" name="address" placeholder="输入详细地址"></textarea>
+                                        <small>100字以内写出你的详细地址...</small>
+                                    </div>
+                                </div>
+                                <input type="hidden" name="uid" value="${uid}">
 
-						<div class="am-form-group">
-							<label for="user-phone" class="am-form-label">所在地</label>
-							<div class="am-form-content address">
-								<select data-am-selected>
-									<option value="a">浙江省</option>
-									<option value="b">湖北省</option>
-								</select>
-								<select data-am-selected>
-									<option value="a">温州市</option>
-									<option value="b">武汉市</option>
-								</select>
-								<select data-am-selected>
-									<option value="a">瑞安区</option>
-									<option value="b">洪山区</option>
-								</select>
-							</div>
-						</div>
-
-						<div class="am-form-group">
-							<label for="user-intro" class="am-form-label">详细地址</label>
-							<div class="am-form-content">
-								<textarea class="" rows="3" id="user-intro" placeholder="输入详细地址"></textarea>
-								<small>100字以内写出你的详细地址${ctx}/resources.</small>
-							</div>
-						</div>
-
-						<div class="am-form-group theme-poptit">
-							<div class="am-u-sm-9 am-u-sm-push-3">
-								<div class="am-btn am-btn-danger">保存</div>
-								<div class="am-btn am-btn-danger close">取消</div>
+                                <div class="am-form-group">
+                                    <div class="am-u-sm-9 am-u-sm-push-3">
+                                       <input class="am-btn am-btn-danger" type="submit" value="提交">
+                                       <input class="am-btn am-btn-danger" type="reset" value="重置">
+                                    </div>
+                                </div>
+                                </input>
 							</div>
 						</div>
 					

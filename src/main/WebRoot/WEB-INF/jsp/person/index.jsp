@@ -47,7 +47,7 @@
                         <div class="menu-hd MyShangcheng"><a href="${ctx}/users/allInfo" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
                     </div>
                     <div class="topMessage mini-cart">
-                        <div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+                        <div class="menu-hd"><a id="mc-menu-hd" href="shopping_Cart?scId=${uid}" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
                     </div>
                     <div class="topMessage favorite">
                         <div class="menu-hd"><a href="${ctx}/users/allCollects" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
@@ -181,7 +181,7 @@
                         </div>
                         <ul>
 
-                            <a href="../home/shopcart.html"><li class="am-u-sm-4"><i class="am-icon-shopping-basket am-icon-md"></i><img src="${ctx}/resources/images/iconbig.png"/><p>购物车</p></li></a>
+                            <a href="${ctx}/shopping_Cart?scId=${uid}"><li class="am-u-sm-4"><i class="am-icon-shopping-basket am-icon-md"></i><img src="${ctx}/resources/images/iconbig.png"/><p>购物车</p></li></a>
                             <a href="collection.html"><li class="am-u-sm-4"><i class="am-icon-heart am-icon-md"></i><img src="${ctx}/resources/images/iconsmall1.png"/><p>我的收藏</p></li></a>
                             <a href="../home/home.html"><li class="am-u-sm-4"><i class="am-icon-gift am-icon-md"></i><img src="${ctx}/resources/images/iconsmall0.png"/><p>为你推荐</p></li></a>
                             <a href="comment.html"><li class="am-u-sm-4"><i class="am-icon-pencil am-icon-md"></i><img src="${ctx}/resources/images/iconsmall3.png"/><p>好评宝贝</p></li></a>

@@ -8,16 +8,14 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import javax.annotation.Resource;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
 
-@Controller("ShoppingController")
-@SessionAttributes(value = {"shopping_Carts", "shopping_Cart"}, types = String.class)
-@RequestMapping("users")
+@Controller
+@RequestMapping("/shop")
 public class ShoppingController {
 
     @Resource(name = "shopping_CartService")

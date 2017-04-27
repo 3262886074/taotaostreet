@@ -42,40 +42,12 @@
     <!-- 通过订单id查询购物车 -->
     <select id="getOrder" resultType="Order">
 		select
-		o.o_id "o_id",
-		o.sc_id
-		"shoppingCart.scId",
-		o.money "money",
-		o.status
-		"status",
-		o.dc_id
-		"discountCoupon.dcId",
-		o.urp_id
-		"userRedPackage.urpId",
-		o.ua_id
-		"userAddress.uaId",
-		o.u_id
-		"userAddress.uid",
-		ua.ua_name
-		"userAddress.uaname",
-		ua.ua_tel
-		"userAddress.uatel",
-		ua.location
-		"userAddress.location",
-		ua.address
-		"userAddress.address",
-		dc.condition
-		"discountCoupon.condition",
-		dc.reduce "discountCoupon.reduce",
-		dc.status "discountCoupon.status",
-		urp.money "userRedPackage.money",
-		urp.status "userRedPackage.status"
-		from orders o,user_address ua,
-		commodity_discount_coupon dc,user_red_package urp
-		where
-		ua.ua_id=o.ua_id and
-		dc.dc_id=o.dc_id and urp.urp_id=o.urp_id and
-		o.o_id=#{oid}
+		 o_id "o_id",
+		 sc_id "shoppingCart.scId",
+		 money "money",
+		 status "status"
+		 from orders
+		where o_id=#{oid}
 	</select>
 
     <!-- 通过用户ID和时间查询订单ID、OID -->
@@ -157,20 +129,18 @@
     <insert id="addOrder" parameterType="Order">
 		INSERT INTO
 		orders
-		(sc_id,money,status,dc_id,urp_id,ua_id,u_id)
+		(sc_id,money,status,u_id)
 		VALUES
-		(#{shoppingCart.scId},#{money},#{status},#{discountCoupon.dcId},
-		#{userRedPackage.urpId},#{userAddress.uaId},#{shoppingCart.users.uid})
+		(#{shoppingCart.scId},#{money},#{status},#{shoppingCart.users.uid})
 	</insert>
 
     <!-- 立即购买添加订单addOrderSp -->
     <insert id="addOrderSp">
 		INSERT INTO
 		orders
-		(sc_id,money,status,dc_id,urp_id,ua_id,u_id)
+		(sc_id,u_id)
 		VALUES
-		(#{scId},0,-1,1,
-		1,1,#{uid})
+		(#{scId},#{uid})
 	</insert>
 
     <!-- 修改购物车uid为0代表购物车以加入订单updateShopping_CartUid -->
@@ -251,6 +221,4 @@
 		VALUES
 		(#{uid},#{cid})
 	</insert>
-
-
 </mapper>

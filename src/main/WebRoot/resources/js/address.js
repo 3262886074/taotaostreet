@@ -19,7 +19,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 		         		
 		         };
 		          $.ajax({
-		              url:'UpdateCommodity_items',
+		              url:'updateCommodity_items',
 		              data:commodity_items ,
 		              type:'post',
 		              dataType:'text',
@@ -40,7 +40,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 		      		
 		      };
 		       $.ajax({
-		           url:'UpdateCommodity_items',
+		           url:'updateCommodity_items',
 		           data:commodity_items ,
 		           type:'post',
 		           dataType:'text',
@@ -73,7 +73,7 @@ f.event={add:function(a,c,d,e,g){var h,i,j,k,l,m,n,o,p,q,r,s;if(!(a.nodeType===3
 		           		
 		           };
 		            $.ajax({
-		                url:'UpdateCommodity_items',
+		                url:'updateCommodity_items',
 		                data:commodity_items ,
 		                type:'post',
 		                dataType:'text',
