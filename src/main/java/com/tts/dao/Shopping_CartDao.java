@@ -12,6 +12,7 @@ import com.tts.bean.Commodity_items;
 import com.tts.bean.Order;
 import com.tts.bean.Shopping_Cart;
 import com.tts.bean.User_Account;
+import com.tts.bean.User_address;
 
 
 /**
@@ -32,15 +33,17 @@ public interface Shopping_CartDao {
 	Integer addShopping_Cart(long uid);
 
 	// 添加商品到商品条目表
-	Integer addCommodity_items( @Param("cid") long cid,
+	Integer addCommodity_items( 
+			@Param("number") Integer number,
 			@Param("ct_id") long ct_id,
 			@Param("ccid") long ccid,
-			@Param("number") Integer number,
-			@Param("scId") long scId);
+			@Param("cid") long cid,	
+			@Param("scId") long scId
+			);
 	
 
 	// <!--通过商品ID查询商品信息 -->
-	List<Commodity> getCommodity(Integer cid);
+	List<Commodity> getCommodity(long cid);
 
 	// 通过商品条目id 删除商品条目 表
 	Integer deleteCommodity_items(long ciId);
@@ -86,6 +89,12 @@ public interface Shopping_CartDao {
 	
 	//立即购买添加订单addOrderSp
 	Integer addOrderSp(@Param("scId")long scId, @Param("uid")long uid);
+
+	//查询用户默认地址getUser_address
+	User_address getUser_address(long uid);
+	
+	//查询订单带地址
+	Order getOrderUa(long oid);
 	
 
 

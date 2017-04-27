@@ -60,4 +60,6 @@ public interface UsersService {
     String addComment(String content, Integer type, long uid, long cid);
 
     Integer okOrder(long oid);
+
+	
 }
