@@ -105,7 +105,12 @@
                 <div class="user-infoPic">
 
                     <div class="filePic">
-                        <img class="am-circle am-img-thumbnail" src="${ctx}/resources/images/getAvatar.do.jpg" alt="" />
+                        <c:if test="${users.uicon == null}">
+                            <img class="am-circle am-img-thumbnail" src="${ctx}/resources/images/getAvatar.do.jpg" alt="" />
+                        </c:if>
+                        <c:if test="${users.uicon != null}">
+                            <img class="am-circle am-img-thumbnail" src="${users.uicon}" alt="" />
+                        </c:if>
                     </div>
 
                     <p class="am-form-help">头像</p>

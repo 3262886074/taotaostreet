@@ -251,6 +251,7 @@
                 <a href="#">我的小窝</a>
                 <ul>
                     <li> <a href="${ctx}/users/allCollects">收藏</a></li>
+                    <%--<li class="active"> <a href="comment.html">评价</a></li>--%>
                 </ul>
             </li>
 

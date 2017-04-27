@@ -450,26 +450,33 @@ public class UsersController {
     /**
      * 添加评论
      */
+    @ResponseBody
     @RequestMapping(value = "/addComment", method = RequestMethod.POST)
     public String addComment(@RequestParam("cid") long cid,
                              @RequestParam("uid") long uid,
                              @RequestParam("type") Integer type,
-                             @RequestParam("content") String content,
-                             @RequestParam("oid") long oid) {
+                             @RequestParam("content") String content) {
         //1好评 0差评 2中评
         String s = usersService.addComment(content, type, uid, cid);
-        usersService.okOrder(oid);
-        return "redirect:orders";
+        //usersService.okOrder(oid);
+        return s;
     }
 
     /**
      * 订单已完成
      */
-    //@RequestMapping(value = "/okOrder/oid",method = RequestMethod.POST)
-    //public String okOrder(@PathVariable("oid") long oid){
-    //    usersService.okOrder(oid);
-    //    return "redirect:orders";
-    //}
+    @ResponseBody
+    @RequestMapping(value = "/okOrder/{oid}",method = RequestMethod.POST)
+    public String okOrder(@RequestParam("cid") long cid,
+                          @RequestParam("uid") long uid,
+                          @RequestParam("type") Integer type,
+                          @RequestParam("content") String content,
+                          @PathVariable("oid") long oid){
+        //1好评 0差评 2中评
+        String s = usersService.addComment(content, type, uid, cid);
+        usersService.okOrder(oid);
+        return s;
+    }
 
 
 }

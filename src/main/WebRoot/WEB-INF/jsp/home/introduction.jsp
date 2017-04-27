@@ -47,7 +47,7 @@
 		<ul class="message-l">
 			<div class="topMessage">
 				<div class="menu-hd">
-					<c:if test="${empty users}">
+						<c:if test="${empty users}">
 							<a href="${ctx}/loginOrRegister/registerInput" target="_top">免费注册</a>
 							<a href="${ctx}/loginOrRegister/loginInput   " target="_top" class="h">亲，请登录</a>
 						</c:if>

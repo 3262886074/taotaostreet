@@ -326,8 +326,8 @@
                                                         <c:if test="${order.key.status == 2}">
                                                             <div class="item-status">
                                                                 <p class="Mystatus">待评价</p>
-                                                                <p class="order-info"><a
-                                                                        href="${ctx}/users/orderInfo/${order.key.oid}">订单详情</a>
+                                                                <p class="order-info">
+                                                                    <a href="${ctx}/users/orderInfo/${order.key.oid}">订单详情</a>
                                                                 </p>
                                                                 <p class="order-info"><a href="logistics.html">立即评价</a></p>
                                                             </div>

@@ -107,7 +107,7 @@
                 <div class="user-infoPic">
 
                     <div class="filePic">
-                        <input type="file" class="inputPic" allowexts="gif,jpeg,jpg,png,bmp" accept="image/*">
+                        <%--<input type="file" class="inputPic" allowexts="gif,jpeg,jpg,png,bmp" accept="image/*">--%>
                         <c:if test="${users.uicon == null}">
                             <img class="am-circle am-img-thumbnail" src="${ctx}/resources/images/getAvatar.do.jpg" alt="" />
                         </c:if>

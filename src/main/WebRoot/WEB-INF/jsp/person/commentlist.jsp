@@ -107,7 +107,8 @@
                     <div class="comment-main">
                         <!-- TODO 多个商品评论 -->
                         <c:forEach items="${commodityItems}" var="items">
-                        <form action="${ctx}/users/addComment" id="form${items.commodity.cid}" method="post">
+                        <%-- action="${ctx}/users/addComment" --%>
+                        <form id="form${items.commodity.cid}" method="post">
                             <div class="comment-list">
                                 <div class="item-pic">
                                     <a href="#" class="J_MakePoint">
@@ -158,6 +159,8 @@
                         </c:forEach>
                         <script type="text/javascript">
                             $(document).ready(function () {
+                                //截取最后的数字 不管是几位数字
+                                //被点击的按钮id
                                 //选择评论类型
                                 $("div[id^=type] li").click(function () {
                                     $(this).prevAll().children('i').removeClass("active");
@@ -171,15 +174,61 @@
                                     $("#ctype" + id).attr("value", $(this).val());
                                     return false;
                                 });
-//                                $("input[id^=subComment]").click(function () {
-//                                    //被点击的按钮id
-//                                    var idStr = $(this).attr("id");
-//                                    //截取最后的数字 不管是几位数字
-//                                    var id = idStr.substring(10, idStr.length);
-//                                    $("#form" + id).submit();
-//                                    $("#form" + id).remove();
-//                                    return false;
-//                                });
+                                //记录点击提交的次数，如果i等于集合长度就提交
+                                var i = 0;
+                                function cli() {
+                                    i++;
+                                    return i;
+                                }
+                                $("input[id^=subComment]").click(function () {
+                                    var idStr = $(this).attr("id");
+                                    var id = idStr.substring(10, idStr.length);
+                                    var type = $("#ctype" + id).val();
+                                    //获取页面上所有form 返回的是数组
+                                    var form = $("form[id^=form]");
+                                    //记录点击提交的次数
+                                    var j;
+                                    if (type == '') {
+                                        alert("请选择评价类型");
+                                        return false;
+                                    }
+                                    //console.info("数组长度:" + form.length);
+                                    //console.info("i长度:" + i)
+                                    //如果i为form的长度则是最后一个表单 就要修改订单状态为已完成
+                                    var cid = id; //商品id
+                                    var oid = ${order.oid}; //订单id
+                                    var uid = ${users.uid}; //用户id
+                                    var content = $("#text" + id).val();
+                                    if (content == ''){
+                                        alert("请填写评论内容");
+                                        return false;
+                                    }
+                                    if (type != '' && content != ''){
+                                        j = cli();
+                                    }
+                                    if (j != form.length) {
+                                        var url = "${ctx}/users/addComment";
+                                        var param = {cid:cid,uid:uid,type:type,content:content};
+                                        console.info(param);
+                                        $.post(url,param,function (data) {
+                                            if (data == 1){
+                                                alert("添加评价成功");
+                                            }
+                                            //隐藏点击提交的表单
+                                            $("#form" + id).hide();
+                                        });
+                                    } else if (j == form.length){
+                                        var url = "${ctx}/users/okOrder/" + ${order.oid};
+                                        var param = {cid:cid,uid:${users.uid},type:type,content:content};
+                                        $.post(url,param,function (data) {
+                                            if (data == 1){
+                                                alert("添加评价成功");
+                                            }
+                                            parent.location.href = "${ctx}/users/orders";
+                                        });
+                                    }
+                                    return false;
+                                });
                             })
                         </script>
                     </div>
