@@ -1,18 +1,10 @@
 package com.tts.dao;
 
-import java.util.Date;
+import com.tts.bean.*;
+import org.apache.ibatis.annotations.Param;
+
 import java.util.HashSet;
 import java.util.List;
-
-import org.apache.ibatis.annotations.Param;
-import org.springframework.stereotype.Repository;
-
-import com.tts.bean.Commodity;
-import com.tts.bean.Commodity_items;
-import com.tts.bean.Order;
-import com.tts.bean.Shopping_Cart;
-import com.tts.bean.User_Account;
-import com.tts.bean.User_address;
 
 
 /**
@@ -41,7 +33,7 @@ public interface Shopping_CartDao {
 
 
     // <!--通过商品ID查询商品信息 -->
-    List<Commodity> getCommodity(Integer cid);
+    List<Commodity> getCommodity(long cid);
 
     // 通过商品条目id 删除商品条目 表
     Integer deleteCommodity_items(long ciId);
@@ -66,6 +58,13 @@ public interface Shopping_CartDao {
 
     //查询通过Uid用户账户
     User_Account getUserAccount(@Param("uid") long uid);
+
+
+    //查询用户默认地址getUser_address
+    User_address getUser_address(long uid);
+
+    //查询订单带地址
+    Order getOrderUa(long oid);
 
     //修改账户余额
     Integer updateuaMoney(@Param("uaId") long uaId, @Param("money") double money);

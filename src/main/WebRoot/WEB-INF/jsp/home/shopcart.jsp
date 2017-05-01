@@ -62,22 +62,18 @@
 <!--悬浮搜索框-->
 
 <div class="nav white">
-    <div class="logo">
-        <img src="${ctx}/resources/images/logo.png" />
-    </div>
     <div class="logoBig">
-        <li><img src="${ctx}/resources/images/logobig.png" /></li>
+        <li><img src="${ctx}/resources/images/logobig.png"/></li>
     </div>
     <div class="search-bar pr">
         <a name="index_none_header_sysc" href="#"></a>
         <form action="${ctx}/home/query" method="get">
             <input id="searchInput" name="type" type="text" placeholder="搜索"
-                   autocomplete="off" /> <input id="ai-topsearch"
-                                                class="submit am-btn" value="搜索" index="1" type="submit" />
+                   autocomplete="off"/> <input id="ai-topsearch"
+                                               class="submit am-btn" value="搜索" index="1" type="submit"/>
         </form>
     </div>
 </div>
-<b class="line"></b>
 
 
 <!--购物车 -->
@@ -143,10 +139,7 @@
                             <div class="item-price price-promo-promo">
                                 <div class="price-content">
                                     <div class="price-line">
-                                        <em class="price-original">${ci.commodity.price}</em>
-                                    </div>
-                                    <div class="price-line">
-                                        <input class="pc" type="text" value="${ci.commodity.forSalePrice}"
+                                        <input class="pc" type="text" value="${money}"
                                                style="width:50px; text-align:center; border:none" readonly/>
                                     </div>
                                 </div>
@@ -172,7 +165,7 @@
                         </li>
                         <li class="td td-sum">
                             <div class="td-inner">
-                                <input class="wt" name="" value="${ci.commodity.forSalePrice*ci.number}" type="text"
+                                <input class="wt" name="" value="${money*ci.number}" type="text"
                                        style="width:50px; text-align:center; border:none" readonly/>
 
                             </div>

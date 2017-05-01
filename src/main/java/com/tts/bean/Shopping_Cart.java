@@ -21,6 +21,8 @@ public class Shopping_Cart implements Serializable {
     private Users users;
     //创建时间
     private Date createTime;
+    //购物车状态 -1为失效状态 0为生效状态
+    private Integer status;
 
     public Shopping_Cart() {
     }
@@ -33,6 +35,7 @@ public class Shopping_Cart implements Serializable {
                 ", commodityItems=" + commodityItems +
                 ", users=" + users +
                 ", createTime=" + createTime +
+                ", status=" + status +
                 '}';
     }
 
@@ -73,5 +76,13 @@ public class Shopping_Cart implements Serializable {
 
     public void setCreateTime(Date createTime) {
         this.createTime = createTime;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 }

@@ -221,4 +221,5 @@
 		VALUES
 		(#{uid},#{cid})
 	</insert>
+
 </mapper>

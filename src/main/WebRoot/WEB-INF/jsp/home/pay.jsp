@@ -218,7 +218,8 @@
                                                         <input class="ciId" name="" value="${ci.ciId}"
                                                                style="display:none"/>
                                                         <input class="text_box" name="" value="${ci.number}" type="text"
-                                                               style="width:50px; text-align:center; border:none"></input>
+                                                               style="width:50px; text-align:center; border:none" onkeyup="this.value=this.value.replace(/\D/g,'')"
+                                                               onafterpaste="this.value=this.value.replace(/\D/g,'')"/>
                                                         <input class="kc" value="${ci.commodity.number}" type="text"
                                                                style="display:none"/>
                                                         <input class="add am-btn" name="" type="button" value="+"/>
@@ -435,7 +436,7 @@
     <div class="am-u-md-12">
 
         <div class="am-form-group">
-            <form id="addressForm" action="${ctx}/addAddresso" method="post" class="am-form am-form-horizontal">
+            <form id="addressForm" action="${ctx}/shop/addAddresso" method="post" class="am-form am-form-horizontal">
                 <label for="user-name" class="am-form-label">收货人</label>
                 <div class="am-form-content">
                     <input type="text" required name="uaname" id="user-name" placeholder="收货人">

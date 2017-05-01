@@ -1,9 +1,6 @@
 package com.tts.service.impl;
 
-import com.tts.bean.Commodity_items;
-import com.tts.bean.Order;
-import com.tts.bean.Shopping_Cart;
-import com.tts.bean.User_Account;
+import com.tts.bean.*;
 import com.tts.dao.Shopping_CartDao;
 import com.tts.service.Shopping_CartService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,13 +14,13 @@ import java.util.HashSet;
 public class Shopping_CartServiceImpl implements Shopping_CartService {
 
     @Autowired
-    private Shopping_CartDao shopping_CartDao;
+    private Shopping_CartDao shopping_cartDao;
 
     // 查询 购物车 表 数据
     @Override
     public Shopping_Cart getShopping_Cart(long scId) {
-        Shopping_Cart shopping_Carts = shopping_CartDao.getShopping_CartByscId(scId);
-        HashSet<Commodity_items> commodity_items = shopping_CartDao.getCommodity_items(scId);
+        Shopping_Cart shopping_Carts = shopping_cartDao.getShopping_CartByscId(scId);
+        HashSet<Commodity_items> commodity_items = shopping_cartDao.getCommodity_items(scId);
         shopping_Carts.setCommodityItems(commodity_items);
         return shopping_Carts;
     }
@@ -32,11 +29,11 @@ public class Shopping_CartServiceImpl implements Shopping_CartService {
     @Override
     public Shopping_Cart addShopping_Cart(long uid) {
 
-        if (shopping_CartDao.getShopping_Cart(uid) == null) {
+        if (shopping_cartDao.getShopping_Cart(uid) == null) {
 
-            Integer add = shopping_CartDao.addShopping_Cart(uid);
+            Integer add = shopping_cartDao.addShopping_Cart(uid);
         }
-        return shopping_CartDao.getShopping_Cart(uid);
+        return shopping_cartDao.getShopping_Cart(uid);
 
     }
 
@@ -48,39 +45,39 @@ public class Shopping_CartServiceImpl implements Shopping_CartService {
         Date now = new Date();
         String hehe = dateFormat.format(now);
 
-        Integer add = shopping_CartDao.addShopping_Cart(uid);
+        Integer add = shopping_cartDao.addShopping_Cart(uid);
 
-        return shopping_CartDao.getShopping_CartSp(uid, hehe);
+        return shopping_cartDao.getShopping_CartSp(uid, hehe);
     }
 
     // 通过商品条目Id 删除商品条目表的商品
     @Override
     public Integer deleteCommodity_items(long ciId) {
 
-        return shopping_CartDao.deleteCommodity_items(ciId);
+        return shopping_cartDao.deleteCommodity_items(ciId);
     }
 
-    // 添加商品到商品条目表
-    @Override
-    public Integer addCommodity_items(Integer number, long cid, long ct_id, long ccid, long scId) {
+    // 添加商品到商品条目表 num ct cc c sc
 
-        return shopping_CartDao.addCommodity_items(ct_id, ccid, scId, number, cid);
+    @Override
+    public Integer addCommodity_items(long cid, long ct_id, long ccid, Integer number, long scId) {
+        return shopping_cartDao.addCommodity_items(cid, ct_id, ccid, number, scId);
     }
 
     // 添加订单
     @Override
     public Integer addOrder(Order order) {
 
-        return shopping_CartDao.addOrder(order);
+        return shopping_cartDao.addOrder(order);
     }
 
     // 查询订单
     @Override
     public Order getOders(long oid) {
-        Order order = shopping_CartDao.getOrder(oid);
+        Order order = shopping_cartDao.getOrder(oid);
         System.out.println(order);
         long scId = order.getShoppingCart().getScId();
-        Shopping_Cart shoppingCart = shopping_CartDao.getShopping_CartByscId(scId);
+        Shopping_Cart shoppingCart = shopping_cartDao.getShopping_CartByscId(scId);
 
         order.setShoppingCart(shoppingCart);
         return order;
@@ -90,28 +87,28 @@ public class Shopping_CartServiceImpl implements Shopping_CartService {
     @Override
     public HashSet<Commodity_items> getCommodity_items(long scId) {
 
-        return shopping_CartDao.getCommodity_items(scId);
+        return shopping_cartDao.getCommodity_items(scId);
     }
 
     // 修改订单表订单状态
     @Override
     public Integer updateOrder(Order order, long uid) {
-        User_Account userAccount = shopping_CartDao.getUserAccount(uid);
+        User_Account userAccount = shopping_cartDao.getUserAccount(uid);
         if (userAccount.getUaMoney() < order.getMoney()) {
             order.setStatus(-1);
-            return shopping_CartDao.updateOrder(order);
+            return shopping_cartDao.updateOrder(order);
         }
-        shopping_CartDao.updateuaMoney(userAccount.getUaId(), order.getMoney());
-        shopping_CartDao.updateDcst(order.getDiscountCoupon().getDcId());
-        shopping_CartDao.updateUrpst(order.getUserRedPackage().getUrpId());
-        return shopping_CartDao.updateOrder(order);
+        shopping_cartDao.updateuaMoney(userAccount.getUaId(), order.getMoney());
+        shopping_cartDao.updateDcst(order.getDiscountCoupon().getDcId());
+        shopping_cartDao.updateUrpst(order.getUserRedPackage().getUrpId());
+        return shopping_cartDao.updateOrder(order);
     }
 
     // 通过时间和用户ID获取刚添加的订单
     @Override
     public long getOid(long uid, String now) {
 
-        return shopping_CartDao.getOid(uid, now);
+        return shopping_cartDao.getOid(uid, now);
     }
 
     //修改商品条目表的商品数量
@@ -120,7 +117,7 @@ public class Shopping_CartServiceImpl implements Shopping_CartService {
 
         long ciId = commodity_items.getCiId();
         Integer number = commodity_items.getNumber();
-        Integer ups = shopping_CartDao.updateCommodity_items(ciId, number);
+        Integer ups = shopping_cartDao.updateCommodity_items(ciId, number);
 
         return ups;
     }
@@ -130,21 +127,40 @@ public class Shopping_CartServiceImpl implements Shopping_CartService {
     @Override
     public Integer updateShopping_CartUid(long scId) {
 
-        return shopping_CartDao.updateShopping_CartUid(scId);
+        return shopping_cartDao.updateShopping_CartUid(scId);
     }
 
     //添加商品到收藏夹
     @Override
     public Integer addUser_Collect(long cid, long uid) {
 
-        return shopping_CartDao.addUser_Collect(cid, uid);
+        return shopping_cartDao.addUser_Collect(cid, uid);
     }
 
     //立即购买添加订单
     @Override
     public Integer addOrderSp(long scId, long uid) {
 
-        return shopping_CartDao.addOrderSp(scId, uid);
+        return shopping_cartDao.addOrderSp(scId, uid);
+    }
+
+    //查询用户默认的地址
+    @Override
+    public User_address getUser_address(long uid) {
+        // TODO Auto-generated method stub
+        return shopping_cartDao.getUser_address(uid);
+    }
+
+    //查询订单 带地址
+    @Override
+    public Order getOder(long oid) {
+        Order order = shopping_cartDao.getOrderUa(oid);
+        System.out.println(order);
+        long scId = order.getShoppingCart().getScId();
+        Shopping_Cart shoppingCart = shopping_cartDao.getShopping_CartByscId(scId);
+
+        order.setShoppingCart(shoppingCart);
+        return order;
     }
 
 

@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.tts.dao.ShoppingDao">
+
+    <!-- 查找用户所有状态为0的购物车最大id -->
+    <select id="queryMaxSCIdByUid" parameterType="long" resultType="long">
+        SELECT max(sc_id)
+        FROM shopping_cart
+        WHERE u_id = #{uid}
+        AND status = 0
+    </select>
+
+    <!-- 根据购物车id查找商品条目 usersService已实现 -->
+
+    <!-- 查询用户所有状态为0的购物车 -->
+    <select id="queryShoppingCartsByUid" parameterType="long" resultType="Shopping_Cart">
+        SELECT
+        sc.sc_id,
+        sc.u_id "users.uid",
+        sc.create_time,
+        sc.status
+        FROM shopping_cart sc
+        WHERE sc.u_id = #{uid}
+        AND sc.status = 0
+    </select>
+
+    <!-- 根据用户id新建购物车 默认可用状态 -->
+    <insert id="addShopCartByUid" parameterType="long">
+        INSERT INTO shopping_cart
+        (u_id,status)
+        VALUES
+        (#{uid},0)
+    </insert>
+
+    <!-- 根据购物车id添加商品条目 参数绑定 -->
+    <insert id="addItemsBySCId" parameterType="long">
+        INSERT INTO commodity_items
+        (c_id,ct_id,cc_id,number,sc_id)
+        VALUES
+        (#{cid},#{ctid},#{ccid},#{number},#{scid})
+    </insert>
+
+    <!-- 根据购物车id、总金额、优惠券id(判断)、红包id(判断)、地址id、用户id新建订单 -->
+    <insert id="addOneOrder">
+        INSERT INTO orders
+        (sc_id,money,dc_id,urp_id,ua_id,u_id)
+        VALUES
+        (#{scid},#{money},#{dcid},#{urpid},#{uaid},#{uid})
+    </insert>
+
+    <!-- 创建订单之后根据购物车id将购物车设置为不可用状态 -->
+    <update id="updateSCStatusBySCid" parameterType="long">
+        UPDATE shopping_cart
+        SET status = -1
+        WHERE sc_id = #{scid}
+    </update>
+
+    <!-- 根据用户id查找订单id最大值 -->
+    <select id="getMaxOIdByUid" parameterType="long" resultType="long">
+        SELECT max(o_id)
+        FROM orders
+        WHERE u_id = #{uid}
+    </select>
+
+    <!-- 更新商品条目中商品id、商品套餐、商品类型相同的商品的数量 -->
+    <update id="updateComNumber">
+        UPDATE commodity_items
+        SET number = number + #{number}
+        WHERE c_id = #{cid}
+    </update>
+
+    <!-- 根据用户id查找用户可用红包 -->
+    <select id="queryRedPackageByUid" parameterType="long" resultType="User_Red_package">
+        SELECT
+        urp_id,
+        money,
+        u_id,
+        status
+        FROM
+        User_Red_package
+        <where>
+            u_id = #{uid}
+        </where>
+        AND status = 0
+    </select>
+
+    <!-- 根据用户id查找用户可用优惠券 -->
+    <select id="queryDiscountCouponByUid" parameterType="long" resultType="Discount_coupon">
+        SELECT
+        cdc.dc_id,
+        cdc.condition,
+        cdc.reduce,
+        cdc.u_id,
+        cdc.status
+        FROM
+        Commodity_Discount_coupon cdc
+        <where>
+            cdc.u_id = #{uid}
+        </where>
+        AND status = 0
+    </select>
+
+    <!-- 比如订单详情、支付、取消、用户地址相关等方法全部在usersService里已经实现 -->
+
+    <!-- 根据商品条目id删除购物车中的商品条目 -->
+
+    <!-- 批量删除商品条目 -->
+
+    <!-- 将商品加入收藏 -->
+
+    <!-- 批量加入收藏 -->
+    
+</mapper>

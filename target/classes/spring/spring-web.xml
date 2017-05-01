@@ -16,6 +16,7 @@
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/users/*"/>
+            <mvc:mapping path="/shopping/*"/>
             <bean class="com.tts.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

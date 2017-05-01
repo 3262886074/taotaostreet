@@ -79,8 +79,9 @@
                         <div class="menu-hd MyShangcheng"><a href="${ctx}/users/allInfo" target="_top"><i
                                 class="am-icon-user am-icon-fw"></i>个人中心</a></div>
                     </div>
+                    <%-- ${ctx}/shop/shopping_Cart --%>
                     <div class="topMessage mini-cart">
-                        <div class="menu-hd"><a id="mc-menu-hd" href="${ctx}/shop/shopping_Cart" target="_top"><i
+                        <div class="menu-hd"><a id="mc-menu-hd" href="${ctx}/shopping/shoppingCart" target="_top"><i
                                 class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div>
                     </div>
                     <div class="topMessage favorite">
@@ -119,9 +120,9 @@
                             </div>
                             <hr/>
                             <ul class="am-avg-sm-1 am-avg-md-3 am-thumbnails">
-                                <c:forEach items="${userAddresses}" var="address">
+                                <c:forEach items="${userAddresses}" var="address" varStatus="i">
                                     <c:if test="${address.status != -1}">
-                                        <li class="user-addresslist defaultAddr">
+                                        <li class="user-addresslist <c:if test="${i.count == 1}">defaultAddr</c:if>">
                                             <c:if test="${address.status == 1}">
                                                 <span class="new-option-r"><i
                                                         class="am-icon-check-circle"></i>默认地址</span>
