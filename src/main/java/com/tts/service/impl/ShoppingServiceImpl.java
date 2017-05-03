@@ -23,7 +23,7 @@ public class ShoppingServiceImpl implements ShoppingService {
     private UsersDao usersDao;
 
     /**
-     * TODO 单纯的新建购物车
+     * 单纯的新建购物车
      */
     @Override
     public void addShopCart(long uid) {
@@ -48,6 +48,30 @@ public class ShoppingServiceImpl implements ShoppingService {
     }
 
     /**
+     * 删除购物车中的商品
+     */
+    @Override
+    public String deleteByCid(long cid, long ciid) {
+        if (shoppingDao.deleteByCid(cid, ciid) > 0) {
+            return StringUtils.success;
+        } else {
+            return StringUtils.fail;
+        }
+    }
+
+    /**
+     * 将购物车中的商品添加到购物车
+     */
+    @Override
+    public String addOneCollect(long cid, long uid) {
+        if (shoppingDao.addOneCollect(cid, uid) > 0) {
+            return StringUtils.success;
+        } else {
+            return StringUtils.fail;
+        }
+    }
+
+    /**
      * 往购物车中添加商品
      */
     @Transactional
@@ -56,11 +80,15 @@ public class ShoppingServiceImpl implements ShoppingService {
         //如果某个商品的id、套餐和类型都一样 则相同的商品数量相加
         Set<Commodity_items> commodityItems = usersDao.queryItemsByScid(scid);
         for (Commodity_items items : commodityItems) {
-            if (items.getCommodityCombo().getCcid() == ccid &&
-                    items.getCommodityType().getCtid() == ctid &&
-                    items.getCommodity().getCid() == cid) {
-                shoppingDao.updateComNumber(number, cid);
-                return StringUtils.success;
+            if (items.getCommodity().getCid() == cid &&
+                    items.getCommodityCombo().getCcid() == ccid &&
+                    items.getCommodityType().getCtid() == ctid) {
+                Integer integer = shoppingDao.updateComNumber(number, items.getCiId());
+                if (integer > 0) {
+                    return StringUtils.success;
+                } else {
+                    return StringUtils.fail;
+                }
             }
         }
         Integer integer = shoppingDao.addItemsBySCId(cid, ctid, ccid, number, scid);

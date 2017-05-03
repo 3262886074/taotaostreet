@@ -13,10 +13,7 @@ import com.tts.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import java.util.Set;
@@ -78,6 +75,27 @@ public class MyShoppingController {
         String status = shoppingService.addItemsBySCId(cid, ctid, ccid, number, scid);
         return status;
     }
+
+    ///**
+    // * 删除购物车商品
+    // */
+    //@RequestMapping(value = "/deleteOneComm/{ciid}/{cid}", method = RequestMethod.GET)
+    //public String deleteOneComm(@PathVariable("cid") long cid,
+    //                            @PathVariable("ciid") long ciid) {
+    //    shoppingService.deleteByCid(ciid, cid);
+    //    return "redirect:shoppingCart";
+    //}
+    //
+    ///**
+    // * 异步添加购物车中商品到收藏夹
+    // */
+    //@RequestMapping(value = "/addToCollect/{cid}", method = RequestMethod.GET)
+    //public String addToCollect(@PathVariable("cid") long cid,
+    //                           HttpSession session) {
+    //    Users users = (Users) session.getAttribute("users");
+    //    shoppingService.addOneCollect(cid, users.getUid());
+    //    return "redirect:shoppingCart";
+    //}
 
     /**
      * 跳转到结算页面

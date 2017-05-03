@@ -30,4 +30,8 @@ public interface ShoppingService {
 
     Set<Discount_coupon> queryDiscountCouponByUid(long uid);
 
+    String deleteByCid(long cid, long ciid);
+
+    String addOneCollect(long cid, long uid);
+
 }

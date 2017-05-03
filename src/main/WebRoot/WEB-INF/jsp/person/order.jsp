@@ -199,14 +199,14 @@
                                                         <ul class="item-list">
                                                             <li class="td td-item">
                                                                 <div class="item-pic">
-                                                                    <a href="#" class="J_MakePoint">
+                                                                    <a href="${ctx }/toShowOne?cid=${item.commodity.cid}" class="J_MakePoint">
                                                                         <img src="${item.commodity.commodityPics.cpImg}"
                                                                              class="itempic J_ItemImg">
                                                                     </a>
                                                                 </div>
                                                                 <div class="item-info">
                                                                     <div class="item-basic-info">
-                                                                        <a href="#">
+                                                                        <a href="${ctx }/toShowOne?cid=${item.commodity.cid}">
                                                                             <p>${item.commodity.cname}</p>
                                                                             <p class="info-little">
                                                                                 类型：${item.commodityType.typeName}
@@ -386,14 +386,14 @@
                                                             <ul class="item-list">
                                                                 <li class="td td-item">
                                                                     <div class="item-pic">
-                                                                        <a href="#" class="J_MakePoint">
+                                                                        <a href="${ctx }/toShowOne?cid=${item.commodity.cid}" class="J_MakePoint">
                                                                             <img src="${item.commodity.commodityPics.cpImg}"
                                                                                  class="itempic J_ItemImg">
                                                                         </a>
                                                                     </div>
                                                                     <div class="item-info">
                                                                         <div class="item-basic-info">
-                                                                            <a href="#">
+                                                                            <a href="${ctx }/toShowOne?cid=${item.commodity.cid}">
                                                                                 <p>${item.commodity.cname}</p>
                                                                                 <p class="info-little">
                                                                                     类型：${item.commodityType.typeName}
@@ -496,14 +496,14 @@
                                                             <ul class="item-list">
                                                                 <li class="td td-item">
                                                                     <div class="item-pic">
-                                                                        <a href="#" class="J_MakePoint">
+                                                                        <a href="${ctx }/toShowOne?cid=${item.commodity.cid}" class="J_MakePoint">
                                                                             <img src="${item.commodity.commodityPics.cpImg}"
                                                                                  class="itempic J_ItemImg">
                                                                         </a>
                                                                     </div>
                                                                     <div class="item-info">
                                                                         <div class="item-basic-info">
-                                                                            <a href="#">
+                                                                            <a href="${ctx }/toShowOne?cid=${item.commodity.cid}">
                                                                                 <p>${item.commodity.cname}</p>
                                                                                 <p class="info-little">
                                                                                     类型：${item.commodityType.typeName}
@@ -611,14 +611,14 @@
                                                             <ul class="item-list">
                                                                 <li class="td td-item">
                                                                     <div class="item-pic">
-                                                                        <a href="#" class="J_MakePoint">
+                                                                        <a href="${ctx }/toShowOne?cid=${item.commodity.cid}" class="J_MakePoint">
                                                                             <img src="${item.commodity.commodityPics.cpImg}"
                                                                                  class="itempic J_ItemImg">
                                                                         </a>
                                                                     </div>
                                                                     <div class="item-info">
                                                                         <div class="item-basic-info">
-                                                                            <a href="#">
+                                                                            <a href="${ctx }/toShowOne?cid=${item.commodity.cid}">
                                                                                 <p>${item.commodity.cname}</p>
                                                                                 <p class="info-little">
                                                                                     类型：${item.commodityType.typeName}
@@ -726,14 +726,14 @@
                                                             <ul class="item-list">
                                                                 <li class="td td-item">
                                                                     <div class="item-pic">
-                                                                        <a href="#" class="J_MakePoint">
+                                                                        <a href="${ctx }/toShowOne?cid=${item.commodity.cid}" class="J_MakePoint">
                                                                             <img src="${item.commodity.commodityPics.cpImg}"
                                                                                  class="itempic J_ItemImg">
                                                                         </a>
                                                                     </div>
                                                                     <div class="item-info">
                                                                         <div class="item-basic-info">
-                                                                            <a href="#">
+                                                                            <a href="${ctx }/toShowOne?cid=${item.commodity.cid}">
                                                                                 <p>${item.commodity.cname}</p>
                                                                                 <p class="info-little">
                                                                                     类型：${item.commodityType.typeName}

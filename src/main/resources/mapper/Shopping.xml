@@ -69,7 +69,7 @@
     <update id="updateComNumber">
         UPDATE commodity_items
         SET number = number + #{number}
-        WHERE c_id = #{cid}
+        WHERE ci_id = #{ciid}
     </update>
 
     <!-- 根据用户id查找用户可用红包 -->
@@ -106,11 +106,18 @@
     <!-- 比如订单详情、支付、取消、用户地址相关等方法全部在usersService里已经实现 -->
 
     <!-- 根据商品条目id删除购物车中的商品条目 -->
+    <delete id="deleteByCid">
+        DELETE FROM commodity_items
+        WHERE c_id = #{cid}
+        AND ci_id = #{ciid}
+    </delete>
 
-    <!-- 批量删除商品条目 -->
+    <!-- 将商品加入收藏 需要绑定cid 和 uid -->
+    <insert id="addOneCollect">
+        INSERT INTO user_collect
+        (u_id,c_id)
+        VALUES
+        (#{uid},#{cid})
+    </insert>
 
-    <!-- 将商品加入收藏 -->
-
-    <!-- 批量加入收藏 -->
-    
 </mapper>

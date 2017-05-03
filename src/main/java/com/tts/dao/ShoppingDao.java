@@ -21,7 +21,7 @@ public interface ShoppingDao {
     Integer addShopCartByUid(long uid);
 
     Integer updateComNumber(@Param("number") Integer number,
-                            @Param("cid") long cid);
+                            @Param("ciid") long ciid);
 
     Integer updateSCStatusBySCid(long scid);
 
@@ -41,4 +41,8 @@ public interface ShoppingDao {
                         @Param("urpid") long urpid,
                         @Param("uaid") long uaid,
                         @Param("uid") long uid);
+
+    Integer deleteByCid(@Param("cid") long cid, @Param("ciid") long ciid);
+
+    Integer addOneCollect(@Param("cid") long cid, @Param("uid") long uid);
 }

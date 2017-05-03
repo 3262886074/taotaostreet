@@ -110,20 +110,20 @@
                         <%-- 购物车商品 --%>
                         <c:forEach items="${commodityItems}" var="items">
                         <ul class="item-content clearfix">
-                        <li class="td td-chk">
-                            <div class="cart-checkbox ">
-                                <input class="check" id="J_CheckBox_170037950254" name="id" value="" type="checkbox">
-                                <label for="J_CheckBox_170037950254"></label>
-                            </div>
-                        </li>
+                        <%--<li class="td td-chk">--%>
+                            <%--<div class="cart-checkbox ">--%>
+                                <%--<input class="check" id="J_CheckBox_170037950254" name="id" value="" type="checkbox">--%>
+                                <%--<label for="J_CheckBox_170037950254"></label>--%>
+                            <%--</div>--%>
+                        <%--</li>--%>
                         <li class="td td-item">
                             <div class="item-pic">
-                                <a href="#" target="_blank" data-title="" class="J_MakePoint" data-point="tbcart.8.12">
+                                <a href="${ctx }/toShowOne?cid=${items.commodity.cid}" target="_blank" data-title="" class="J_MakePoint" data-point="tbcart.8.12">
                                     <img src="${items.commodity.commodityPics.cpImg}" class="itempic J_ItemImg" width="100%"></a>
                             </div>
                             <div class="item-info">
                                 <div class="item-basic-info">
-                                    <a href="#" target="_blank" title="" class="item-title J_MakePoint"
+                                    <a href="${ctx }/toShowOne?cid=${items.commodity.cid}" target="_blank" title="" class="item-title J_MakePoint"
                                        data-point="tbcart.8.11">${items.commodity.cname}</a>
                                 </div>
                             </div>
@@ -191,8 +191,8 @@
                         </li>
                         <li class="td td-op">
                             <div class="td-inner">
-                                <a title="移入收藏夹" class="btn-fav" href="">移入收藏夹</a>
-                                <a href="" data-point-url="#" class="delete">删除</a>
+                                <%--<a title="移入收藏夹" class="btn-fav" href="${ctx}/shopping/addToCollect/${items.commodity.cid}">移入收藏夹</a>--%>
+                                <%--<a href="${ctx}/shopping/deleteOneComm/${items.ciId}/${items.commodity.cid}" data-point-url="#" class="delete">删除</a>--%>
                             </div>
                         </li>
                     </ul>
@@ -210,17 +210,17 @@
     <div class="clear"></div>
 
     <div class="float-bar-wrapper">
-        <div id="J_SelectAll2" class="select-all J_SelectAll">
-            <div class="cart-checkbox">
-                <input class="check-all check" id="J_SelectAllCbx2" name="select-all" value="true" type="checkbox">
-                <label for="J_SelectAllCbx2"></label>
-            </div>
-            <span>全选</span>
-        </div>
-        <div class="operations">
-            <a href="#" hidefocus="true" class="deleteAll">删除</a>
-            <a href="#" hidefocus="true" class="J_BatchFav">移入收藏夹</a>
-        </div>
+        <%--<div id="J_SelectAll2" class="select-all J_SelectAll">--%>
+            <%--<div class="cart-checkbox">--%>
+                <%--<input class="check-all check" id="J_SelectAllCbx2" name="select-all" value="true" type="checkbox">--%>
+                <%--<label for="J_SelectAllCbx2"></label>--%>
+            <%--</div>--%>
+            <%--<span>全选</span>--%>
+        <%--</div>--%>
+        <%--<div class="operations">--%>
+            <%--<a href="#" hidefocus="true" class="deleteAll">删除</a>--%>
+            <%--<a href="#" hidefocus="true" class="J_BatchFav">移入收藏夹</a>--%>
+        <%--</div>--%>
         <div class="float-bar-right">
             <div class="amount-sum">
                 <span class="txt">已选商品</span>

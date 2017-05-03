@@ -159,14 +159,14 @@
                                     <ul class="item-content clearfix">
                                         <li class="td td-item">
                                             <div class="item-pic">
-                                                <a href="#" target="_blank" data-title="" class="J_MakePoint"
+                                                <a href="${ctx }/toShowOne?cid=${items.commodity.cid}" target="_blank" data-title="" class="J_MakePoint"
                                                    data-point="tbcart.8.12">
                                                     <img src="${items.commodity.commodityPics.cpImg}"
                                                          class="itempic J_ItemImg" width="100%"></a>
                                             </div>
                                             <div class="item-info">
                                                 <div class="item-basic-info">
-                                                    <a href="#" target="_blank" title="" class="item-title J_MakePoint"
+                                                    <a href="${ctx }/toShowOne?cid=${items.commodity.cid}" target="_blank" title="" class="item-title J_MakePoint"
                                                        data-point="tbcart.8.11">${items.commodity.cname}</a>
                                                 </div>
                                             </div>
