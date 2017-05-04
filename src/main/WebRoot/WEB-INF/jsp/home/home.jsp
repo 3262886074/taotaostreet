@@ -67,8 +67,8 @@
 			<div class="search-bar pr">
 				<a name="index_none_header_sysc" href="#"></a>
 				<form action="${ctx}/home/query" method="get">
-					<input id="searchInput" name="type" type="text" placeholder="搜索"
-						autocomplete="off" /> <input id="ai-topsearch"
+					<input id="searchInput" name="parameter" type="text"
+						placeholder="搜索" autocomplete="off" /> <input id="ai-topsearch"
 						class="submit am-btn" value="搜索" index="1" type="submit" />
 				</form>
 			</div>
@@ -100,10 +100,6 @@
 			<div class="nav-cont">
 				<ul>
 					<li class="index"><a href="${ctx}/">首页</a></li>
-					<li class="qc"><a href="#">闪购</a></li>
-					<li class="qc"><a href="#">限时抢</a></li>
-					<li class="qc"><a href="#">团购</a></li>
-					<li class="qc last"><a href="#">大包装</a></li>
 				</ul>
 				<div class="nav-extra">
 					<i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
@@ -147,8 +143,7 @@
 																				var="classifyThree">
 																				<dd>
 																					<a title="${classifyThree.cThreeName}"
-																						href="${ctx}/home/query?type=${classifyThree.cThreeName}"
-																						onclick="queryType(this.title);return false;"><span>${classifyThree.cThreeName}</span></a>
+																						href="${ctx}/home/query?parameter=${classifyThree.cThreeName}"><span>${classifyThree.cThreeName}</span></a>
 																				</dd>
 																			</c:forEach>
 																		</dl>
@@ -186,7 +181,7 @@
 																				var="classifyThree">
 																				<dd>
 																					<a title="${classifyThree.cThreeName}"
-																						href="${ctx}/home/query?type=${classifyThree.cThreeName}"
+																						href="${ctx}/home/query?parameter=${classifyThree.cThreeName}"
 																						onclick="queryType(this.title);return false;"><span>${classifyThree.cThreeName}</span></a>
 																				</dd>
 																			</c:forEach>
@@ -227,7 +222,7 @@
 																				var="classifyThree">
 																				<dd>
 																					<a title="${classifyThree.cThreeName}"
-																						href="${ctx}/home/query?type=${classifyThree.cThreeName}"
+																						href="${ctx}/home/query?parameter=${classifyThree.cThreeName}"
 																						onclick="queryType(this.title);return false;"><span>${classifyThree.cThreeName}</span></a>
 																				</dd>
 																			</c:forEach>
@@ -288,7 +283,8 @@
 			<!--小导航 -->
 			<div class="am-g am-g-fixed smallnav">
 				<div class="am-u-sm-3">
-					<a href="sort.html"><img src="${ctx}/resources/images/navsmall.jpg" />
+					<a href="sort.html"><img
+						src="${ctx}/resources/images/navsmall.jpg" />
 						<div class="title">商品分类</div> </a>
 				</div>
 				<div class="am-u-sm-3">
@@ -445,7 +441,16 @@
 								<div class="am-u-sm-7 am-u-md-4 text-two sug">
 									<div class="outer-con ">
 										<div class="title shenglue">${commodity.cname }</div>
-										<div class="sub-title ">¥${commodity.forSalePrice }</div>
+										<div class="sub-title ">
+											<c:choose>
+												<c:when test="${commodity.price==0}">
+													¥${commodity.forSalePrice }
+												</c:when>
+												<c:otherwise>
+													¥${commodity.price }
+												</c:otherwise>
+											</c:choose>
+										</div>
 										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
 									<a href="${ctx }/toShowOne?cid=${commodity.cid }"><img
@@ -456,7 +461,16 @@
 								<div class="am-u-sm-7 am-u-md-4 text-two">
 									<div class="outer-con ">
 										<div class="title shenglue">${commodity.cname }</div>
-										<div class="sub-title ">¥${commodity.forSalePrice }</div>
+										<div class="sub-title ">
+											<c:choose>
+												<c:when test="${commodity.price==0}">
+													¥${commodity.forSalePrice }
+												</c:when>
+												<c:otherwise>
+													¥${commodity.price }
+												</c:otherwise>
+											</c:choose>
+										</div>
 										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
 									<a href="${ctx }/toShowOne?cid=${commodity.cid }"><img
@@ -467,7 +481,16 @@
 								<div class="am-u-sm-3 am-u-md-2 text-three big">
 									<div class="outer-con ">
 										<div class="title shenglue">${commodity.cname }</div>
-										<div class="sub-title ">¥${commodity.forSalePrice }</div>
+										<div class="sub-title ">
+											<c:choose>
+												<c:when test="${commodity.price==0}">
+													¥${commodity.forSalePrice }
+												</c:when>
+												<c:otherwise>
+													¥${commodity.price }
+												</c:otherwise>
+											</c:choose>
+										</div>
 										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
 									<a href="${ctx }/toShowOne?cid=${commodity.cid }"><img
@@ -478,7 +501,16 @@
 								<div class="am-u-sm-3 am-u-md-2 text-three sug">
 									<div class="outer-con ">
 										<div class="title shenglue">${commodity.cname }</div>
-										<div class="sub-title ">¥${commodity.forSalePrice }</div>
+										<div class="sub-title ">
+											<c:choose>
+												<c:when test="${commodity.price==0}">
+													¥${commodity.forSalePrice }
+												</c:when>
+												<c:otherwise>
+													¥${commodity.price }
+												</c:otherwise>
+											</c:choose>
+										</div>
 										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
 									<a href="${ctx }/toShowOne?cid=${commodity.cid }"><img
@@ -489,7 +521,16 @@
 								<div class="am-u-sm-3 am-u-md-2 text-three ">
 									<div class="outer-con ">
 										<div class="title shenglue">${commodity.cname }</div>
-										<div class="sub-title ">¥${commodity.forSalePrice }</div>
+										<div class="sub-title ">
+											<c:choose>
+												<c:when test="${commodity.price==0}">
+													¥${commodity.forSalePrice }
+												</c:when>
+												<c:otherwise>
+													¥${commodity.price }
+												</c:otherwise>
+											</c:choose>
+										</div>
 										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
 									<a href="${ctx }/toShowOne?cid=${commodity.cid }"><img
@@ -500,7 +541,16 @@
 								<div class="am-u-sm-3 am-u-md-2 text-three last big ">
 									<div class="outer-con ">
 										<div class="title shenglue">${commodity.cname }</div>
-										<div class="sub-title ">¥${commodity.forSalePrice }</div>
+										<div class="sub-title ">
+											<c:choose>
+												<c:when test="${commodity.price==0}">
+													¥${commodity.forSalePrice }
+												</c:when>
+												<c:otherwise>
+													¥${commodity.price }
+												</c:otherwise>
+											</c:choose>
+										</div>
 										<i class="am-icon-shopping-basket am-icon-md  seprate"></i>
 									</div>
 									<a href="${ctx }/toShowOne?cid=${commodity.cid }"><img
@@ -594,6 +644,10 @@
 					<a href="${ctx}/shopping/shoppingCart "> <span class="message "></span>
 					</a>
 					<p>购物车</p>
+<<<<<<< HEAD
+=======
+					<!-- <p class="cart_num ">0</p> -->
+>>>>>>> yls-stage01
 				</div>
 				<div id="asset " class="item ">
 					<a href="${ctx}/users/allInfo "> <span class="view "></span>
@@ -602,6 +656,7 @@
 						我的资产 <i class="icon_arrow_right_black "></i>
 					</div>
 				</div>
+<<<<<<< HEAD
 				<div id="brand " class="item ">
 					<a href="${ctx}/users/allCollects"> <span class="wdsc "><img
 							src="${ctx}/resources/images/wdsc.png " /></span>
@@ -610,6 +665,23 @@
 						我的收藏 <i class="icon_arrow_right_black "></i>
 					</div>
 				</div>
+=======
+
+
+				<div class="quick_toggle ">
+					<li class="qtitem ">
+						<!--二维码 -->
+						<li class="qtitem "><a href="#none "><span
+								class="mpbtn_qrcode "></span></a>
+							<div class="mp_qrcode " style="display: none;">
+								<img src="${ctx}/resources/images/weixin_code_145.png " /><i
+									class="icon_arrow_white "></i>
+							</div></li>
+						<li class="qtitem "><a href="#top " class="return_top "><span
+								class="top "></span></a></li>
+				</div>
+
+>>>>>>> yls-stage01
 				<!--回到顶部 -->
 				<div id="quick_links_pop " class="quick_links_pop hide "></div>
 			</div>

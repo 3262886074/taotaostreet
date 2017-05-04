@@ -20,6 +20,8 @@ public class Commodity implements Serializable {
 	private double forSalePrice; // 打折价
 	private Integer number; // 库存
 	private String details; // 产品参数
+	private long bid;// 品牌
+	private long sid;// 产地
 	// 一对多 套餐
 	private Set<Commodity_Combo> combos = new HashSet<>();
 	// 一对多 类型
@@ -33,19 +35,13 @@ public class Commodity implements Serializable {
 	// 商品销量 一对一
 	private Commodity_Sell commoditySell;
 
-	public String getDetails() {
-		return details;
-	}
-
-	public void setDetails(String details) {
-		this.details = details;
-	}
-
-	public Commodity() {
-	}
-
-	public static long getSerialVersionUID() {
-		return serialVersionUID;
+	@Override
+	public String toString() {
+		return "Commodity [cid=" + cid + ", cname=" + cname + ", price=" + price + ", postage=" + postage
+				+ ", forSalePrice=" + forSalePrice + ", number=" + number + ", details=" + details + ", bid=" + bid
+				+ ", sid=" + sid + ", combos=" + combos + ", commodityTypes=" + commodityTypes + ", comments="
+				+ comments + ", commodityPics=" + commodityPics + ", commodityCategories=" + commodityCategories
+				+ ", commoditySell=" + commoditySell + "]";
 	}
 
 	public long getCid() {
@@ -96,6 +92,30 @@ public class Commodity implements Serializable {
 		this.number = number;
 	}
 
+	public String getDetails() {
+		return details;
+	}
+
+	public void setDetails(String details) {
+		this.details = details;
+	}
+
+	public long getBid() {
+		return bid;
+	}
+
+	public void setBid(long bid) {
+		this.bid = bid;
+	}
+
+	public long getSid() {
+		return sid;
+	}
+
+	public void setSid(long sid) {
+		this.sid = sid;
+	}
+
 	public Set<Commodity_Combo> getCombos() {
 		return combos;
 	}
@@ -144,13 +164,4 @@ public class Commodity implements Serializable {
 		this.commoditySell = commoditySell;
 	}
 
-	@Override
-	public String toString() {
-		return "Commodity [cid=" + cid + ", cname=" + cname + ", price=" + price + ", postage=" + postage
-				+ ", forSalePrice=" + forSalePrice + ", number=" + number + ", details=" + details + ", combos="
-				+ combos + ", commodityTypes=" + commodityTypes + ", comments=" + comments + ", commodityPics="
-				+ commodityPics + ", commodityCategories=" + commodityCategories + ", commoditySell=" + commoditySell
-				+ "]";
-	}
-	
 }
