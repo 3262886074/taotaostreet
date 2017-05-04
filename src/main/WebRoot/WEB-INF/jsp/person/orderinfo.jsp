@@ -43,7 +43,7 @@
         });
         //取消订单
         $("a[id^=cancel]").click(function () {
-            if (confirm("确定要取消订单吗?")){
+            if (confirm("确定要取消订单吗?")) {
                 //被点击的按钮id
                 var idStr = $(this).attr("id");
                 //截取最后的数字 不管是几位数字
@@ -62,7 +62,7 @@
         });
         //确认收货
         $("a[id^=confirm]").click(function () {
-            if (confirm("确定要确认收货吗?")){
+            if (confirm("确定要确认收货吗?")) {
                 //被点击的按钮id
                 var idStr = $(this).attr("id");
                 //截取最后的数字 不管是几位数字
@@ -89,25 +89,28 @@
             <!--顶部导航条 -->
             <div class="am-container header">
                 <ul class="message-l">
-                    <div class="menu-hd">
-                        <c:if test="${empty users}">
-                            <a href="${ctx}/loginOrRegister/loginInput" target="_top" class="h">亲，请登录</a>
-                            <a href="${ctx}/loginOrRegister/registerInput" target="_top">免费注册</a>
-                        </c:if>
-                        <c:if test="${!empty users}">
-                            <a href="${ctx}/loginOrRegister/loginOut">注销</a>
-                        </c:if>
+                    <div class="topMessage">
+                        <div class="menu-hd">
+                            <c:if test="${empty users}">
+                                <a href="${ctx}/loginOrRegister/loginInput" target="_top" class="h">亲，请登录</a>
+                                <a href="${ctx}/loginOrRegister/registerInput" target="_top">免费注册</a>
+                            </c:if>
+                            <c:if test="${!empty users}">
+                                欢迎您,${users.nickName}
+                                <a href="${ctx}/loginOrRegister/loginOut">注销</a>
+                            </c:if>
+                        </div>
                     </div>
                 </ul>
                 <ul class="message-r">
                     <div class="topMessage home">
-                        <div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
+                        <div class="menu-hd"><a href="${ctx}/" target="_top" class="h">商城首页</a></div>
                     </div>
                     <div class="topMessage my-shangcheng">
                         <div class="menu-hd MyShangcheng"><a href="${ctx}/users/allInfo" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
                     </div>
                     <div class="topMessage mini-cart">
-                        <div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum" class="h">0</strong></a></div>
+                        <div class="menu-hd"><a id="mc-menu-hd" href="${ctx}/shopping/shoppingCart" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div>
                     </div>
                     <div class="topMessage favorite">
                         <div class="menu-hd"><a href="${ctx}/users/allCollects" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
@@ -120,38 +123,16 @@
                 <div class="logoBig">
                     <li><img src="${ctx}/resources/images/logobig.png" /></li>
                 </div>
-
                 <div class="search-bar pr">
                     <a name="index_none_header_sysc" href="#"></a>
-                    <form>
-                        <input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索" autocomplete="off">
-                        <input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
+                    <form action="${ctx}/home/query" method="get">
+                        <input id="searchInput" name="type" type="text" placeholder="搜索"
+                               autocomplete="off" /> <input id="ai-topsearch"
+                                                            class="submit am-btn" value="搜索" index="1" type="submit" />
                     </form>
                 </div>
             </div>
-
-            <div class="clear"></div>
-        </div>
-        </div>
-    </article>
-</header>
-<div class="nav-table">
-    <div class="long-title"><span class="all-goods">全部分类</span></div>
-    <div class="nav-cont">
-        <ul>
-            <li class="index"><a href="#">首页</a></li>
-            <li class="qc"><a href="#">闪购</a></li>
-            <li class="qc"><a href="#">限时抢</a></li>
-            <li class="qc"><a href="#">团购</a></li>
-            <li class="qc last"><a href="#">大包装</a></li>
-        </ul>
-        <div class="nav-extra">
-            <i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-            <i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-        </div>
-    </div>
-</div>
-<b class="line"></b>
+            <b class="line"></b>
 <div class="center">
     <div class="col-main">
         <div class="main-wrap">
@@ -160,7 +141,9 @@
 
                 <!--标题 -->
                 <div class="am-cf am-padding">
-                    <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">订单详情</strong> / <small>Order&nbsp;details</small></div>
+                    <div class="am-fl am-cf"><strong class="am-text-danger am-text-lg">订单详情</strong> /
+                        <small>Order&nbsp;details</small>
+                    </div>
                 </div>
                 <hr/>
                 <div class="order-infoaside">
@@ -219,38 +202,39 @@
                                 <div class="order-left">
                                     <c:forEach items="${commodityItems}" var="item">
                                         <ul class="item-list">
-                                        <li class="td td-item">
-                                            <div class="item-pic">
-                                                <a href="#" class="J_MakePoint">
-                                                    <img src="${item.commodity.commodityPics.cpImg}" class="itempic J_ItemImg">
-                                                </a>
-                                            </div>
-                                            <div class="item-info">
-                                                <div class="item-basic-info">
-                                                    <a href="#">
-                                                        <p>${item.commodity.cname}</p>
-                                                        <p class="info-little">类型：${item.commodityType.typeName}
-                                                            <br/>包装：${item.commodityCombo.ccname} </p>
+                                            <li class="td td-item">
+                                                <div class="item-pic">
+                                                    <a href="${ctx }/toShowOne?cid=${item.commodity.cid}" class="J_MakePoint">
+                                                        <img src="${item.commodity.commodityPics.cpImg}"
+                                                             class="itempic J_ItemImg">
                                                     </a>
                                                 </div>
-                                            </div>
-                                        </li>
-                                        <li class="td td-price">
-                                            <div class="item-price">
-                                                ${item.commodity.price}
-                                            </div>
-                                        </li>
-                                        <li class="td td-number">
-                                            <div class="item-number">
-                                                <span>×</span>${item.number}
-                                            </div>
-                                        </li>
-                                        <li class="td td-operation">
-                                            <div class="item-operation">
-                                                <%--退款/退货--%>
-                                            </div>
-                                        </li>
-                                    </ul>
+                                                <div class="item-info">
+                                                    <div class="item-basic-info">
+                                                        <a href="${ctx }/toShowOne?cid=${item.commodity.cid}">
+                                                            <p>${item.commodity.cname}</p>
+                                                            <p class="info-little">类型：${item.commodityType.typeName}
+                                                                <br/>包装：${item.commodityCombo.ccname} </p>
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li class="td td-price">
+                                                <div class="item-price">
+                                                        ${item.commodity.price}
+                                                </div>
+                                            </li>
+                                            <li class="td td-number">
+                                                <div class="item-number">
+                                                    <span>×</span>${item.number}
+                                                </div>
+                                            </li>
+                                            <li class="td td-operation">
+                                                <div class="item-operation">
+                                                        <%--退款/退货--%>
+                                                </div>
+                                            </li>
+                                        </ul>
                                     </c:forEach>
                                 </div>
                                 <div class="order-right">
@@ -310,17 +294,17 @@
                                             </c:if>
                                             <c:if test="${order.status == 0}">
                                                 <div class="am-btn am-btn-danger anniu">
-                                                    <a id="cancel${order.key.oid}">取消订单</a>
+                                                    <a id="confirm${order.oid}">确认收货</a>
                                                 </div>
                                             </c:if>
                                             <c:if test="${order.status == 1}">
                                                 <div class="am-btn am-btn-danger anniu">
-                                                    <a id="confirm${order.key.oid}">确认收货</a>
+                                                    <a id="confirm${order.oid}">确认收货</a>
                                                 </div>
                                             </c:if>
                                             <c:if test="${order.status == 2}">
                                                 <div class="am-btn am-btn-danger anniu">
-                                                    <a href="${ctx}/users/commentInput/${order.key.oid}">立即评价</a>
+                                                    <a href="${ctx}/users/commentInput/${order.oid}">立即评价</a>
                                                 </div>
                                             </c:if>
                                         </li>
@@ -353,7 +337,6 @@
                     <a href="#">合作伙伴</a>
                     <a href="#">联系我们</a>
                     <a href="#">网站地图</a>
-                    <em>© 2015-2025 Hengwang.com 版权所有. 更多模板 <a href="http://www.cssmoban.com/" target="_blank" title="模板之家">模板之家</a> - Collect from <a href="http://www.cssmoban.com/" title="网页模板" target="_blank">网页模板</a></em>
                 </p>
             </div>
         </div>
@@ -367,9 +350,9 @@
             <li class="person">
                 <a href="">个人资料</a>
                 <ul>
-                    <li> <a href="${ctx}/users/userInfo/${users.uid}">个人信息</a></li>
-                    <li> <a href="${ctx}/users/safety">安全设置</a></li>
-                    <li> <a href="${ctx}/users/getAddress">收货地址</a></li>
+                    <li><a href="${ctx}/users/userInfo/${users.uid}">个人信息</a></li>
+                    <li><a href="${ctx}/users/safety">安全设置</a></li>
+                    <li><a href="${ctx}/users/getAddress">收货地址</a></li>
                 </ul>
             </li>
             <li class="person">
@@ -379,17 +362,17 @@
                 </ul>
             </li>
             <li class="person">
-                <a href="">我的资产</a>
+                <a href="#">我的资产</a>
                 <ul>
-                    <li> <a href="${ctx}/users/allCoupons">优惠券 </a></li>
-                    <li> <a href="${ctx}/users/allRedPackage">红包</a></li>
+                    <li><a href="${ctx}/users/allCoupons">优惠券 </a></li>
+                    <li><a href="${ctx}/users/allRedPackage">红包</a></li>
                 </ul>
             </li>
 
             <li class="person">
-                <a href="">我的小窝</a>
+                <a href="#">我的小窝</a>
                 <ul>
-                    <li> <a href="${ctx}/users/allCollects">收藏</a></li>
+                    <li><a href="${ctx}/users/allCollects">收藏</a></li>
                 </ul>
             </li>
 

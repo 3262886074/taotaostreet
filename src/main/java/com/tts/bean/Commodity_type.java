@@ -11,7 +11,7 @@ public class Commodity_type implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private long ct_id;
+	private long ctid;
     private String typeName;	//样式名
     private double price;		//不同样式的不同价格
 
@@ -21,7 +21,7 @@ public class Commodity_type implements Serializable {
 	@Override
 	public String toString() {
 		return "Commodity_type{" +
-				"ct_id=" + ct_id +
+				"ct_id=" + ctid +
 				", typeName='" + typeName + '\'' +
 				", price=" + price +
 				'}';
@@ -31,12 +31,12 @@ public class Commodity_type implements Serializable {
 		return serialVersionUID;
 	}
 
-	public long getCt_id() {
-		return ct_id;
+	public long getCtid() {
+		return ctid;
 	}
 
-	public void setCt_id(long ct_id) {
-		this.ct_id = ct_id;
+	public void setCtid(long ct_id) {
+		this.ctid = ct_id;
 	}
 
 	public String getTypeName() {

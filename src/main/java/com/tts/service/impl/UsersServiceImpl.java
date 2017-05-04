@@ -192,8 +192,15 @@ public class UsersServiceImpl implements UsersService {
             reduceCommodityNumber = usersDao.addCommodityNumber(items.getNumber(), items.getCommodity().getCid());
         }
         if (reduceCommodityNumber > 0) {
-            Integer i = usersDao.returnMoney(order.getMoney(), uid);
-            if (i > 0) {
+            if (order.getStatus() != -1) { //如果为-1未支付状态就不退款
+                usersDao.returnMoney(order.getMoney(), uid);
+                Integer j = usersDao.cancelOrder(oid);
+                if (j > 0) {
+                    return StringUtils.success;
+                } else {
+                    return StringUtils.fail;
+                }
+            } else {
                 Integer j = usersDao.cancelOrder(oid);
                 if (j > 0) {
                     return StringUtils.success;
@@ -201,8 +208,9 @@ public class UsersServiceImpl implements UsersService {
                     return StringUtils.fail;
                 }
             }
+        } else {
+            return StringUtils.fail;
         }
-        return null;
     }
 
     @Transactional

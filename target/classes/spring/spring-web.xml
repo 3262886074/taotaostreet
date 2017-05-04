@@ -12,10 +12,11 @@
     <mvc:annotation-driven/>
 
     <mvc:default-servlet-handler/>
-    
+    <!-- 配置拦截器 -->
     <mvc:interceptors>
         <mvc:interceptor>
             <mvc:mapping path="/users/*"/>
+            <mvc:mapping path="/shopping/*"/>
             <bean class="com.tts.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>

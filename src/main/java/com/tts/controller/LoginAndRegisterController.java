@@ -80,7 +80,7 @@ public class LoginAndRegisterController {
             return "redirect:loginInput";
         }
         session.removeAttribute("users");
-        session.invalidate();
+        //session.invalidate();
         return "redirect:loginInput";
     }
 }
