@@ -13,6 +13,7 @@ import com.tts.bean.Commodity_items;
 import com.tts.bean.Order;
 import com.tts.bean.Shopping_Cart;
 import com.tts.bean.User_Account;
+import com.tts.bean.User_address;
 import com.tts.dao.Shopping_CartDao;
 import com.tts.service.Shopping_CartService;
 
@@ -33,7 +34,7 @@ public class Shopping_CartServiceImpl implements Shopping_CartService {
 
 	// 通过用户ID添加购物车，或查询
 	@Override
-	public Shopping_Cart addShopping_Cart(Integer uid) {
+	public Shopping_Cart addShopping_Cart(long uid) {
 
 		if (shopping_CartDao.getShopping_Cart(uid) == null) {
 
@@ -63,11 +64,11 @@ public class Shopping_CartServiceImpl implements Shopping_CartService {
 		return shopping_CartDao.deleteCommodity_items(ciId);
 	}
 
-	// 添加商品到商品条目表
+	// 添加商品到商品条目表 num ct cc c sc
 	@Override
-	public Integer addCommodity_items(Integer number, long cid, long ct_id, long ccid, long scId) {
+	public Integer addCommodity_items(long cid, long ct_id, long ccid,Integer number,  long scId) {
 
-		return shopping_CartDao.addCommodity_items(ct_id, ccid, scId, number, cid);
+		return shopping_CartDao.addCommodity_items(number,ct_id, ccid, cid, scId);
 	}
 
 	// 添加订单
@@ -84,7 +85,7 @@ public class Shopping_CartServiceImpl implements Shopping_CartService {
 		System.out.println(order);
 		long scId = order.getShoppingCart().getScId();
 		Shopping_Cart shoppingCart = shopping_CartDao.getShopping_CartByscId(scId);
-
+		
 		order.setShoppingCart(shoppingCart);
 		return order;
 	}
@@ -148,6 +149,25 @@ public class Shopping_CartServiceImpl implements Shopping_CartService {
 	public Integer addOrderSp(long scId, long uid) {
 		
 		return shopping_CartDao.addOrderSp(scId,uid) ;
+	}
+
+	//查询用户默认的地址
+	@Override
+	public User_address getUser_address(long uid) {
+		// TODO Auto-generated method stub
+		return shopping_CartDao.getUser_address(uid);
+	}
+	
+	//查询订单 带地址
+	@Override
+	public Order getOder(long oid) {
+		Order order = shopping_CartDao.getOrderUa(oid);
+		System.out.println(order);
+		long scId = order.getShoppingCart().getScId();
+		Shopping_Cart shoppingCart = shopping_CartDao.getShopping_CartByscId(scId);
+		
+		order.setShoppingCart(shoppingCart);
+		return order;
 	}
 
 

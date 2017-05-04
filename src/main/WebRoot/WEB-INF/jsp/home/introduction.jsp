@@ -49,7 +49,7 @@
 				<div class="menu-hd">
 					<c:if test="${empty users}">
 							<a href="${ctx}/loginOrRegister/registerInput" target="_top">免费注册</a>
-							<a href="${ctx}/loginOrRegister/loginInput   " target="_top" class="h">亲，请登录</a>
+							<a href="${ctx}/loginOrRegister/loginInput" target="_top" class="h">亲，请登录</a>
 						</c:if>
 						<c:if test="${!empty users}">
 							<b>${users.nickName }</b>，
@@ -74,8 +74,7 @@
 					<div class="topMessage mini-cart">
 						<div class="menu-hd">
 							<a id="mc-menu-hd" href="#" target="_top"><i
-								class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong
-								id="J_MiniCartNum" class="h">0</strong></a>
+								class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a>
 						</div>
 					</div>
 					<div class="topMessage favorite">
@@ -471,6 +470,7 @@
 
 					</div>
 					<c:if test="${!empty users }">
+					
 					<li>
 						<div class="clearfix tb-btn tb-btn-buy theme-login">
 						
@@ -502,6 +502,7 @@
 						</div> 
 					</li>
 					</c:if>
+					
 						<script type="text/javascript">
 										function show(){
 											if(mon + m2 <=0){
@@ -509,8 +510,11 @@
 											}else if(sel1 && sel2 && flag && flag2){
 												var oneMoney = mon+m2;
 												var allMoney = oneMoney*tt
-												alert("正在下订单。。cid:"+${commodity.cid }+" 口味id："+selctid+" 包装id："+selccid+" 数量为："+tt)
-												alert("单个金额为："+oneMoney+" 总金额为："+allMoney)
+												$("#ctidsel").attr("value",selctid);
+												$("#ccidsel").attr("value",selccid);
+												$("#ttNumber").attr("value",tt);
+												$("#onemoney").attr("value",oneMoney);
+												window.location.href="${ctx}/users/standpoint";
 											}else{
 												$("#show1").show();
 											}
@@ -522,9 +526,11 @@
 												$("#show1").show();
 											}else if(sel1 && sel2 && flag && flag2){
 												var oneMoney = mon+m2;
-												var allMoney = oneMoney*tt
-												alert("正在下订单。。cid:"+${commodity.cid }+" 口味id："+selctid+" 包装id："+selccid+" 数量为："+tt)
-												alert("单个金额为："+oneMoney+" 总金额为："+allMoney )
+												$("#ctidsel").attr("value",selctid);
+												$("#ccidsel").attr("value",selccid);
+												$("#ttNumber").attr("value",tt);
+												$("#onemoney").attr("value",oneMoney);
+												window.location.href="${ctx}/users/addShopping_Cart"
 											}else{
 												$("#show1").show();
 											}
@@ -534,7 +540,12 @@
 				</div>
 
 			</div>
-
+			<input type="hidden" name="commodity.cid" value="${commodity.cid }">
+					<input type="hidden" id="ctidsel" name="commodityType.ct_id">
+					<input type="hidden" id="ccidsel" name="commodityCombo.ccid">
+					<input type="hidden" id="ttNumber" name="number">
+					<input type="hidden" name="uid" value="${users.uid }">
+					<input type="hidden" id="onemoney" name="money">
 			<div class="clear"></div>
 
 		</div>
