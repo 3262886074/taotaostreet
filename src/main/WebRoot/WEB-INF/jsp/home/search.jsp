@@ -382,9 +382,9 @@
 								id="ulupdat">
 								<c:forEach items="${pagCom.commodity}" var="commodity">
 									<li>
-										<a href="#">
+									
 										<div class="i-pic limit">
-											
+											<a href="${ctx }/toShowOne?cid=${commodity.cid }">
 											<img src="${ctx}${commodity.commodityPics.cpImg}" />
 											<p class="title fl">${commodity.cname}</p>
 												<p class="price fl">
