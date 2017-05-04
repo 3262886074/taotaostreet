@@ -88,33 +88,31 @@
             <!--顶部导航条 -->
             <div class="am-container header">
                 <ul class="message-l">
-                    <div class="menu-hd">
-                        <c:if test="${empty users}">
-                            <a href="${ctx}/loginOrRegister/loginInput" target="_top" class="h">亲，请登录</a>
-                            <a href="${ctx}/loginOrRegister/registerInput" target="_top">免费注册</a>
-                        </c:if>
-                        <c:if test="${!empty users}">
-                            <a href="${ctx}/loginOrRegister/loginOut">注销</a>
-                        </c:if>
+                    <div class="topMessage">
+                        <div class="menu-hd">
+                            <c:if test="${empty users}">
+                                <a href="${ctx}/loginOrRegister/loginInput" target="_top" class="h">亲，请登录</a>
+                                <a href="${ctx}/loginOrRegister/registerInput" target="_top">免费注册</a>
+                            </c:if>
+                            <c:if test="${!empty users}">
+                                欢迎您,${users.nickName}
+                                <a href="${ctx}/loginOrRegister/loginOut">注销</a>
+                            </c:if>
+                        </div>
                     </div>
                 </ul>
                 <ul class="message-r">
                     <div class="topMessage home">
-                        <div class="menu-hd"><a href="#" target="_top" class="h">商城首页</a></div>
+                        <div class="menu-hd"><a href="${ctx}/" target="_top" class="h">商城首页</a></div>
                     </div>
                     <div class="topMessage my-shangcheng">
-                        <div class="menu-hd MyShangcheng"><a href="${ctx}/users/allInfo" target="_top"><i
-                                class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+                        <div class="menu-hd MyShangcheng"><a href="${ctx}/users/allInfo" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
                     </div>
                     <div class="topMessage mini-cart">
-                        <div class="menu-hd"><a id="mc-menu-hd" href="#" target="_top"><i
-                                class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong id="J_MiniCartNum"
-                                                                                                      class="h">0</strong></a>
-                        </div>
+                        <div class="menu-hd"><a id="mc-menu-hd" href="${ctx}/shopping/shoppingCart" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div>
                     </div>
                     <div class="topMessage favorite">
-                        <div class="menu-hd"><a href="${ctx}/users/allCollects" target="_top"><i
-                                class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
+                        <div class="menu-hd"><a href="${ctx}/users/allCollects" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
                 </ul>
             </div>
 
@@ -122,41 +120,18 @@
 
             <div class="nav white">
                 <div class="logoBig">
-                    <li><img src="${ctx}/resources/images/logobig.png"/></li>
+                    <li><img src="${ctx}/resources/images/logobig.png" /></li>
                 </div>
-
                 <div class="search-bar pr">
                     <a name="index_none_header_sysc" href="#"></a>
-                    <form>
-                        <input id="searchInput" name="index_none_header_sysc" type="text" placeholder="搜索"
-                               autocomplete="off">
-                        <input id="ai-topsearch" class="submit am-btn" value="搜索" index="1" type="submit">
+                    <form action="${ctx}/home/query" method="get">
+                        <input id="searchInput" name="type" type="text" placeholder="搜索"
+                               autocomplete="off" /> <input id="ai-topsearch"
+                                                            class="submit am-btn" value="搜索" index="1" type="submit" />
                     </form>
                 </div>
             </div>
-
-            <div class="clear"></div>
-        </div>
-        </div>
-    </article>
-</header>
-<div class="nav-table">
-    <div class="long-title"><span class="all-goods">全部分类</span></div>
-    <div class="nav-cont">
-        <ul>
-            <li class="index"><a href="#">首页</a></li>
-            <li class="qc"><a href="#">闪购</a></li>
-            <li class="qc"><a href="#">限时抢</a></li>
-            <li class="qc"><a href="#">团购</a></li>
-            <li class="qc last"><a href="#">大包装</a></li>
-        </ul>
-        <div class="nav-extra">
-            <i class="am-icon-user-secret am-icon-md nav-user"></i><b></b>我的福利
-            <i class="am-icon-angle-right" style="padding-left: 10px;"></i>
-        </div>
-    </div>
-</div>
-<b class="line"></b>
+            <b class="line"></b>
 <div class="center">
     <div class="col-main">
         <div class="main-wrap">
@@ -224,14 +199,14 @@
                                                         <ul class="item-list">
                                                             <li class="td td-item">
                                                                 <div class="item-pic">
-                                                                    <a href="#" class="J_MakePoint">
+                                                                    <a href="${ctx }/toShowOne?cid=${item.commodity.cid}" class="J_MakePoint">
                                                                         <img src="${item.commodity.commodityPics.cpImg}"
                                                                              class="itempic J_ItemImg">
                                                                     </a>
                                                                 </div>
                                                                 <div class="item-info">
                                                                     <div class="item-basic-info">
-                                                                        <a href="#">
+                                                                        <a href="${ctx }/toShowOne?cid=${item.commodity.cid}">
                                                                             <p>${item.commodity.cname}</p>
                                                                             <p class="info-little">
                                                                                 类型：${item.commodityType.typeName}
@@ -326,10 +301,10 @@
                                                         <c:if test="${order.key.status == 2}">
                                                             <div class="item-status">
                                                                 <p class="Mystatus">待评价</p>
-                                                                <p class="order-info"><a
-                                                                        href="${ctx}/users/orderInfo/${order.key.oid}">订单详情</a>
+                                                                <p class="order-info">
+                                                                    <a href="${ctx}/users/orderInfo/${order.key.oid}">订单详情</a>
                                                                 </p>
-                                                                <p class="order-info"><a href="logistics.html">立即评价</a></p>
+                                                                <p class="order-info"><a href="${ctx}/users/commentInput/${order.key.oid}">立即评价</a></p>
                                                             </div>
                                                             <li class="td td-change">
                                                                 <a>
@@ -411,14 +386,14 @@
                                                             <ul class="item-list">
                                                                 <li class="td td-item">
                                                                     <div class="item-pic">
-                                                                        <a href="#" class="J_MakePoint">
+                                                                        <a href="${ctx }/toShowOne?cid=${item.commodity.cid}" class="J_MakePoint">
                                                                             <img src="${item.commodity.commodityPics.cpImg}"
                                                                                  class="itempic J_ItemImg">
                                                                         </a>
                                                                     </div>
                                                                     <div class="item-info">
                                                                         <div class="item-basic-info">
-                                                                            <a href="#">
+                                                                            <a href="${ctx }/toShowOne?cid=${item.commodity.cid}">
                                                                                 <p>${item.commodity.cname}</p>
                                                                                 <p class="info-little">
                                                                                     类型：${item.commodityType.typeName}
@@ -521,14 +496,14 @@
                                                             <ul class="item-list">
                                                                 <li class="td td-item">
                                                                     <div class="item-pic">
-                                                                        <a href="#" class="J_MakePoint">
+                                                                        <a href="${ctx }/toShowOne?cid=${item.commodity.cid}" class="J_MakePoint">
                                                                             <img src="${item.commodity.commodityPics.cpImg}"
                                                                                  class="itempic J_ItemImg">
                                                                         </a>
                                                                     </div>
                                                                     <div class="item-info">
                                                                         <div class="item-basic-info">
-                                                                            <a href="#">
+                                                                            <a href="${ctx }/toShowOne?cid=${item.commodity.cid}">
                                                                                 <p>${item.commodity.cname}</p>
                                                                                 <p class="info-little">
                                                                                     类型：${item.commodityType.typeName}
@@ -636,14 +611,14 @@
                                                             <ul class="item-list">
                                                                 <li class="td td-item">
                                                                     <div class="item-pic">
-                                                                        <a href="#" class="J_MakePoint">
+                                                                        <a href="${ctx }/toShowOne?cid=${item.commodity.cid}" class="J_MakePoint">
                                                                             <img src="${item.commodity.commodityPics.cpImg}"
                                                                                  class="itempic J_ItemImg">
                                                                         </a>
                                                                     </div>
                                                                     <div class="item-info">
                                                                         <div class="item-basic-info">
-                                                                            <a href="#">
+                                                                            <a href="${ctx }/toShowOne?cid=${item.commodity.cid}">
                                                                                 <p>${item.commodity.cname}</p>
                                                                                 <p class="info-little">
                                                                                     类型：${item.commodityType.typeName}
@@ -751,14 +726,14 @@
                                                             <ul class="item-list">
                                                                 <li class="td td-item">
                                                                     <div class="item-pic">
-                                                                        <a href="#" class="J_MakePoint">
+                                                                        <a href="${ctx }/toShowOne?cid=${item.commodity.cid}" class="J_MakePoint">
                                                                             <img src="${item.commodity.commodityPics.cpImg}"
                                                                                  class="itempic J_ItemImg">
                                                                         </a>
                                                                     </div>
                                                                     <div class="item-info">
                                                                         <div class="item-basic-info">
-                                                                            <a href="#">
+                                                                            <a href="${ctx }/toShowOne?cid=${item.commodity.cid}">
                                                                                 <p>${item.commodity.cname}</p>
                                                                                 <p class="info-little">
                                                                                     类型：${item.commodityType.typeName}

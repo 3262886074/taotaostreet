@@ -316,7 +316,7 @@
         cc.cc_name "commodityCombo.ccname",
         cc.price "commodityCombo.price",
         cp.cp_id "commodity.commodityPics.cpId",
-        cp.cp_img "commodity.commodityPics.cp_img"
+        cp.cp_img "commodity.commodityPics.cpImg"
         FROM Commodity_items ci
         INNER JOIN Commodity c
         ON c.c_id = ci.c_id
@@ -430,6 +430,7 @@
         SET status = 3
         WHERE o_id = #{oid}
     </update>
+    <!-- 修改用户所有购物车状态 -->
 
 
 </mapper>

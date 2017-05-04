@@ -5,8 +5,8 @@
 
 <mapper namespace="com.tts.dao.Shopping_CartDao">
 
-	<!--通过购物车ID查询商品条目的商品 -->
-	<select id="getCommodity_items" resultType="Commodity_items">
+    <!--通过购物车ID查询商品条目的商品 -->
+    <select id="getCommodity_items" resultType="Commodity_items">
 		select
 		ci.ci_id
 		"ciId",
@@ -39,8 +39,8 @@
 		sc_id= #{scId}
 	</select>
 
-	<!-- 通过订单id查订单 -->
-	<select id="getOrder" resultType="Order">
+    <!-- 通过订单id查询购物车 -->
+    <select id="getOrder" resultType="Order">
 		select
 		 o_id "o_id",
 		 sc_id "shoppingCart.scId",
@@ -49,30 +49,17 @@
 		 from orders
 		where o_id=#{oid}
 	</select>
-	
-	
-	<!--查询用户默认地址getUser_address  -->
-	<select id="getUser_address" resultType="User_address">
-		select
-		 ua_id "uaId",
-		 ua_name "ua_name",
-		 ua_tel "uatel",
-		 location "location",
-		 address "address"
-		 from user_address
-		where u_id=#{uid} and status=1
-	</select>
-	
-	<!-- 通过用户ID和时间查询订单ID、OID -->
-	<select id="getOid" resultType="long">
+
+    <!-- 通过用户ID和时间查询订单ID、OID -->
+    <select id="getOid" resultType="long">
 		select
 		o_id "oid"
 		from orders where
 		u_id=#{uid} and create_time >= #{now}
 	</select>
-	
-<!-- 根据时间和uid 查询当前添加的购物车getShopping_CartSp -->
-	<select id="getShopping_CartSp" resultType="Shopping_Cart">
+
+    <!-- 根据时间和uid 查询当前添加的购物车getShopping_CartSp -->
+    <select id="getShopping_CartSp" resultType="Shopping_Cart">
 		select
 		sc_id "scId",
 		u_id "users.uid"
@@ -80,8 +67,8 @@
 		u_id=#{uid}   and create_time >= #{now}
 	</select>
 
-	<!-- 通过用户ID查询购物车信息 -->
-	<select id="getShopping_Cart" parameterType="long" resultType="Shopping_Cart">
+    <!-- 通过用户ID查询购物车信息 -->
+    <select id="getShopping_Cart" parameterType="long" resultType="Shopping_Cart">
 		select
 		sc_id "scId",
 		u_id "users.uid"
@@ -89,9 +76,9 @@
 		u_id=#{uid}
 	</select>
 
-	<!-- 通过购物车ID查询购物车信息 -->
-	<select id="getShopping_CartByscId" parameterType="long"
-		resultType="Shopping_Cart">
+    <!-- 通过购物车ID查询购物车信息 -->
+    <select id="getShopping_CartByscId" parameterType="long"
+            resultType="Shopping_Cart">
 		select
 		sc_id "scId",
 		u_id "users.uid"
@@ -100,16 +87,16 @@
 	</select>
 
 
-	<!-- 添加购物车 -->
-	<insert id="addShopping_Cart" parameterType="Shopping_Cart">
+    <!-- 添加购物车 -->
+    <insert id="addShopping_Cart" parameterType="Shopping_Cart">
 		INSERT INTO
 		shopping_Cart (u_id)
 		VALUES
 		(#{users.uid})
 	</insert>
 
-	<!-- 商品加入商品条目表 -->
-	<insert id="addCommodity_items">
+    <!-- 商品加入商品条目表 -->
+    <insert id="addCommodity_items">
 		INSERT INTO
 		commodity_items
 		(c_id,ct_id,cc_id,number,sc_id)
@@ -117,8 +104,8 @@
 		(#{cid},#{ct_id},#{ccid},#{number},#{scId})
 	</insert>
 
-	<!--通过商品ID查询商品信息 -->
-	<select id="getCommodity" resultType="Commodity">
+    <!--通过商品ID查询商品信息 -->
+    <select id="getCommodity" resultType="Commodity">
 		select
 		c_id "cid",
 		c_name
@@ -132,42 +119,42 @@
 		c_id= #{cid}
 	</select>
 
-	<!--通过商品条目id 删除商品条目 表 -->
-	<select id="deleteCommodity_items" resultType="int">
+    <!--通过商品条目id 删除商品条目 表 -->
+    <select id="deleteCommodity_items" resultType="int">
 		delete from
 		Commodity_items where ci_id= #{ciIds}
 	</select>
 
-	<!-- 添加订单 -->
-	<insert id="addOrder" parameterType="Order">
+    <!-- 添加订单 -->
+    <insert id="addOrder" parameterType="Order">
 		INSERT INTO
 		orders
 		(sc_id,money,status,u_id)
 		VALUES
 		(#{shoppingCart.scId},#{money},#{status},#{shoppingCart.users.uid})
 	</insert>
-	
-	<!-- 立即购买添加订单addOrderSp -->
-	<insert id="addOrderSp" >
+
+    <!-- 立即购买添加订单addOrderSp -->
+    <insert id="addOrderSp">
 		INSERT INTO
 		orders
 		(sc_id,u_id)
 		VALUES
 		(#{scId},#{uid})
 	</insert>
-	
-	<!-- 修改购物车uid为0代表购物车以加入订单updateShopping_CartUid -->
-	<update id="updateShopping_CartUid" >
+
+    <!-- 修改购物车uid为0代表购物车以加入订单updateShopping_CartUid -->
+    <update id="updateShopping_CartUid">
 		UPDATE shopping_cart
 		set
 		u_id =0
 		where
 		sc_id= #{scId}
 	</update>
-	
 
-	<!-- 修改订单状态 为0 表示已付款 -->
-	<update id="updateOrder" parameterType="Order">
+
+    <!-- 修改订单状态 为0 表示已付款 -->
+    <update id="updateOrder" parameterType="Order">
 		UPDATE orders
 		set
 		status =#{status},
@@ -180,8 +167,8 @@
 		o_id= #{oid}
 	</update>
 
-	<!-- 修改商品条目表的商品数量 -->
-	<update id="updateCommodity_items">
+    <!-- 修改商品条目表的商品数量 -->
+    <update id="updateCommodity_items">
 		UPDATE Commodity_items
 		set
 		number=#{number}
@@ -190,8 +177,8 @@
 		#{ciId}
 	</update>
 
-	<!-- 通过用户ID查询用户账户 -->
-	<select id="getUserAccount" resultType="User_Account">
+    <!-- 通过用户ID查询用户账户 -->
+    <select id="getUserAccount" resultType="User_Account">
 		select
 		ua_id "uaId",
 		ua_money "uaMoney"
@@ -199,57 +186,40 @@
 		u_id=#{uid}
 	</select>
 
-	<!-- 修改账户余额 -->
-	<update id="updateuaMoney">
+    <!-- 修改账户余额 -->
+    <update id="updateuaMoney">
 		UPDATE user_account
 		set
 		ua_money=ua_money-#{money}
 		where
 		ua_Id= #{uaId}
 	</update>
-	
-	<!--修改优惠券使用状态为1代表已使用updateDcst  -->
-	<update id="updateDcst" >
+
+    <!--修改优惠券使用状态为1代表已使用updateDcst  -->
+    <update id="updateDcst">
 		UPDATE commodity_discount_coupon
 		set
 		status =1
 		where
 		dc_Id= #{dcId}
 	</update>
-	
-	<!-- 修改红包使用状态为1代表已使用updateUrpst -->
-	<update id="updateUrpst" >
+
+    <!-- 修改红包使用状态为1代表已使用updateUrpst -->
+    <update id="updateUrpst">
 		UPDATE user_red_package
 		set
 		status =1
 		where
 		urp_Id= #{urpId}
 	</update>
-	
-	<!--添加商品到收藏夹addUser_Collect  -->
-	<insert id="addUser_Collect" >
+
+    <!--添加商品到收藏夹addUser_Collect  -->
+    <insert id="addUser_Collect">
 		INSERT INTO
 		user_collect
 		(u_id,c_id)
 		VALUES
 		(#{uid},#{cid})
 	</insert>
-	
-	<!-- 通过订单id查询订单 带地址 -->
-	<select id="getOrderUa" resultType="order">
-		select
-		o.o_id "o_id",
-		o.sc_id "shopping_cart.scId",
-		o.money "money",
-		o.status "status",
-		o.ua_id "userAddress.uaId",
-		ua.ua_name "userAddress.uaname",
-		ua.ua_tel "userAddress.uatel",
-		ua.location "userAddress.location",
-		ua.address "userAddress.address",
-		ua.u_id "userAddress.uid"
-		from orders o,user_address ua where 
-		ua.ua_id=o.ua_id  and o.o_id= #{oid}
-	</select>
-	
+
 </mapper>

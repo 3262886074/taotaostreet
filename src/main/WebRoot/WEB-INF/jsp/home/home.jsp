@@ -30,11 +30,11 @@
 				<div class="topMessage">
 					<div class="menu-hd">
 						<c:if test="${empty users}">
+							<a href="${ctx}/loginOrRegister/loginInput" target="_top" class="h">亲，请登录</a>
 							<a href="${ctx}/loginOrRegister/registerInput" target="_top">免费注册</a>
-							<a href="${ctx}/loginOrRegister/loginInput" target="_top"
-								class="h">亲，请登录</a>
 						</c:if>
 						<c:if test="${!empty users}">
+							欢迎您,${users.nickName}
 							<a href="${ctx}/loginOrRegister/loginOut">注销</a>
 						</c:if>
 					</div>
@@ -42,49 +42,16 @@
 			</ul>
 			<ul class="message-r">
 				<div class="topMessage home">
-					<div class="menu-hd">
-						<a href="${ctx}/" target="_top" class="h">商城首页</a>
-					</div>
+					<div class="menu-hd"><a href="${ctx}/" target="_top" class="h">商城首页</a></div>
 				</div>
-				<c:if test="${!empty users}">
-					<div class="topMessage my-shangcheng">
-						<div class="menu-hd MyShangcheng">
-							<a href="${ctx}/users/allInfo" target="_top"><i
-								class="am-icon-user am-icon-fw"></i>个人中心</a>
-						</div>
-					</div>
-					<div class="topMessage mini-cart">
-						<div class="menu-hd">
-							<a id="mc-menu-hd" href="#" target="_top"><i
-								class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong
-								id="J_MiniCartNum" class="h">0</strong></a>
-						</div>
-					</div>
-					<div class="topMessage favorite">
-						<div class="menu-hd">
-							<a href="#" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a>
-						</div>
-				</c:if>
-				<c:if test="${empty users}">
-					<div class="topMessage my-shangcheng">
-						<div class="menu-hd MyShangcheng">
-							<a href="${ctx}/loginOrRegister/loginInput" target="_top"><i
-								class="am-icon-user am-icon-fw"></i>个人中心</a>
-						</div>
-					</div>
-					<div class="topMessage mini-cart">
-						<div class="menu-hd">
-							<a id="mc-menu-hd" href="${ctx}/loginOrRegister/loginInput"
-								target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span><strong
-								id="J_MiniCartNum" class="h">0</strong></a>
-						</div>
-					</div>
-					<div class="topMessage favorite">
-						<div class="menu-hd">
-							<a href="${ctx}/loginOrRegister/loginInput" target="_top"><i
-								class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a>
-						</div>
-				</c:if>
+				<div class="topMessage my-shangcheng">
+					<div class="menu-hd MyShangcheng"><a href="${ctx}/users/allInfo" target="_top"><i class="am-icon-user am-icon-fw"></i>个人中心</a></div>
+				</div>
+				<div class="topMessage mini-cart">
+					<div class="menu-hd"><a id="mc-menu-hd" href="${ctx}/shopping/shoppingCart" target="_top"><i class="am-icon-shopping-cart  am-icon-fw"></i><span>购物车</span></a></div>
+				</div>
+				<div class="topMessage favorite">
+					<div class="menu-hd"><a href="${ctx}/users/allCollects" target="_top"><i class="am-icon-heart am-icon-fw"></i><span>收藏夹</span></a></div>
 			</ul>
 		</div>
 
@@ -373,9 +340,7 @@
 											</div>
 											<div class="member-logout">
 												<a class="am-btn-warning btn"
-													href="${ctx}/loginOrRegister/loginInput">我的订单</a> <a
-													class="am-btn-warning btn"
-													href="${ctx}/loginOrRegister/registerInput">我的足迹</a>
+													href="${ctx}/users/orders">我的订单</a>
 											</div>
 										</c:otherwise>
 									</c:choose>
@@ -635,7 +600,7 @@
 		<div id="sidebar">
 			<div id="wrap">
 				<div id="prof" class="item ">
-					<a href="# "> <span class="setting "></span>
+					<a href="${ctx}/users/allInfo"> <span class="setting "></span>
 					</a>
 					<div class="ibar_login_box status_login ">
 						<c:choose>
@@ -650,8 +615,8 @@
 									</ul>
 								</div>
 								<div class="login_btnbox ">
-									<a href="${ctx}/users/orders " class="login_order ">我的订单</a> <a
-										href="${ctx}/users/allCollects " class="login_favorite ">我的收藏</a>
+									<a href="${ctx}/users/orders" class="login_order ">我的订单</a> <a
+										href="${ctx}/users/allCollects" class="login_favorite ">我的收藏</a>
 								</div>
 							</c:when>
 							<c:otherwise>
@@ -676,18 +641,31 @@
 					</div>
 				</div>
 				<div id="shopCart " class="item ">
-					<a href="# "> <span class="message "></span>
+					<a href="${ctx}/shopping/shoppingCart "> <span class="message "></span>
 					</a>
 					<p>购物车</p>
+<<<<<<< HEAD
+=======
 					<!-- <p class="cart_num ">0</p> -->
+>>>>>>> yls-stage01
 				</div>
 				<div id="asset " class="item ">
-					<a href="# "> <span class="view "></span>
+					<a href="${ctx}/users/allInfo "> <span class="view "></span>
 					</a>
 					<div class="mp_tooltip ">
 						我的资产 <i class="icon_arrow_right_black "></i>
 					</div>
 				</div>
+<<<<<<< HEAD
+				<div id="brand " class="item ">
+					<a href="${ctx}/users/allCollects"> <span class="wdsc "><img
+							src="${ctx}/resources/images/wdsc.png " /></span>
+					</a>
+					<div class="mp_tooltip ">
+						我的收藏 <i class="icon_arrow_right_black "></i>
+					</div>
+				</div>
+=======
 
 
 				<div class="quick_toggle ">
@@ -703,61 +681,12 @@
 								class="top "></span></a></li>
 				</div>
 
+>>>>>>> yls-stage01
 				<!--回到顶部 -->
 				<div id="quick_links_pop " class="quick_links_pop hide "></div>
 			</div>
 		</div>
-		<div id="prof-content" class="nav-content">
-			<div class="nav-con-close">
-				<i class="am-icon-angle-right am-icon-fw"></i>
-			</div>
-			<div>我</div>
-		</div>
-		<div id="shopCart-content" class="nav-content">
-			<div class="nav-con-close">
-				<i class="am-icon-angle-right am-icon-fw"></i>
-			</div>
-			<div>购物车</div>
-		</div>
-		<div id="asset-content" class="nav-content">
-			<div class="nav-con-close">
-				<i class="am-icon-angle-right am-icon-fw"></i>
-			</div>
-			<div>资产</div>
-
-			<div class="ia-head-list">
-				<a href="#" target="_blank" class="pl">
-					<div class="num">0</div>
-					<div class="text">优惠券</div>
-				</a> <a href="#" target="_blank" class="pl">
-					<div class="num">0</div>
-					<div class="text">红包</div>
-				</a> <a href="#" target="_blank" class="pl money">
-					<div class="num">￥0</div>
-					<div class="text">余额</div>
-				</a>
-			</div>
-
-		</div>
-		<div id="foot-content" class="nav-content">
-			<div class="nav-con-close">
-				<i class="am-icon-angle-right am-icon-fw"></i>
-			</div>
-			<div>足迹</div>
-		</div>
-		<div id="brand-content" class="nav-content">
-			<div class="nav-con-close">
-				<i class="am-icon-angle-right am-icon-fw"></i>
-			</div>
-			<div>收藏</div>
-		</div>
-		<div id="broadcast-content" class="nav-content">
-			<div class="nav-con-close">
-				<i class="am-icon-angle-right am-icon-fw"></i>
-			</div>
-			<div>充值</div>
-		</div>
-	</div>
+    </div>
 	<script>
 		window.jQuery
 				|| document
