@@ -1,5 +1,6 @@
 package com.tts.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,8 +9,12 @@ import java.util.List;
  * @author SYY
  *
  */
-public class Classify_three {
+public class Classify_three implements Serializable{
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long cThreeId;
 	private String cThreeName;
 	private List<Commodity> commodity;//商品类

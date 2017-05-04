@@ -76,21 +76,18 @@ $(document).ready(
 						}
 					});
 
-			$("#select3 dd").click(
+			$("#select3 li").click(
 					function() {
-						$(this).addClass("selected").siblings().removeClass(
-								"selected");
-						if ($(this).hasClass("select-all")) {
-							$("#selectC").remove();
-						} else {
-							var copyThisC = $(this).clone();
-							if ($("#selectC").length > 0) {
-								$("#selectC a").html($(this).text());
-							} else {
-								$(".select-result dl").append(
-										copyThisC.attr("id", "selectC"));
-							}
-						}
+						$(this).addClass("first").siblings().removeClass(
+								"first");
+						
+					});
+			
+			$("#select4 li").click(
+					function() {
+						$(this).addClass("am-active").siblings().removeClass(
+								"am-active");
+						
 					});
 
 			$("#selectA").live(

@@ -1,5 +1,6 @@
 package com.tts.test;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.tts.bean.Classify_two;
+import com.tts.bean.Commodity;
 import com.tts.dao.IHomeDao;
 import com.tts.service.IHomeService;
 
@@ -31,6 +33,20 @@ public class Test2 {
 
 		// logger.info("商品={}", iHomeService.queryCname("千层饼"));
 
+		// 品牌查询
+		// List<Long> bids = new ArrayList<>();
+		// List<Long> sids = new ArrayList<>();
+		// for (long i = 1; i < 8; i++) {
+		// bids.add(i);
+		// sids.add(i);
+		// }
+		//
+		// logger.info("品牌={}", iHomeDao.queryBrandName(bids));
+		// logger.info("产地={}", iHomeDao.querySiteName(sids));
+		
+		//分页查询
+		logger.info("分页查询={}", iHomeDao.queryPaging(1, 5, "", 1, 0, 0, 0));
+
 		// List<Classify_one> classifyOne = iHomeDao.queryClassify();
 		// for (Classify_one c : classifyOne) {
 		// System.out.println(c);
@@ -45,8 +61,8 @@ public class Test2 {
 		// String[] adjustTop = {};
 		// logger.info("商品分类={}", iHomeDao.queryTop(adjustTop));
 
-		String[] adjustRecommend = { "1", "2", "3" };
-		logger.info("商品分类={}", iHomeDao.queryNow(adjustRecommend));
+		// String[] adjustRecommend = { "1", "2", "3" };
+		// logger.info("商品分类={}", iHomeDao.queryNow(adjustRecommend));
 
 		// 商品分类推荐显示显示
 		// String[] a = { "5", "15", "16" };

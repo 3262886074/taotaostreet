@@ -25,6 +25,195 @@
 <script type="text/javascript"
 	src="${ctx}/resources/basic/js/jquery-1.7.min.js"></script>
 <script type="text/javascript" src="${ctx}/resources/js/script.js"></script>
+<script type="text/javascript">
+	var pageNow = 1;// 第几页
+	var pageSize = 12;// 每页行数
+	var searchBid = 0;// 品牌id(查询参数)
+	var searchSid = 0;// 产地id(查询参数)
+	var sumPage;// 总行数（依赖后台返回）
+	var parameter;// 起始查询参数
+	var sortType=0;//排序类型（综合0，销量1，价格2，评价3，默认综合排序）
+	var sortWay=0;//排序（降序0，升序1，默认降序）
+	
+	$(document).ready(
+			function() {
+				
+				//分页
+				$(".pagId").live("click",function(){
+					pageNow=parseInt($(this).text());
+					queryCom();
+				
+				});
+				//上一页
+				$(".pagFront").live("click",function(){
+					pageNow=parseInt(pageNow)-1;
+					queryCom();
+				
+				});
+				//下一页
+				$(".pagBack").live("click",function(){
+					pageNow=parseInt(pageNow)+1;
+					queryCom();
+				
+				});
+				
+				
+				//品牌
+				$(".bid").click(function() {
+					if (searchBid != $(this).attr("title")) {
+						searchBid = $(this).attr("title");
+						$("#i-pic").remove();
+						pageNow=1;
+						queryCom();
+					}
+
+				});
+				//产地
+				$(".sid").click(function() {
+					if (searchSid != $(this).attr("title")) {
+						searchSid = $(this).attr("title");
+						pageNow=1;
+						queryCom();
+					}
+
+				});
+				//清除
+				$(".delid").click(function(){
+					searchBid=0;
+					searchSid=0;
+					pageNow=1;
+					queryCom();
+					
+				});
+				//去除选中品牌
+				$("#selectA").live("click",function() {
+					$(this).remove();
+					$("#select1 .select-all").addClass("selected")
+						.siblings().removeClass("selected");
+					searchBid=0;
+					pageNow=1;
+					queryCom();
+				});
+				//去除选中产地
+				$("#selectB").live("click",	function() {
+					$(this).remove();
+					$("#select2 .select-all").addClass("selected")
+						.siblings().removeClass("selected");
+					searchSid=0;
+					pageNow=1;
+					queryCom();
+				});
+				
+				//排序方式
+				$("#select3 a").click(function(){
+					if($(this).attr("title")==0){//综合
+						sortType=0;
+						queryCom();
+						
+					}else if($(this).attr("title")==1){//销量
+						sortType=1;
+						queryCom();
+						
+					}else if($(this).attr("title")==2){//价格
+						sortType=2;
+						sortWay=sortWay==0?1:0;
+						queryCom();
+						
+					}else if($(this).attr("title")==3){//评价
+						sortType=3;
+						queryCom();
+					}
+				});
+				//商品查询显示
+				function queryCom() {
+					if(parameter==null){
+						parameter = $("#searchInput").attr("title");
+					}
+					/* alert("pageNow=" + pageNow+ "&pageSize=" + pageSize
+							+ "&parameter="+ parameter + "&searchBid="
+							+ searchBid	+ "&searchSid=" + searchSid
+							+"&sortType="+sortType+"&sortWay="+sortWay); */
+					$.get("${ctx}/home/query/search", "pageNow=" + pageNow
+							+ "&pageSize=" + pageSize + "&parameter="
+							+ parameter + "&searchBid=" + searchBid
+							+ "&searchSid=" + searchSid+"&sortType="
+							+sortType+"&sortWay="+sortWay, function(pagCom) {//回调函数
+						sumPage = pagCom.sumPage;//总行数
+						var strs = "";
+						$.each(pagCom.commodity, function(i, commodity) {
+							//alert("商品编号："+commodity.cid);
+						    var comPrice = commodity.forSalePrice<=0?commodity.price:commodity.forSalePrice; 
+							strs+="<li>"
+								+"<a href='#'>"
+							  	+"<div class='i-pic limit' style='height: 300px;'>"
+							    +"<img src='${ctx}"+commodity.commodityPics.cpImg+"' />"
+							    +"<p class='title fl'>"+commodity.cname+"</p>"
+							    +"<p class='price fl'>"
+							    +"<b>¥ </b>"
+							    +"<strong>"+comPrice.toFixed(1)+"</strong>"
+							    +"</p>"
+							    +"<p class='number fl'>销量"
+							    +"<span>"+commodity.commoditySell.allSell+"</span>"
+							    +"</p>"
+							    +"</div>"
+							    +"</li>";
+						
+						});
+
+						$("li").remove("#ulupdat li");
+						$("#ulupdat").html(strs);
+						showPag();
+					});
+				}
+				//显示分页
+				function showPag(){
+					var strPage="";
+					//alert("几页："+pageNow+"个数："+pageSize+"总个数："+sumPage);
+					if(pageNow>=2){
+						strPage+="<li><a class='pagFront' href='javascript:;'>&laquo;</a></li>";
+					}else{
+						strPage+="<li class='am-disabled'><a class='pagFront' href='javascript:;'>&laquo;</a></li>";
+					}
+					for(var i=1;i<sumPage/pageSize+1;i++){
+						if(pageNow<3){
+							if(i<=5&&i>=1){
+								if(pageNow==i){
+									strPage+="<li class='am-active'><a class='pagId' href='javascript:;'>"+ i +"</a></li>";
+								}else{
+									strPage+="<li><a class='pagId' href='javascript:;'> "+ i +"</a></li>";
+								}
+							}
+						}else if(sumPage/pageSize-pageNow<2){
+							if(i>=sumPage/pageSize-4&&i>=1){
+								if(pageNow==i){
+									strPage+="<li class='am-active'><a class='pagId' href='javascript:;'>"+ i +"</a></li>";	
+								}else{
+									strPage+="<li><a class='pagId' href='javascript:;'>"+ i +"</a></li>";
+								}
+							}
+						}else{
+							if(i<=pageNow+2&&i>=pageNow-2){
+								if(pageNow==i){
+									strPage+="<li class='am-active'><a class='pagId' href='javascript:;'>"+ i +"</a></li>";
+								}else{
+									strPage+="<li><a class='pagId' href='javascript:;'>"+ i +"</a></li>";
+								}
+							}
+						}
+					}
+					if(pageNow<=sumPage/pageSize){
+						strPage+="<li><a class='pagBack' href='javascript:;'>&raquo;</a></li>";
+					}else{
+						strPage+="<li class='am-disabled'><a class='pagBack' href='javascript:;'>&raquo;</a></li>";
+					}
+					//刷新
+					$("li").remove("#pageShows li");
+					$("#pageShows").html(strPage);
+				}
+				
+			});
+</script>
+
 </head>
 
 
@@ -109,9 +298,9 @@
 				<a name="index_none_header_sysc" href="#"></a>
 				<form action="${ctx}/home/query" method="get">
 					<input id="searchInput" name="index_none_header_sysc" type="text"
-						placeholder="搜索" autocomplete="off"> <input
-						id="ai-topsearch" class="submit am-btn" value="搜索" index="1"
-						type="submit">
+						placeholder="搜索" autocomplete="off" title="${pagCom.parameter }" />
+					<input id="ai-topsearch" class="submit am-btn" value="搜索" index="1"
+						type="submit" />
 				</form>
 			</div>
 		</div>
@@ -122,8 +311,9 @@
 					<div class="am-u-sm-12 am-u-md-12">
 						<div class="theme-popover">
 							<div class="searchAbout">
-								<span class="font-pale">相关搜索：</span> <a title="坚果" href="#">坚果</a>
-								<a title="瓜子" href="#">瓜子</a> <a title="鸡腿" href="#">豆干</a>
+								<span class="font-pale" title="${pagCom.parameter}">${pagCom.parameter}相关搜索：</span>
+								<a title="坚果" href="#">坚果</a> <a title="瓜子" href="#">瓜子</a> <a
+									title="鸡腿" href="#">豆干</a>
 
 							</div>
 							<ul class="select">
@@ -137,36 +327,24 @@
 									<dl>
 										<dt>已选</dt>
 										<dd class="select-no"></dd>
-										<p class="eliminateCriteria">清除</p>
+										<p class="eliminateCriteria"><a class="delid">清除</a></p>
 									</dl>
 								</li>
 								<div class="clear"></div>
+
 								<li class="select-list">
 									<dl id="select1">
 										<dt class="am-badge am-round">品牌</dt>
 
 										<div class="dd-conent">
 											<dd class="select-all selected">
-												<a href="#">全部</a>
+												<a class="bid" href="javascript:;" title="0">全部</a>
 											</dd>
-											<dd>
-												<a href="#">百草味</a>
-											</dd>
-											<dd>
-												<a href="#">良品铺子</a>
-											</dd>
-											<dd>
-												<a href="#">新农哥</a>
-											</dd>
-											<dd>
-												<a href="#">楼兰蜜语</a>
-											</dd>
-											<dd>
-												<a href="#">口水娃</a>
-											</dd>
-											<dd>
-												<a href="#">考拉兄弟</a>
-											</dd>
+											<c:forEach items="${pagCom.brand }" var="brand">
+												<dd>
+													<a class="bid" href="javascript:;" title="${brand.bid }">${brand.bname }</a>
+												</dd>
+											</c:forEach>
 										</div>
 
 									</dl>
@@ -176,20 +354,13 @@
 										<dt class="am-badge am-round">产地</dt>
 										<div class="dd-conent">
 											<dd class="select-all selected">
-												<a href="#">全部</a>
+												<a class="sid" href="javascript:;" title="0">全部</a>
 											</dd>
-											<dd>
-												<a href="#">东北松子</a>
-											</dd>
-											<dd>
-												<a href="#">巴西松子</a>
-											</dd>
-											<dd>
-												<a href="#">夏威夷果</a>
-											</dd>
-											<dd>
-												<a href="#">松子</a>
-											</dd>
+											<c:forEach items="${pagCom.site }" var="site">
+												<dd>
+													<a class="sid" href="javascript:;" title="${site.sid }">${site.sname }</a>
+												</dd>
+											</c:forEach>
 										</div>
 									</dl>
 								</li>
@@ -198,35 +369,40 @@
 						</div>
 						<div class="search-content">
 							<div class="sort">
-								<li class="first"><a title="综合">综合排序</a></li>
-								<li><a title="销量">销量排序</a></li>
-								<li><a title="价格">价格优先</a></li>
-								<li class="big"><a title="评价" href="#">评价为主</a></li>
+								<dl id="select3">
+									<li class="first"><a  title="0" href="javascript:;">综合排序</a></li>
+									<li><a title="1" href="javascript:;">销量排序</a></li>
+									<li><a title="2" href="javascript:;">价格优先</a></li>
+									<li class="big"><a  title="3" href="javascript:;">评价为主</a></li>
+								</dl>
 							</div>
-							<div class="clear"></div>
+							<div class="clear" id="divcun"></div>
 
-							<ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes">
-								<c:forEach items="${commodityList}" var="commodity">
+							<ul class="am-avg-sm-2 am-avg-md-3 am-avg-lg-4 boxes"
+								id="ulupdat">
+								<c:forEach items="${pagCom.commodity}" var="commodity">
 									<li>
+										<a href="#">
 										<div class="i-pic limit">
-
+											
 											<img src="${ctx}${commodity.commodityPics.cpImg}" />
 											<p class="title fl">${commodity.cname}</p>
-											<p class="price fl">
-												<b>¥</b> <strong>${commodity.forSalePrice}</strong>
-											</p>
-											<p class="number fl">
-
-												销量<span><c:choose>
-														<c:when test="${!empty commodity.commoditySell.allSell}">
-															${commodity.commoditySell.allSell}
+												<p class="price fl">
+													<b>¥</b> <strong> <c:choose>
+															<c:when test="${commodity.forSalePrice!=0}">
+															${commodity.forSalePrice }
 														</c:when>
-														<c:otherwise>
-														0
-														</c:otherwise>
-													</c:choose> </span>
-											</p>
-										</div>
+															<c:otherwise>
+															${commodity.price }
+												</c:otherwise>
+														</c:choose></strong>
+												</p>
+												<p class="number fl">
+
+													销量<span> ${commodity.commoditySell.allSell} </span>
+												</p>
+											</div>
+										</a>
 									</li>
 								</c:forEach>
 							</ul>
@@ -234,57 +410,41 @@
 						<!--  -->
 						<div class="search-side">
 							<div class="side-title">经典搭配</div>
-							<li>
-								<div class="i-pic check">
-									<img src="${ctx}/resources/images/cp.jpg" />
-									<p class="check-title">萨拉米 1+1小鸡腿</p>
-									<p class="price fl">
-										<b>¥</b> <strong>29.90</strong>
-									</p>
-									<p class="number fl">
-										销量<span>1110</span>
-									</p>
-								</div>
-							</li>
-							<li>
-								<div class="i-pic check">
-									<img src="${ctx}/resources/images/cp2.jpg" />
-									<p class="check-title">ZEK 原味海苔</p>
-									<p class="price fl">
-										<b>¥</b> <strong>8.90</strong>
-									</p>
-									<p class="number fl">
-										销量<span>1110</span>
-									</p>
-								</div>
-							</li>
-							<li>
-								<div class="i-pic check">
-									<img src="${ctx}/resources/images/cp.jpg" />
-									<p class="check-title">萨拉米 1+1小鸡腿</p>
-									<p class="price fl">
-										<b>¥</b> <strong>29.90</strong>
-									</p>
-									<p class="number fl">
-										销量<span>1110</span>
-									</p>
-								</div>
-							</li>
-
+							<c:forEach items="${reComs}" var="commodity">
+								<li><a href="#">
+										<div class="i-pic check">
+											<img src="${ctx}${commodity.commodityPics.cpImg}" />
+											<p class="check-title">${commodity.cname}</p>
+											<p class="price fl">
+												<b>¥</b> <strong> <c:choose>
+														<c:when test="${commodity.forSalePrice!=0}">
+															${commodity.forSalePrice }
+														</c:when>
+														<c:otherwise>
+															${commodity.price }
+												</c:otherwise>
+													</c:choose></strong>
+											</p>
+											<p class="number fl">
+												销量<span> ${commodity.commoditySell.allSell} </span>
+											</p>
+										</div>
+								</a></li>
+							</c:forEach>
 						</div>
-
 						<div class="clear"></div>
 						<!--分页 -->
-						<ul class="am-pagination am-pagination-right">
-							<li class="am-disabled"><a href="#">&laquo;</a></li>
-							<li class="am-active"><a href="#">1</a></li>
-							<li><a href="#">2</a></li>
-							<li><a href="#">3</a></li>
-							<li><a href="#">4</a></li>
-							<li><a href="#">5</a></li>
-							<li><a href="#">&raquo;</a></li>
-						</ul>
-
+						<dl id="select4">
+							<ul id="pageShows" class="am-pagination am-pagination-right">
+								<li class="am-disabled"><a href="#">&laquo;</a></li>
+								<li class="am-active"><a class="pagFront" href="javascript:;">1</a></li>
+								<c:forEach var="i" varStatus="stutrs" begin="0"
+									end="${pagCom.sumPage/12>5?3:pageCom.sumPage/12 }">
+									<li><a class="pagId" href="javascript:;">${stutrs.index+2}</a></li>
+								</c:forEach>
+								<li><a class="pagBack" href='javascript:;'>&raquo;</a></li>
+							</ul>
+						</dl>
 					</div>
 				</div>
 				<div class="footer">

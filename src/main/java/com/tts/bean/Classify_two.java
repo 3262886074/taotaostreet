@@ -1,5 +1,6 @@
 package com.tts.bean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,7 +9,11 @@ import java.util.List;
  * @author SYY
  *
  */
-public class Classify_two {
+public class Classify_two implements Serializable{
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private long cTwoId;
 	private String cTwoName;
 	private List<Classify_three> classifyThree;

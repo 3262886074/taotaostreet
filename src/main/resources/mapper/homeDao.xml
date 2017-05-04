@@ -4,26 +4,141 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.tts.dao.IHomeDao">
-	<!-- 按类型查询商品 -->
-	<resultMap type="Commodity" id="commodityMap">
-		<id property="cid" column="c_id" />
-		<result property="cname" column="c_name" />
-		<result property="forSalePrice" column="for_sale_price" />
-		<association property="commodityPics" javaType="Commodity_pics">
-			<id property="cpId" column="cp_id" />
-			<result property="cpImg" column="cp_img" />
-		</association>
-		<association property="commoditySell" column="c_id"
-			select="getCommoditySell">
-			<result property="allSell" column="allSell" />
-		</association>
-	</resultMap>
-	<select id="queryCname" parameterType="String" resultMap="commodityMap">
+
+	<!-- 查询分页 -->
+	<select id="queryPaging" resultMap="commodityMap">
+
+		<!-- 综合（销量30%，评价40%，收藏30%） -->
+		<if test="sortType==0">
+			select c.*,cp.*,sum(cvc) cvc,sum(ccc) ccc,sum(ucc)
+			ucc,sum(cvc*3+ccc*4+ucc*3) sums from commodity c Left outer join(
+			select c_id,count(*) cvc,0 ccc,0 ucc from commodity_volume
+			GROUP BY
+			c_id
+			UNION ALL
+			select c_id,0 cvc,count(*) ccc,0 ucc from
+			commodity_comment where ctype in (0,1)
+			GROUP BY c_id
+			UNION ALL
+			select
+			c_id,0 cvc,0 ccc,count(*) ucc from user_collect
+			GROUP BY c_id
+			)t on
+			c.c_id=t.c_id
+			Left outer join
+			commodity_pics cp
+			on
+			c.c_id=cp.c_id
+
+		</if>
+		<!-- 销量排序 -->
+		<if test="sortType==1">
+			select c.*,cp.*,sum(cvc) cvc from commodity c Left outer
+			join (
+			select c_id,count(*) cvc
+			from
+			commodity_volume
+			GROUP BY c_id
+			)t on
+			c.c_id=t.c_id
+			Left outer join
+			commodity_pics cp
+			on
+			c.c_id=cp.c_id
+
+		</if>
+		<!-- 价格优先 -->
+		<if test="sortType==2">
+			select c.*,cp.* from
+			commodity c
+			Left outer join
+			commodity_pics cp
+			on
+			c.c_id=cp.c_id
+		</if>
+		<!-- 评价优先 -->
+		<if test="sortType==3">
+			select c.*,cp.*,sum(cc1) cc1,sum(cc2)
+			cc2,sum(cc1*2+cc2)sums
+			from commodity c Left outer join
+			(
+			select
+			c_id,count(*) cc1,0 cc2 from commodity_comment where
+			ctype = 0
+			GROUP BY
+			c_id
+			UNION ALL
+			select c_id,0 cc1,count(*) cc2 from
+			commodity_comment
+			where ctype = 1
+			GROUP BY c_id
+			)t on c.c_id=t.c_id
+			Left outer join
+			commodity_pics cp
+			on
+			c.c_id=cp.c_id
+
+		</if>
+		where
+		c.c_three_id
+		in (
+		select
+		c_three.c_three_id
+		from
+		classify_one c_one
+		inner join
+		classify_two
+		c_two
+		on
+		c_one.c_one_id=c_two.c_one_id
+		inner join
+		classify_three c_three
+		on
+		c_two.c_two_id=c_three.c_two_id
+		where
+		c_three.c_three_name like
+		concat(concat('%',#{parameter}),'%')
+		or
+		c_two.c_two_name like
+		concat(concat('%',#{parameter}),'%')
+		or
+		c.c_name
+		like
+		concat(concat('%',#{parameter}),'%')
+		)
+		<if test="searchBid!=null and searchBid!=0">
+			and c.b_id = #{searchBid}
+		</if>
+		<if test="searchSid!=null and searchSid!=0">
+			and c.s_id = #{searchSid}
+		</if>
+		<!-- 分组排序 -->
+		<if test="sortType==0">
+			GROUP BY c.c_id ORDER BY sums DESC
+		</if>
+		<if test="sortType==1">
+			GROUP BY c.c_id ORDER BY cvc DESC
+		</if>
+		<if test="sortType==2">
+			<if test="sortWay==0">ORDER BY for_sale_price desc</if>
+			<if test="sortWay==1">ORDER BY for_sale_price asc</if>
+		</if>
+		<if test="sortType==3">
+			GROUP BY c.c_id ORDER BY sums desc
+		</if>
+		limit
+		${pageNow * pageSize - pageSize},#{pageSize}
+
+	</select>
+	<!-- 查询当前条件下的总页数 -->
+	<select id="queryPagingSum" resultMap="queryPagingSumMap">
 		select
 		* from
 		commodity c
 		Left outer join
-		commodity_pics cp on c.c_id=cp.c_id
+		commodity_pics cp
+		on
+		c.c_id=cp.c_id
 		where
 		c.c_three_id in (
 		select
@@ -41,14 +156,71 @@
 		c_two.c_two_id=c_three.c_two_id
 		where
 		c_three.c_three_name like
-		concat(concat('%',#{0}),'%')
+		concat(concat('%',#{parameter}),'%')
 		or
 		c_two.c_two_name like
-		concat(concat('%',#{0}),'%'));
+		concat(concat('%',#{parameter}),'%')
+		or
+		c.c_name like
+		concat(concat('%',#{parameter}),'%'))
+		<if test="searchBid!=null and searchBid!=0">
+			and c.b_id = #{searchBid}
+		</if>
+		<if test="searchSid!=null and searchSid!=0">
+			and c.s_id = #{searchSid}
+		</if>
+
 	</select>
-	<select id="getCommoditySell" parameterType="long" resultType="Commodity_Sell">
-		select count(*) allSell from commodity_volume where c_id=#{c_id} group
+	<resultMap type="Commodity" id="queryPagingSumMap">
+		<id property="cid" column="c_id" />
+	</resultMap>
+
+	<!-- 按类型查询商品 -->
+	<resultMap type="Commodity" id="commodityMap">
+		<id property="cid" column="c_id" />
+		<result property="cname" column="c_name" />
+		<result property="price" column="price" />
+		<result property="bid" column="b_id" />
+		<result property="sid" column="s_id" />
+		<result property="forSalePrice" column="for_sale_price" />
+		<association property="commodityPics" javaType="Commodity_pics">
+			<id property="cpId" column="cp_id" />
+			<result property="cpImg" column="cp_img" />
+		</association>
+		<association property="commoditySell" column="c_id"
+			select="getCommoditySell">
+		</association>
+	</resultMap>
+
+	<select id="getCommoditySell" parameterType="long" resultMap="sellMap">
+		select ifnull(count(*), 0) as allSells from commodity_volume where
+		c_id=#{c_id} group
 		by c_id;
+	</select>
+	<resultMap type="Commodity_Sell" id="sellMap">
+		<result property="allSell" column="allSells" />
+	</resultMap>
+
+
+	<!-- 查询品牌 -->
+	<select id="queryBrandName" resultType="Brand">
+		select distinct * from brand where
+		b_id in
+		<foreach collection="list" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
+
+	</select>
+
+	<!-- 查询产地 -->
+	<select id="querySiteName" resultType="Site">
+		select distinct * from site where
+		s_id in
+		<foreach collection="list" item="item" index="index" open="("
+			separator="," close=")">
+			#{item}
+		</foreach>
 	</select>
 
 	<!-- 商品分类 -->
@@ -106,7 +278,9 @@
 			<where>
 				c.c_id in <!-- (1,2,3,4,5) -->
 				<foreach collection="array" item="item" index="index" open="("
-					separator="," close=")"> #{item} </foreach>
+					separator="," close=")">
+					#{item}
+				</foreach>
 			</where>
 		</if>
 		limit 3
@@ -184,5 +358,14 @@
 		and c.c_id in
 		${adjustComId}
 	</select>
-
+	<!-- 随机推荐 -->
+	<select id="queryReComs" resultMap="commodityMap">
+		SELECT c.*,cp.* FROM commodity c
+		Left outer join
+		commodity_pics cp
+		on
+		c.c_id=cp.c_id WHERE c.c_id >= ((SELECT MAX(c.c_id) FROM commodity c)-(SELECT
+		MIN(c.c_id) FROM commodity c)) * RAND() + (SELECT MIN(c.c_id) FROM
+		commodity c) LIMIT 3
+	</select>
 </mapper>
