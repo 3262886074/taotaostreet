@@ -103,7 +103,7 @@
     	<result property="price" column="price"/>
     </resultMap>
     <resultMap type="Commodity_type" id="Commodity_type_Map">
-    	<id property="ct_id" column="ct_id"/>
+    	<id property="ctid" column="ct_id"/>
     	<result property="typeName" column="type_name"/>
     	<result property="price" column="price"/>
     </resultMap>

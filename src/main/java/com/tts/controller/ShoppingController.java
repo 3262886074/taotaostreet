@@ -6,12 +6,11 @@ import com.tts.service.UsersService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.RequestMethod;
 
-import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Set;
@@ -20,214 +19,183 @@ import java.util.Set;
 @RequestMapping("/shop")
 public class ShoppingController {
 
-	@Resource(name = "shopping_CartService")
-	private Shopping_CartService shopping_CartService;
-	@Autowired
-	private UsersService usersService;
+    @Autowired
+    private Shopping_CartService shopping_CartService;
+    @Autowired
+    private UsersService usersService;
 
-	// 添加商品到购物车
-	@RequestMapping("/addShopping_Cart")
-	public String addShopping_Cart(Commodity_items commodity_items, long uid, ModelMap map) {
+    // 添加商品到购物车
+    @RequestMapping(value = "/addShopping_Cart/{cid}/{ctid}/{ccid}/{number}/{money}", method = RequestMethod.GET)
+    public String addShopping_Cart(HttpSession session, ModelMap map,
+                                   @PathVariable("cid") long cid,
+                                   @PathVariable("ctid") long ctid,
+                                   @PathVariable("ccid") long ccid,
+                                   @PathVariable("number") Integer number,
+                                   @PathVariable("money") double money) {
 
-		// 添加购物车 根据用户id
-		Shopping_Cart shopping_Carts = shopping_CartService.addShopping_Cart(uid);
+        Users users = (Users) session.getAttribute("users");
+        // 添加购物车 根据用户id
+        Shopping_Cart shopping_Carts = shopping_CartService.addShopping_Cart(users.getUid());
+        shopping_CartService.addCommodity_items(cid,ctid,ccid,number,shopping_Carts.getScId());
+        Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(shopping_Carts.getScId());
+        map.put("shopping_Cart", shopping_Cart);
+        map.put("money",money);
+        return "home/shopcart";
 
-		shopping_CartService.addCommodity_items(
-				commodity_items.getCommodity().getCid(),
-				commodity_items.getCommodityType().getCt_id(), commodity_items.getCommodityCombo().getCcid(),
-				commodity_items.getNumber(), shopping_Carts.getScId());
-		Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(shopping_Carts.getScId());
-		map.put("shopping_Cart", shopping_Cart);
-		return "home/shopcart";
+    }
 
-	}
+    // 显示购物车商品信息
+    @RequestMapping(value = "/shopping_Cart", method = RequestMethod.GET)
+    public String goShopCart(ModelMap map, HttpSession session) {
+        Users users = (Users) session.getAttribute("users");
+        Shopping_Cart shopping_Carts = shopping_CartService.addShopping_Cart(users.getUid());
+        Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(shopping_Carts.getScId());
 
-	// 显示购物车商品信息
-	@RequestMapping("/shopping_Cart")
-	public String goShopCart(long uid, ModelMap map) {
-		Shopping_Cart shopping_Carts = shopping_CartService.addShopping_Cart(uid);
+        map.put("shopping_Cart", shopping_Cart);
+        return "home/shopcart";
+    }
 
-		Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(shopping_Carts.getScId());
+    // 移入收藏夹
+    @RequestMapping(value = "/moveUc/{cid}/{scId}/{ciId}", method = RequestMethod.GET)
+    public String addUser_Collect(@PathVariable("cid") long cid,
+                                  @PathVariable("scId") long scId,
+                                  HttpSession session,
+                                  @PathVariable("ciId") long ciId,
+                                  ModelMap map) {
+        Users users = (Users) session.getAttribute("users");
+        shopping_CartService.addUser_Collect(cid, users.getUid());
+        Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(users.getUid());
+        map.put("shopping_Cart", shopping_Cart);
+        return "home/shopcart";
 
-		map.put("shopping_Cart", shopping_Cart);
-		return "home/shopcart";
-	}
+    }
 
-	// 移入收藏夹
-	@RequestMapping("/moveUc")
-	public String addUser_Collect(long cid, long scId, long uid, long ciId, ModelMap map) {
+    // 删除商品到购物车
+    @RequestMapping(value = "/deleteCommodity_items/{ciId}/{scId}", method = RequestMethod.GET)
+    public String deleteCommodity_items(@PathVariable("ciId") long ciId,
+                                        @PathVariable("scId") long scId,
+                                        ModelMap map) {
 
-		shopping_CartService.addUser_Collect(cid, uid);
-		shopping_CartService.deleteCommodity_items(ciId);
-		Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(scId);
+        shopping_CartService.deleteCommodity_items(ciId);
 
-		map.put("shopping_Cart", shopping_Cart);
-		return "home/shopcart";
+        Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(scId);
 
-	}
+        map.put("shopping_Cart", shopping_Cart);
+        return "home/shopcart";
 
-	// 删除商品到购物车
-	@RequestMapping("/deleteCommodity_items")
-	public String deleteCommodity_items(long ciId, long scId, ModelMap map) {
+    }
 
-		shopping_CartService.deleteCommodity_items(ciId);
+    // 修改商品条目商品数量
+    @RequestMapping(value = "/updateCommodity_items", method = RequestMethod.GET)
+    public void UpdateCommodity_items(Commodity_items commodity_items) {
 
-		Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(scId);
+        shopping_CartService.updateShoppingCart(commodity_items);
+    }
 
-		map.put("shopping_Cart", shopping_Cart);
-		return "home/shopcart";
+    //立即购买
+    @RequestMapping(value = "/standpoint/{cid}/{ctid}/{ccid}/{number}/{money}",method = RequestMethod.GET)
+    public String standpoint(HttpSession session, ModelMap map,
+                             @PathVariable("cid") long cid,
+                             @PathVariable("ctid") long ctid,
+                             @PathVariable("ccid") long ccid,
+                             @PathVariable("number") Integer number,
+                             @PathVariable("money") double money) {
+        Users users = (Users) session.getAttribute("users");
+        // 添加购物车 根据用户id
+        Shopping_Cart shopping_Carts = shopping_CartService.addShopping_CartSp(users.getUid());
 
-	}
+        shopping_CartService.addCommodity_items(cid,ctid,ccid,number,shopping_Carts.getScId());
 
-	// 修改商品条目商品数量
-	@RequestMapping("/updateCommodity_items")
-	public void updateCommodity_items(Commodity_items commodity_items) {
+        Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(shopping_Carts.getScId());
 
-		shopping_CartService.updateShoppingCart(commodity_items);
-		
-	}
+        // 获取当前时间
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date now = new Date();
+        String hehe = dateFormat.format(now);
+        // 创建订单
+        shopping_CartService.addOrderSp(shopping_Cart.getScId(), users.getUid());
+        // 通过uid和当前时间查询当前订单oid
+        long oid = shopping_CartService.getOid(users.getUid(), hehe);
+        Order orders = shopping_CartService.getOders(oid);
+        map.put("orders", orders);
 
-	// 立即购买
-	@RequestMapping("/standpoint")
-	public String standpoint(Commodity_items commodity_items, long uid, ModelMap map) {
+        long scId = orders.getShoppingCart().getScId();
 
-		// 添加购物车 根据用户id
-		Shopping_Cart shopping_Carts = shopping_CartService.addShopping_CartSp(uid);
-		
-		shopping_CartService.addCommodity_items(commodity_items.getCommodity().getCid(),
-				commodity_items.getCommodityType().getCt_id(), commodity_items.getCommodityCombo().getCcid(),
-				commodity_items.getNumber(), shopping_Carts.getScId());
-		Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(shopping_Carts.getScId());
+        Shopping_Cart shopping_Carto = shopping_CartService.getShopping_Cart(scId);
 
-		// 获取当前时间
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date now = new Date();
-		String hehe = dateFormat.format(now);
-		// 创建订单
-		shopping_CartService.addOrderSp(shopping_Cart.getScId(), uid);
-		// 通过uid和当前时间查询当前订单oid
-		long oid = shopping_CartService.getOid(uid, hehe);
+        // 修改购物车uid为0代表购物车以加入订单
+        shopping_CartService.updateShopping_CartUid(scId);
+        Set<User_address> userAddresses = usersService.getAddressesByUId(users.getUid());
+        Set<Discount_coupon> discountCoupons = usersService.queryDiscountCouponByUid(users.getUid());
+        Set<User_Red_package> userRedPackages = usersService.queryRedPackageByUid(users.getUid());
+        map.put("discountCoupons", discountCoupons);
+        map.put("userRedPackages", userRedPackages);
+        map.put("userAddresses", userAddresses);
+        map.put("shopping_Cart", shopping_Carto);
+        map.put("money",money);
+        return "home/pay";
 
-		Order orders = shopping_CartService.getOders(oid);
-		User_address user_address = shopping_CartService.getUser_address(uid);
-		orders.setUserAddress(user_address);
-		map.put("orders", orders);
+    }
 
-		long scId = orders.getShoppingCart().getScId();
+    // 添加订单
+    @RequestMapping(value = "/addOrders", method = RequestMethod.POST)
+    public String addOrders(Order order, HttpSession session, ModelMap map) {
+        Users users = (Users) session.getAttribute("users");
+        // 获取当前时间
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
+        Date now = new Date();
+        String hehe = dateFormat.format(now);
+        // 创建订单
+        shopping_CartService.addOrder(order);
+        // 通过uid和当前时间查询当前订单oid
+        long oid = shopping_CartService.getOid(users.getUid(), hehe);
+        Order orders = shopping_CartService.getOders(oid);
+        map.put("orders", orders);
 
-		map.put("uid", uid);
-		Shopping_Cart shopping_Carto = shopping_CartService.getShopping_Cart(scId);
+        long scId = orders.getShoppingCart().getScId();
 
-		// 修改购物车uid为0代表购物车以加入订单
-		shopping_CartService.updateShopping_CartUid(scId);
-		Set<User_address> userAddresses = usersService.getAddressesByUId(uid);
-		Set<Discount_coupon> discountCoupons = usersService.queryDiscountCouponByUid(uid);
-		Set<User_Red_package> userRedPackages = usersService.queryRedPackageByUid(uid);
-		map.put("discountCoupons", discountCoupons);
-		map.put("userRedPackages", userRedPackages);
-		map.put("userAddresses", userAddresses);
-		map.put("shopping_Cart", shopping_Carto);
+        Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(scId);
 
-		return "home/pay";
+        // 修改购物车uid为0代表购物车以加入订单
+        shopping_CartService.updateShopping_CartUid(scId);
+        Set<User_address> userAddresses = usersService.getAddressesByUId(users.getUid());
+        Set<Discount_coupon> discountCoupons = usersService.queryDiscountCouponByUid(users.getUid());
+        Set<User_Red_package> userRedPackages = usersService.queryRedPackageByUid(users.getUid());
+        map.put("discountCoupons", discountCoupons);
+        map.put("userRedPackages", userRedPackages);
+        map.put("userAddresses", userAddresses);
+        map.put("shopping_Cart", shopping_Cart);
 
-	}
+        return "home/pay";
+    }
 
-	// 添加订单
-	@RequestMapping("/addOrders")
-	public String addOrders(Order order, long uid, ModelMap map) {
-		// 获取当前时间
-		SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd HH:mm:ss");
-		Date now = new Date();
-		String hehe = dateFormat.format(now);
-		// 创建订单
-		shopping_CartService.addOrder(order);
-		// 通过uid和当前时间查询当前订单oid
-		long oid = shopping_CartService.getOid(uid, hehe);
-		System.out.println(oid);
+    // 显示订单 通过oid订单Id
+    @RequestMapping(value = "/addOrder", method = RequestMethod.GET)
+    public String addOrder(HttpSession session, ModelMap map) {
+        Users users = (Users) session.getAttribute("users");
+        Order orders = shopping_CartService.getOders(users.getUid());
+        long scId = orders.getShoppingCart().getScId();
 
-		Order orders = shopping_CartService.getOders(oid);
-		User_address user_address = shopping_CartService.getUser_address(uid);
-		orders.setUserAddress(user_address);
+        Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(scId);
+        map.put("orders", orders);
 
-		map.put("orders", orders);
+        Set<User_address> userAddresses = usersService.getAddressesByUId(users.getUid());
+        Set<Discount_coupon> discountCoupons = usersService.queryDiscountCouponByUid(users.getUid());
+        Set<User_Red_package> userRedPackages = usersService.queryRedPackageByUid(users.getUid());
+        map.put("discountCoupons", discountCoupons);
+        map.put("userRedPackages", userRedPackages);
+        map.put("userAddresses", userAddresses);
+        map.put("shopping_Cart", shopping_Cart);
+        return "home/pay";
+    }
 
-		long scId = orders.getShoppingCart().getScId();
-
-		map.put("uid", uid);
-		Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(scId);
-
-		// 修改购物车uid为0代表购物车以加入订单
-		shopping_CartService.updateShopping_CartUid(scId);
-		Set<User_address> userAddresses = usersService.getAddressesByUId(uid);
-		Set<Discount_coupon> discountCoupons = usersService.queryDiscountCouponByUid(uid);
-		Set<User_Red_package> userRedPackages = usersService.queryRedPackageByUid(uid);
-		map.put("discountCoupons", discountCoupons);
-		map.put("userRedPackages", userRedPackages);
-		map.put("userAddresses", userAddresses);
-		map.put("shopping_Cart", shopping_Cart);
-
-		return "home/pay";
-	}
-
-	/*
-	 * // 显示订单 通过oid订单Id
-	 * 
-	 * @RequestMapping("addOrder") public String addOrder(long order, long uid,
-	 * ModelMap map) {
-	 * 
-	 * Order orders = shopping_CartService.getOders(1); long scId =
-	 * orders.getShoppingCart().getScId();
-	 * 
-	 * Shopping_Cart shopping_Cart =
-	 * shopping_CartService.getShopping_Cart(scId); map.put("orders", orders);
-	 * 
-	 * Set<User_address> userAddresses = usersService.getAddressesByUId(uid);
-	 * Set<Discount_coupon> discountCoupons =
-	 * usersService.queryDiscountCouponByUid(uid); Set<User_Red_package>
-	 * userRedPackages = usersService.queryRedPackageByUid(uid); map.put("uid",
-	 * uid); map.put("discountCoupons", discountCoupons);
-	 * map.put("userRedPackages", userRedPackages); map.put("userAddresses",
-	 * userAddresses); map.put("shopping_Cart", shopping_Cart); return
-	 * "home/pay"; }
-	 */
-	/**
-	 * 添加地址
-	 */
-	@RequestMapping("/addAddresso")
-	public String addAddresso(@RequestParam("uaname") String uaname, @RequestParam("uatel") Long uatel,
-			@RequestParam("location") String location, @RequestParam("address") String address,
-			@RequestParam("uid") Long uid, @RequestParam("uid") Long oid, ModelMap map) {
-		boolean b = usersService.addOneAddress(uaname, uatel, location, address, uid);
-		Order orders = shopping_CartService.getOder(oid);
-
-		map.put("orders", orders);
-
-		long scId = orders.getShoppingCart().getScId();
-
-		map.put("uid", uid);
-		Shopping_Cart shopping_Cart = shopping_CartService.getShopping_Cart(scId);
-
-		// 修改购物车uid为0代表购物车以加入订单
-		shopping_CartService.updateShopping_CartUid(scId);
-		Set<User_address> userAddresses = usersService.getAddressesByUId(uid);
-		Set<Discount_coupon> discountCoupons = usersService.queryDiscountCouponByUid(uid);
-		Set<User_Red_package> userRedPackages = usersService.queryRedPackageByUid(uid);
-		map.put("discountCoupons", discountCoupons);
-		map.put("userRedPackages", userRedPackages);
-		map.put("userAddresses", userAddresses);
-		map.put("shopping_Cart", shopping_Cart);
-
-		return "home/pay";
-	}
-
-	// 订单支付 完成交易
-	@RequestMapping("/pay")
-	public String pay(Order order, long uid, ModelMap map) {
-
-		Integer udo = shopping_CartService.updateOrder(order, uid);
-		Order orders = shopping_CartService.getOder(order.getOid());
-		map.put("orders", orders);
-		map.put("uid", uid);
-		return "home/success";
-	}
+    // 订单支付 完成交易
+    @RequestMapping(value = "/pay", method = RequestMethod.GET)
+    public String pay(Order order, HttpSession session, ModelMap map) {
+        Users users = (Users) session.getAttribute("users");
+        Integer udo = shopping_CartService.updateOrder(order, users.getUid());
+        Order orders = shopping_CartService.getOders(order.getOid());
+        map.put("orders", orders);
+        return "home/success";
+    }
 }
